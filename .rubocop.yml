@@ -2,6 +2,7 @@ AllCops:
   Excludes:
     - db/schema.rb
     - config/locales/devise.en.yml
+    - db/migrate/*
   Style/MultilineTernaryOperator:
 Style/Documentation:
   Enabled: false

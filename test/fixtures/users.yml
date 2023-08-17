@@ -5,3 +5,34 @@
 # below each fixture, per the syntax in the comments below
 #
 
+agent:
+  name: 'agent'
+  uid: '118394658726969999387'
+  avatar_url: 'https://lh3.googleusercontent.com/a/agent'
+  email: 'user@agent.com'
+  role: agent
+  title: 'TSR I'
+
+qa:
+  name: 'qa'
+  uid: ''
+  avatar_url: 'https://lh3.googleusercontent.com/a/qa'
+  email: 'user@qa.com'
+  role: qa
+  title: 'TSR I'
+
+manager:
+  name: 'manager'
+  uid: ''
+  avatar_url: 'https://lh3.googleusercontent.com/a/manager'
+  email: 'user@manager.com'
+  role: manager
+  title: 'Cadet Manager'
+
+admin: 
+  name: 'admin'
+  uid: ''
+  avatar_url: 'https://lh3.googleusercontent.com/a/admin'
+  email: 'user@admin.com'
+  role: admin
+  title: 'Admin'
