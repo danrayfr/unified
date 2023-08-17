@@ -1,0 +1,15 @@
+AllCops:
+  Excludes:
+    - db/schema.rb
+    - config/locales/devise.en.yml
+  Style/MultilineTernaryOperator:
+Style/Documentation:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericPredicate: 
+  Enabled: false
+Style/MultilineTernaryOperator:
+  Enabled: false
