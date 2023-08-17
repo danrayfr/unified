@@ -1,0 +1,15 @@
+<div>
+  <h1 class="font-bold text-4xl">Pages#home</h1>
+  <p>Find me in app/views/pages/home.html.erb</p>
+</div>
+
+<% if current_user %>
+  <h2><%= current_user.email %></h2>
+  <%= image_tag current_user.avatar_url if current_user.provider == 'google_oauth2' %>
+  <h1><%= current_user.name %></h1>
+  <%= link_to 'Edit Account', edit_user_registration_path %>
+  <%= button_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo: 'false' } %>
+<% else %>
+  <%= link_to 'Login', new_user_session_path %>
+  <%= link_to 'Sign Up', new_user_registration_path %>
+<% end %>
