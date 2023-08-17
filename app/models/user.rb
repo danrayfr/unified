@@ -6,6 +6,9 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   before_validation :generate_uuid, on: :create
+  before_validation :default_provider, on: :create
+
+  enum role: %i[agent manager qa admin]
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -25,5 +28,9 @@ class User < ApplicationRecord
   # Generate a random number for uuid, since I don't want the field uuid to be empty.
   def generate_uuid
     self.uid ||= SecureRandom.uuid
+  end
+
+  def default_provider
+    self.provider = 'default' if provider.nil?
   end
 end

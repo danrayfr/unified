@@ -30,6 +30,8 @@ module Users
     #   super
     # end
 
+    # Method is responsible for updating_user_fields without password,
+    # Only applicable for user that uses 'google_oauth2' for authentication.
     def update_resource(resource, params)
       if resource.provider == 'google_oauth2'
         params.delete(:current_password)
@@ -61,7 +63,7 @@ module Users
 
     # If you have extra params to permit, append them to the sanitizer.
     def configure_account_update_params
-      devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+      devise_parameter_sanitizer.permit(:account_update, keys: %i[name title role])
     end
 
     # The path used after sign up.

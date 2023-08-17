@@ -22,9 +22,7 @@ module Sni
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Load dotenv only in development or test environment
-    if %w[development test].include? ENV['RAILS_ENV']
-      Dotenv::Railtie.load
-    end
+    Dotenv::Railtie.load if %w[development test].include?(ENV['RAILS_ENV'])
 
     HOSTNAME = ENV['HOSTNAME']
   end
