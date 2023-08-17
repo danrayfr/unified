@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+projectq:
+  name: Project Q
+  description: Technical account
+
+flexport:
+  name: Flexport
+  description: Customer service account
