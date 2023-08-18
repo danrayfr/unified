@@ -1,0 +1,11 @@
+<div>
+  <h1 class="font-bold text-5xl text-gray-700"><%= @account.name %></h1>
+  <br />
+    <p><%= @account.description %></p>
+    <span><%= @account.id %></span>
+
+  <div class='py-12'>
+    <%= link_to "Edit #{@account.name}", edit_account_path(@account), class: 'text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900' %>
+    <%= link_to 'Delete', @account, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, method: :delete, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
+  </div>
+</div>
