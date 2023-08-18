@@ -43,6 +43,12 @@ class AccountsController < ApplicationController
 
   def set_account
     @account = Account.find(params[:id])
+
+    # If an old id or numeric id was used to find the record,
+    # then the request slug will not match the current slug,
+    # and we should do a 301 redirect to a new path.
+    # return unless params[:id] != @account.slug
+    redirect_to @account, status: :moved_permanently if params[:id] != @account.slug
   end
 
   def account_params

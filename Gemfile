@@ -81,6 +81,7 @@ end
 
 gem 'devise'
 gem 'dotenv-rails'
+gem 'friendly_id', '~> 5.4.0'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
