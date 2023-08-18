@@ -1,5 +1,6 @@
 require 'test_helper'
 
+# rubocop:disable Metrics/ClassLength
 class AccountsControllerTest < ActionDispatch::IntegrationTest
   def setup
     @agent = users(:agent)
@@ -191,3 +192,4 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'User with the provided email not found.', flash[:alert]
   end
 end
+# rubocop:enable Metrics/ClassLength
