@@ -3,7 +3,9 @@
 projectq:
   name: 'Project Q'
   description: 'Technical account'
+  slug: 'project-q'
 
 flexport:
   name: 'Flexport'
   description: 'Customer service account'
+  slug: 'flexport'

@@ -22,7 +22,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   test 'should create account' do
     sign_in @admin
     assert_difference('Account.count', 1) do
-      post accounts_url, params: { account: { name: 'Everpresent', description: 'Game support account' } }
+      post accounts_url,
+           params: { account: { name: 'Everpresent', description: 'Game support account', slug: 'everpresent' } }
     end
 
     assert_redirected_to account_url(Account.last)
@@ -43,10 +44,11 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   test 'should update account' do
     sign_in @admin
     assert_no_difference 'Account.count' do
-      patch account_url(@account), params: { account: { name: 'Mythical Games',
-                                                        description: 'Customer service account' } }
+      patch account_url(@account),
+            params: { account: { name: 'Mythical Games', description: 'Customer service account',
+                                 slug: 'mythical-games' } }
     end
-    assert_redirected_to account_url(@account)
+    assert_redirected_to account_url(Account.first)
   end
 
   test 'should destroy account' do
