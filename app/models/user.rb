@@ -8,6 +8,8 @@ class User < ApplicationRecord
   before_validation :generate_uuid, on: :create
   before_validation :default_provider, on: :create
 
+  validate :validate_account_limit_per_role, on: :update
+
   enum role: %i[agent manager qa admin]
 
   has_and_belongs_to_many :accounts
@@ -25,6 +27,20 @@ class User < ApplicationRecord
     end
   end
 
+  # Responsible for validating user account limit per role,
+  # agent = 1, manager = 2, QA = 3 or more.
+  def validate_account_limit_per_role
+    if role == 'agent' && accounts.size >= 1
+      false
+    elsif role == 'manager' && accounts.size >= 2
+      false
+    elsif role == 'qa' && accounts.size >= 3
+      false
+    else
+      true
+    end
+  end
+
   private
 
   # Generate a random number for uuid, since I don't want the field uuid to be empty.
@@ -32,6 +48,7 @@ class User < ApplicationRecord
     self.uid ||= SecureRandom.uuid
   end
 
+  # Add a default value to a user if provider is empty, null: false
   def default_provider
     self.provider = 'default' if provider.nil?
   end

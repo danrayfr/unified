@@ -4,8 +4,26 @@
     <p><%= @account.description %></p>
     <span><%= @account.uid %></span>
 
+    <div>
+      <h1>Members (<%= @account.users.count %>):</h1>
+      <% @account.users.each do |user| %>
+          <li><%= user.name %> [<%= user.email %>]</li>
+          <% if current_user != user %>
+            <%= button_to 'Remove', remove_account_path(@account, email: user.email), method: :delete if current_user.manager? || current_user.admin? %>
+          <% end %>
+      <% end %>
+    </div>
+
   <div class='py-12'>
-    <%= link_to "Edit #{@account.name}", edit_account_path(@account), class: 'text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900' %>
-    <%= link_to 'Delete', @account, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, method: :delete, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
+    <%= link_to "Edit #{@account.name}", edit_account_path(@account), class: 'text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900' if current_user.admin? || current_user.manager? %>
+    <%= link_to 'Delete', @account, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, method: :delete, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' if current_user.admin? %>
   </div>
 </div>
+
+
+<% if current_user.manager? %>
+  <%= form_with(model: @user, url: invite_account_path(@account), method: :post) do |form| %>
+    <%= form.text_field :email, name: 'user[email]', placeholder: 'Enter user email' %>
+    <%= form.submit 'Invite' %>
+  <% end %>
+<% end %>

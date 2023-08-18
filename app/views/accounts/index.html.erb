@@ -1,10 +1,19 @@
 <div>
+  <h1 class="font-bold text-5xl text-gray-700 uppercase">My Account(s)</h1>
+  <p>My accounts</p>
+  <br />
+  <% current_user.accounts.each do |account| %>
+    <%= render 'account', account: account %>
+  <% end %>
+</div>
+
+<br />
+
+<div>
   <h1 class="font-bold text-5xl text-gray-700 uppercase">Accounts</h1>
   <p>List of active accounts</p>
   <br />
   <% @accounts.each do |account| %>
-    <h1 class='font-bold text-4xl text-gray-600 py-5'><%= link_to account.name, account_path(account) %></h1>
-    <p><%= account.description %></p>
-    <span><%= account.uid %></span>
+    <%= render 'account', account: account %>
   <% end %>
 </div>

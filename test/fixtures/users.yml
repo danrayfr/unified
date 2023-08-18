@@ -21,11 +21,19 @@ qa:
   role: qa
   title: 'TSR I'
 
-manager:
-  name: 'manager'
+manager1:
+  name: 'manager1'
   uid: ''
   avatar_url: 'https://lh3.googleusercontent.com/a/manager'
-  email: 'user@manager.com'
+  email: 'user1@manager.com'
+  role: manager
+  title: 'Cadet Manager'
+
+manager2:
+  name: 'manager 2'
+  uid: ''
+  avatar_url: 'https://lh3.googleusercontent.com/a/manager'
+  email: 'user2@manager.com'
   role: manager
   title: 'Cadet Manager'
 

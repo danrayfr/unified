@@ -1,0 +1,27 @@
+<div id="<%= dom_id(account) %>">
+  <h1 class='font-bold text-4xl text-gray-600 py-5'><%= link_to account.name, account_path(account) %></h1>
+  <p><%= account.description %></p>
+  <span><%= account.uid %></span>
+
+  <% if account.users.any? %>
+  <h3>Members</h3>
+  <div class="flex mb-5 -space-x-3">
+      <% users = account.users.limit(2) %>
+      <% account.users.each do |user| %>
+        <% unless user.avatar_url.nil? %>
+          <%= image_tag user.avatar_url, class: 'w-10 h-10 border-2 border-gray-200 rounded-full' %>
+        <% else %>
+          <%= image_tag 'https://static.thenounproject.com/png/5034901-200.png', class: 'w-10 h-10 border-2 border-indigo-200 rounded-full' %>
+        <% end %>
+      <% end %>
+
+       <!--a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800" href="#"><%#= account.users.count - users.count %></a-->
+  </div>
+  <% end %>
+
+  <% if account.users.include?(current_user) %>
+    <%= button_to 'Leave', leave_account_path(account), method: :delete %>
+  <% else %>
+    <%= button_to 'Join', join_account_path(account), method: :post %>
+  <% end %>
+</div>
