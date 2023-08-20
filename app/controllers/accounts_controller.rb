@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
   before_action :set_account, except: %i[index new create]
 
   def index
-    @accounts = Account.all
+    @accounts = Account.all.order(created_at: :asc)
   end
 
   def show
