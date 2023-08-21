@@ -9,6 +9,7 @@ class Account < ApplicationRecord
   validates :description, presence: true, length: { maximum: 255 }
 
   has_and_belongs_to_many :users
+  has_many :tickets
 
   def should_generate_new_friendly_id?
     name_changed? || slug.blank?

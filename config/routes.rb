@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   resources :accounts do
+    resources :tickets
+
     post 'join', on: :member
     post 'invite', on: :member
     delete 'leave', on: :member

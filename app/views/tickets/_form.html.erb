@@ -1,0 +1,20 @@
+<%= form_with(model: [account, ticket]) do |form|  %>
+  <%= render 'shared/error_messages', object: form.object %>
+
+  <div>
+    <%= form.label :link %>
+    <%= form.text_field :link %>
+  </div>
+
+  <div>
+    <%= form.label :assignee %>
+    <%= form.collection_select :assignee, @account.users.where(role: 'agent'), 
+                                :name, :name, prompt: 'Select Assignee' %>
+  </div>
+
+  <%= form.hidden_field :account_id, value: @account.id %>
+
+   <div>
+    <%= form.submit %>
+  </div>
+<% end %>

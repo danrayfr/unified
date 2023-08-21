@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  link: 'MyString'
+  assignee: 'MyString'
+  user: manager1
+  account: projectq
+
+two:
+  link: 'MyString'
+  assignee: 'MyString'
+  user: qa
+  account: projectq
+
+three: 
+  link: 'MyString'
+  assignee: 'MyString'
+  user: agent
+  account: projectq

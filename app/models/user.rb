@@ -11,7 +11,8 @@ class User < ApplicationRecord
   validate :validate_account_limit_per_role, on: :update
 
   enum role: %i[agent manager qa admin]
-
+  
+  has_many :tickets
   has_and_belongs_to_many :accounts
 
   def self.from_omniauth(auth)
@@ -30,15 +31,27 @@ class User < ApplicationRecord
   # Responsible for validating user account limit per role,
   # agent = 1, manager = 2, QA = 3 or more.
   def validate_account_limit_per_role
-    if role == 'agent' && accounts.size >= 1
+    if agent? && accounts.size >= 1
       false
-    elsif role == 'manager' && accounts.size >= 2
+    elsif manager? && accounts.size >= 2
       false
-    elsif role == 'qa' && accounts.size >= 3
+    elsif qa? && accounts.size >= 3
       false
     else
       true
     end
+  end
+
+  def manager?
+    role == 'manager'
+  end
+
+  def qa?
+    role == 'qa'
+  end
+
+  def agent?
+    role == 'agent'
   end
 
   private

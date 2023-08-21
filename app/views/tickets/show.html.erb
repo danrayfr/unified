@@ -1,0 +1,9 @@
+External Link: <%= @ticket.link %>
+
+Assignee: <%= @ticket.assignee %>
+
+Created by: <%= User.find_by(id: @ticket.user_id).name %>
+
+<%= link_to 'Edit', edit_account_ticket_path(@account, @ticket) %>
+
+<%= link_to 'Delete', account_ticket_path(@account, @ticket), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
