@@ -1,6 +1,9 @@
+require 'pry'
+
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_ticket, only: %i[show edit update destroy]
+  before_action :set_account, only: %i[create]
   before_action :authenticate_membership
   before_action :check_role, only: %i[new edit destroy]
 
@@ -13,14 +16,14 @@ class TicketsController < ApplicationController
   def new
     @ticket = Ticket.new
     @account = Account.find(params[:account_id])
-    # binding.pry
+    @ticket.ticket_details.build
   end
 
   def create
-    @account = Account.find(params[:account_id])
     @ticket = @account.tickets.build(ticket_params.merge(user_id: current_user.id))
 
     if @ticket.save
+      create_ticket_details
       redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully created.'
     else
       render :new, status: :unprocessable_entity
@@ -35,7 +38,7 @@ class TicketsController < ApplicationController
     @account = Account.find(params[:account_id])
 
     if @ticket.update(ticket_params)
-      redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully edited.'
+      redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -51,8 +54,13 @@ class TicketsController < ApplicationController
     @ticket = Ticket.find(params[:id])
   end
 
+  def set_account
+    @account = Account.find(params[:account_id])
+  end
+
   def ticket_params
-    params.require(:ticket).permit(:link, :assignee, :user_id, :account_id)
+    params.require(:ticket).permit(:link, :assignee, :user_id, :account_id,
+                                   ticket_details_attributes: %i[id content access_level ticket_id _destroy])
   end
 
   def authenticate_membership
@@ -67,7 +75,7 @@ class TicketsController < ApplicationController
   def check_role
     @account = Account.find(params[:account_id])
 
-    return unless current_user.validate
+    return if current_user.validate
 
     redirect_to account_url(@account),
                 alert: "You're not allowed to that!"

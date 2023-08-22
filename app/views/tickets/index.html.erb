@@ -12,16 +12,16 @@
           Assignee
         </th>
         <th scope="col" class="px-6 py-3">
-          Created By
+          Posted By
         </th>
         <th scope="col" class="px-6 py-3">
-          Created At
+          Posted
         </th>
       </tr>
     </thead>
     <tbody>
       <% @tickets.each do |ticket| %>
-        <%= render 'ticket', ticket: ticket %>
+        <%= render 'ticket', ticket: ticket, account: @account %>
       <% end %>
     </tbody>
   </table>

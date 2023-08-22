@@ -11,7 +11,7 @@ class User < ApplicationRecord
   validate :validate_account_limit_per_role, on: :update
 
   enum role: %i[agent manager qa admin]
-  
+
   has_many :tickets
   has_and_belongs_to_many :accounts
 

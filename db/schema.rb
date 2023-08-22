@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_21_061648) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_21_061356) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,15 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_061648) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
-  create_table "ticket_details", force: :cascade do |t|
-    t.text "content"
-    t.integer "type"
-    t.bigint "ticket_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["ticket_id"], name: "index_ticket_details_on_ticket_id"
-  end
-
   create_table "tickets", force: :cascade do |t|
     t.string "link"
     t.string "assignee"
@@ -80,7 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_061648) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "ticket_details", "tickets"
   add_foreign_key "tickets", "accounts"
   add_foreign_key "tickets", "users"
 end

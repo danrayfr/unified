@@ -1,6 +1,6 @@
 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
   <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      <%= ticket.id %>
+      <%= link_to ticket.id, account_ticket_path(account, ticket) %>
   </th>
   <td class="px-6 py-4">
       <%= ticket.link %>
@@ -12,6 +12,6 @@
     <%= ticket.user.name %>
   </td>
   <td class="px-6 py-4">
-    <%= ticket.created_at %>
+    <%= time_tag ticket.created_at, "data-local": "time-ago" %>
   </td>
 </tr>
