@@ -2,18 +2,18 @@
 
 one:
   link: 'MyString'
-  assignee: 'MyString'
+  modified_by: manager1
   user: manager1
   account: projectq
 
 two:
   link: 'MyString'
-  assignee: 'MyString'
+  modified_by: manager1
   user: qa
   account: projectq
 
 three: 
-  link: 'MyString'
-  assignee: 'MyString'
+  link: manager1
+  modified_by: 'MyString'
   user: agent
   account: projectq

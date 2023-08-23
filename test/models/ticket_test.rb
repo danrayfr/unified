@@ -6,8 +6,8 @@ class TicketTest < ActiveSupport::TestCase
     @agent = users(:agent)
     @qa = users(:qa)
     @account = accounts(:projectq)
-    @ticket = @manager.tickets.build(link: 'https://supportninja.zendesk.com', assignee: @agent.name,
-      account: @account)
+    @ticket = @manager.tickets.build(link: 'https://supportninja.zendesk.com', modified_by: @agent.name,
+                                     account: @account)
   end
 
   test 'should be valid' do
@@ -20,7 +20,7 @@ class TicketTest < ActiveSupport::TestCase
   end
 
   test 'assignee should not be empty' do
-    @ticket.assignee = ''
+    @ticket.modified_by = ''
     assert_not @ticket.valid?
   end
 

@@ -10,11 +10,11 @@
   <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
     <div class="flex items-center">
       <div class="flex-shrink-0 w-10 h-10">
-        <%#= image_renderer(User.find_by(name: ticket.assignee).avatar_url, class: "w-full h-full rounded-full") %>
+        <%= image_renderer(ticket.user.avatar_url, class: "w-full h-full rounded-full") %>
       </div>
       <div class="ml-3">
         <p class="text-gray-900 whitespace-no-wrap">
-          <%= ticket.assignee %>
+          <%= ticket.user.name %>
         </p>
       </div>
     </div>
@@ -22,11 +22,11 @@
   <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
     <div class="flex items-center">
       <div class="flex-shrink-0 w-10 h-10">
-        <%= image_renderer(ticket.user.avatar_url, class: "w-full h-full rounded-full") %>
+        <%#= image_renderer(User.find_by(name: ticket.assignee).avatar_url, class: "w-full h-full rounded-full") %>
       </div>
       <div class="ml-3">
         <p class="text-gray-900 whitespace-no-wrap">
-          <%= ticket.user.name %>
+          <%= ticket.modified_by %>
         </p>
       </div>
     </div>

@@ -19,7 +19,7 @@ class TicketsController < ApplicationController
   end
 
   def create
-    @ticket = @account.tickets.build(ticket_params.merge(user_id: current_user.id))
+    @ticket = @account.tickets.build(ticket_params.merge(modified_by: current_user.email))
 
     if @ticket.save
       # create_ticket_details
@@ -36,7 +36,7 @@ class TicketsController < ApplicationController
   def update
     @account = Account.find(params[:account_id])
 
-    if @ticket.update(ticket_params)
+    if @ticket.update(ticket_params.merge(modified_by: current_user.email))
       redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully updated.'
     else
       render :edit, status: :unprocessable_entity
@@ -58,7 +58,7 @@ class TicketsController < ApplicationController
   end
 
   def ticket_params
-    params.require(:ticket).permit(:link, :assignee, :user_id, :account_id,
+    params.require(:ticket).permit(:link, :modified_by, :user_id, :account_id,
                                    ticket_details_attributes: %i[id content access_level ticket_id _destroy])
   end
 

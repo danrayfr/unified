@@ -6,7 +6,7 @@ class Ticket < ApplicationRecord
   accepts_nested_attributes_for :ticket_details, allow_destroy: true, reject_if: :all_blank
 
   validates :link, presence: true
-  validates :assignee, presence: true
+  validates :modified_by, presence: true
 
   def validate_user
     user.manager? || user.qa? ? true : false

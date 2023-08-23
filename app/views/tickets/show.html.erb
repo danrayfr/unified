@@ -114,10 +114,10 @@
           <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
             <div class="relative flex flex-col flex-1 bg-gray-50">
               <div class="z-20 flex flex-grow-0 flex-shrink-0 w-full pr-3 bg-white border-b">
-                <%= image_renderer(User.find_by(name: @ticket.assignee).avatar_url, class:"w-12 h-12 mx-4 my-2 bg-blue-500 bg-center bg-no-repeat bg-cover rounded-full cursor-pointer") %>
+                <%= image_renderer(@ticket.user.avatar_url, class:"w-12 h-12 mx-4 my-2 bg-blue-500 bg-center bg-no-repeat bg-cover rounded-full cursor-pointer") %>
                 <div class="flex flex-col justify-center flex-1 overflow-hidden cursor-pointer">
-                  <div class="overflow-hidden text-base font-medium leading-tight text-gray-600 whitespace-no-wrap"><%= @ticket.assignee%></div>
-                  <div class="overflow-hidden text-sm font-medium leading-tight text-gray-600 whitespace-no-wrap"><%= User.find_by(name: @ticket.assignee).title %></div>
+                  <div class="overflow-hidden text-base font-medium leading-tight text-gray-600 whitespace-no-wrap"><%= @ticket.user.name %></div>
+                  <div class="overflow-hidden text-sm font-medium leading-tight text-gray-600 whitespace-no-wrap"><%= @ticket.user.title %></div>
                 </div>
                 <div class="relative hidden w-48 pl-2 my-3 border-l-2 border-blue-500 cursor-pointer lg:block">
                   <div class="text-base font-medium text-blue-500">Pinned message</div>
@@ -165,7 +165,7 @@
               <div class="top-0 bottom-0 left-0 right-0 flex flex-col flex-1 overflow-hidden bg-transparent bg-bottom bg-cover">
                 <div class="">
                   <div class="relative flex flex-col px-3 py-1 m-auto">
-                    <div class="self-center px-2 py-1 mx-0 my-1 text-sm text-gray-300 text-gray-700 bg-gray border border-gray-200 rounded-full shadow rounded-tg">Ticket Review was created by <%= @ticket.user.name %></div>
+                    <div class="self-center px-2 py-1 mx-0 my-1 text-sm text-gray-300 text-gray-700 bg-gray border border-gray-200 rounded-full shadow rounded-tg">Ticket Review was created by <%= @ticket.modified_by %></div>
                     <div class="self-center px-2 py-1 mx-0 my-1 text-sm text-gray-300 text-gray-700 bg-white border border-gray-200 rounded-full shadow rounded-tg"><%= time_tag @ticket.created_at, "data-local": "time-ago" %></div>
                     <% @ticket.ticket_details.each do |ticket| %>
                       <%= ticket_detail(ticket) %>
