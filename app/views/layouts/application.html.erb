@@ -13,9 +13,14 @@
 
   <body>
     <header>
+      <% if request.path =~ %r{\A/accounts/.+/tickets} %>
+        <%= render 'layouts/sidebar' %>
+      <% else %>
+        <%= render 'layouts/navbar' %>
+      <% end %>
       <%= render 'shared/notifications' %>
     </header>
-    <main class="container my-12 mx-auto px-4 md:px-12">
+    <main>
       <%= yield %>
     </main>
   </body>

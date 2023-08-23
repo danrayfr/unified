@@ -1,4 +1,5 @@
 class Ticket < ApplicationRecord
+  Pagy::DEFAULT[:items] = 6
   belongs_to :user
   belongs_to :account
   has_many :ticket_details, dependent: :destroy

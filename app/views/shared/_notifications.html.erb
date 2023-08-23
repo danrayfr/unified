@@ -1,4 +1,4 @@
-<div class="container mx-auto py-12">
+ <div class="container mx-auto">
   <% if alert %>
     <div class="flex p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50" role="alert">
       <span class="font-medium"><%= alert %></span>
@@ -6,7 +6,7 @@
   <% end %>
 
   <% if notice %>
-    <div class="flex p-4 mb-4 text-sm text-sky-800 border border-sky-300 rounded-lg bg-sky-50" role="alert">
+    <div class="flex p-4 mb-4 text-sm text-sky-800 border border-sky-300 rounded-lg bg-sky-50 z-10" role="alert">
       <span class="font-medium"><%= notice %></span>
     </div>
   <% end %>

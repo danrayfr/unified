@@ -1,18 +1,6 @@
-External Link: <%= @ticket.link %>
+<%#= link_to 'Edit', edit_account_ticket_path(@account, @ticket) %>
 
-Assignee: <%= @ticket.assignee %>
-
-Created by: <%= User.find_by(id: @ticket.user_id).name %>
-
-
-<% @ticket.ticket_details.each do |detail| %>
-  <%= detail.content %>
-  <%= detail.access_level %>
-<% end %>
-
-<%= link_to 'Edit', edit_account_ticket_path(@account, @ticket) %>
-
-<%= link_to 'Delete', account_ticket_path(@account, @ticket), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
+<%#= link_to 'Delete', account_ticket_path(@account, @ticket), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
 <!-- component -->
 <!--div class="w-1/2 mx-auto">
   <div class="w-full shadow-2xl subpixel-antialiased rounded h-64 bg-black border-black mx-auto">
@@ -35,279 +23,165 @@ Created by: <%= User.find_by(id: @ticket.user_id).name %>
   </div> 
 </div-->
 
-
-<div class="flex">
-  <!-- Left Column: Email Thread -->
-  <div class="w-1/2 p-4 border-r overflow-y-auto">
-    <div class="h-5/6 border rounded-lg p-4 space-y-4">
-      <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
+<div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+  <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
+    <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
+      <h5 hidden class="text-2xl text-gray-600 font-medium lg:block"><%= link_to '<- All Tickets', account_tickets_path(@account) %></h5>
+      <button class="w-12 h-16 -mr-2 border-r lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <div class="flex space-x-4">
+        <!--search bar -->
+        <div hidden class="md:block">
+          <div class="relative flex items-center text-gray-400 focus-within:text-cyan-400">
+            <span class="absolute left-4 h-6 flex items-center pr-3 border-r border-gray-300">
+              <svg xmlns="http://ww50w3.org/2000/svg" class="w-4 fill-current" viewBox="0 0 35.997 36.004">
+                <path
+                  id="Icon_awesome-search"
+                  data-name="search"
+                  d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z"
+                ></path>
+              </svg>
+            </span>
+            <input type="search" name="leadingIcon" id="leadingIcon" placeholder="Search here" class="w-full pl-14 pr-4 py-2.5 rounded-xl text-sm text-gray-600 outline-none border border-gray-300 focus:border-cyan-300 transition" />
           </div>
         </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <!--/search bar -->
+        <button aria-label="search" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200 md:hidden">
+          <svg xmlns="http://ww50w3.org/2000/svg" class="w-4 mx-auto fill-current text-gray-600" viewBox="0 0 35.997 36.004">
+            <path
+              id="Icon_awesome-search"
+              data-name="search"
+              d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z"
+            ></path>
+          </svg>
+        </button>
+        <button aria-label="chat" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 m-auto text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+          </svg>
+        </button>
+        <button aria-label="notification" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 m-auto text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+          </svg>
+        </button>
       </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-            <!-- Email Messages -->
-      <div class="bg-yellow-200 p-4 rounded-lg">
-        <!-- Sender Info -->
-        <div class="flex items-center mb-2">
-          <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-          <div class="ml-2">
-            <p class="text-sm font-semibold">Sender Name</p>
-            <p class="text-xs text-gray-500">Date and Time</p>
-          </div>
-        </div>
-        <!-- Email Content -->
-        <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-
-      <!-- Add more email messages as needed -->
-      <!-- Repeat the above structure for each email message -->
-
     </div>
   </div>
 
-  <!-- Right Column: Q&A List -->
-  <div class="w-1/2 p-4">
-    <div class="border rounded-lg p-4">
-      <h2 class="text-lg font-semibold mb-4">Q&A List</h2>
-      <!-- Q&A Items -->
-      <div class="mb-3">
-        <p class="text-sm font-semibold">Question 1?</p>
-        <p class="text-xs text-gray-500">Answer 1</p>
+  <div class="px-6 pt-6 2xl:container">
+    <!-- component -->
+    <div class="container mx-auto px-4 sm:px-8">
+      <div class="py-8">
+        <div>
+          <h2 class="text-2xl font-semibold leading-tight">Ticket#<%= @ticket.id %></h2>
+          <span class="text-sm text-gray-700"><%= link_to @ticket.link, "#{@ticket.link}", target: "_blank" %></span>
+        </div>
+        <div class="my-2 flex sm:flex-row flex-col">
+          <div class="flex flex-row mb-1 sm:mb-0">
+            <!--div class="relative">
+              <select class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option>5</option>
+                <option>10</option>
+                <option>20</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div>
+            <div-- class="relative">
+              <select
+                class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+              >
+                <option>All</option>
+                <option>Active</option>
+                <option>Inactive</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
+            </div-->
+          </div>
+        </div>
+        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+          <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+            <div class="relative flex flex-col flex-1 bg-gray-50">
+              <div class="z-20 flex flex-grow-0 flex-shrink-0 w-full pr-3 bg-white border-b">
+                <%= image_renderer(User.find_by(name: @ticket.assignee).avatar_url, class:"w-12 h-12 mx-4 my-2 bg-blue-500 bg-center bg-no-repeat bg-cover rounded-full cursor-pointer") %>
+                <div class="flex flex-col justify-center flex-1 overflow-hidden cursor-pointer">
+                  <div class="overflow-hidden text-base font-medium leading-tight text-gray-600 whitespace-no-wrap"><%= @ticket.assignee%></div>
+                  <div class="overflow-hidden text-sm font-medium leading-tight text-gray-600 whitespace-no-wrap"><%= User.find_by(name: @ticket.assignee).title %></div>
+                </div>
+                <div class="relative hidden w-48 pl-2 my-3 border-l-2 border-blue-500 cursor-pointer lg:block">
+                  <div class="text-base font-medium text-blue-500">Pinned message</div>
+                  <div class="text-sm font-normal text-gray-800">Today star contest</div>
+                </div>
+                <%= link_to edit_account_ticket_path(@account, @ticket), class:"flex self-center p-2 ml-2 text-gray-500 rounded-full focus:outline-none hover:text-gray-600 hover:bg-gray-300" do %>
+                  <svg class="w-6 h-6 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000" version="1.1" id="Capa_1" width="800px" height="800px" viewBox="0 0 494.936 494.936" xml:space="preserve">
+                    <g>
+                      <g>
+                        <path
+                          d="M389.844,182.85c-6.743,0-12.21,5.467-12.21,12.21v222.968c0,23.562-19.174,42.735-42.736,42.735H67.157    c-23.562,0-42.736-19.174-42.736-42.735V150.285c0-23.562,19.174-42.735,42.736-42.735h267.741c6.743,0,12.21-5.467,12.21-12.21    s-5.467-12.21-12.21-12.21H67.157C30.126,83.13,0,113.255,0,150.285v267.743c0,37.029,30.126,67.155,67.157,67.155h267.741    c37.03,0,67.156-30.126,67.156-67.155V195.061C402.054,188.318,396.587,182.85,389.844,182.85z"
+                        />
+                        <path
+                          d="M483.876,20.791c-14.72-14.72-38.669-14.714-53.377,0L221.352,229.944c-0.28,0.28-3.434,3.559-4.251,5.396l-28.963,65.069    c-2.057,4.619-1.056,10.027,2.521,13.6c2.337,2.336,5.461,3.576,8.639,3.576c1.675,0,3.362-0.346,4.96-1.057l65.07-28.963    c1.83-0.815,5.114-3.97,5.396-4.25L483.876,74.169c7.131-7.131,11.06-16.61,11.06-26.692    C494.936,37.396,491.007,27.915,483.876,20.791z M466.61,56.897L257.457,266.05c-0.035,0.036-0.055,0.078-0.089,0.107    l-33.989,15.131L238.51,247.3c0.03-0.036,0.071-0.055,0.107-0.09L447.765,38.058c5.038-5.039,13.819-5.033,18.846,0.005    c2.518,2.51,3.905,5.855,3.905,9.414C470.516,51.036,469.127,54.38,466.61,56.897z"
+                        />
+                      </g>
+                    </g>
+                  </svg>
+                <% end %>
+                <button class="flex self-center p-2 ml-2 text-gray-500 rounded-full focus:outline-none hover:text-gray-600 hover:bg-gray-300">
+                  <svg class="w-6 h-6 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill-rule="nonzero"
+                      d="M9.5,3 C13.0898509,3 16,5.91014913 16,9.5 C16,10.9337106 15.5358211,12.2590065 14.7495478,13.3338028 L19.7071068,18.2928932 C20.0976311,18.6834175 20.0976311,19.3165825 19.7071068,19.7071068 C19.3466228,20.0675907 18.7793918,20.0953203 18.3871006,19.7902954 L18.2928932,19.7071068 L13.3338028,14.7495478 C12.2590065,15.5358211 10.9337106,16 9.5,16 C5.91014913,16 3,13.0898509 3,9.5 C3,5.91014913 5.91014913,3 9.5,3 Z M9.5,5 C7.01471863,5 5,7.01471863 5,9.5 C5,11.9852814 7.01471863,14 9.5,14 C11.9852814,14 14,11.9852814 14,9.5 C14,7.01471863 11.9852814,5 9.5,5 Z"
+                    ></path>
+                  </svg>
+                </button>
+                <button type="button" class="flex self-center hidden p-2 ml-2 text-gray-500 rounded-full md:block focus:outline-none hover:text-gray-600 hover:bg-gray-300">
+                  <svg class="w-6 h-6 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill-rule="nonzero"
+                      d="M12,16 C13.1045695,16 14,16.8954305 14,18 C14,19.1045695 13.1045695,20 12,20 C10.8954305,20 10,19.1045695 10,18 C10,16.8954305 10.8954305,16 12,16 Z M12,10 C13.1045695,10 14,10.8954305 14,12 C14,13.1045695 13.1045695,14 12,14 C10.8954305,14 10,13.1045695 10,12 C10,10.8954305 10.8954305,10 12,10 Z M12,4 C13.1045695,4 14,4.8954305 14,6 C14,7.1045695 13.1045695,8 12,8 C10.8954305,8 10,7.1045695 10,6 C10,4.8954305 10.8954305,4 12,4 Z"
+                    ></path>
+                  </svg>
+                </button>
+                <button class="p-2 text-gray-700 flex self-center rounded-full md:hidden focus:outline-none hover:text-gray-600 hover:bg-gray-200">
+                  <svg class="w-6 h-6 text-gray-600 fill-current" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill-rule="nonzero"
+                      d="M4,16 L20,16 C20.5522847,16 21,16.4477153 21,17 C21,17.5128358 20.6139598,17.9355072 20.1166211,17.9932723 L20,18 L4,18 C3.44771525,18 3,17.5522847 3,17 C3,16.4871642 3.38604019,16.0644928 3.88337887,16.0067277 L4,16 L20,16 L4,16 Z M4,11 L20,11 C20.5522847,11 21,11.4477153 21,12 C21,12.5128358 20.6139598,12.9355072 20.1166211,12.9932723 L20,13 L4,13 C3.44771525,13 3,12.5522847 3,12 C3,11.4871642 3.38604019,11.0644928 3.88337887,11.0067277 L4,11 Z M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 C21,7.51283584 20.6139598,7.93550716 20.1166211,7.99327227 L20,8 L4,8 C3.44771525,8 3,7.55228475 3,7 C3,6.48716416 3.38604019,6.06449284 3.88337887,6.00672773 L4,6 Z"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="top-0 bottom-0 left-0 right-0 flex flex-col flex-1 overflow-hidden bg-transparent bg-bottom bg-cover">
+                <div class="">
+                  <div class="relative flex flex-col px-3 py-1 m-auto">
+                    <div class="self-center px-2 py-1 mx-0 my-1 text-sm text-gray-300 text-gray-700 bg-gray border border-gray-200 rounded-full shadow rounded-tg">Ticket Review was created by <%= @ticket.user.name %></div>
+                    <div class="self-center px-2 py-1 mx-0 my-1 text-sm text-gray-300 text-gray-700 bg-white border border-gray-200 rounded-full shadow rounded-tg"><%= time_tag @ticket.created_at, "data-local": "time-ago" %></div>
+                    <% @ticket.ticket_details.each do |ticket| %>
+                      <%= ticket_detail(ticket) %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
+                  <div class="w-full">
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- Add more Q&A items as needed -->
     </div>
   </div>
 </div>

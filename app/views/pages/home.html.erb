@@ -1,37 +1,133 @@
-<div class="flex items-center justify-between pb-6 border-b">
-  <h1 class="font-bold text-5xl text-gray-900">Home</h1>
-  <%  if user_signed_in?%>
-    <p class="text-gray-700 text-2xl">
-      Hello, <%= current_user.name %>
-    </p>
-  <% end %>
+<div class="w-full">
+  <!-- Title -->
+  <section class="h-screen px-12 sm:px-24 flex items-center relative bg-red-500">
+  <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-8 xxl:col-span-12">
+        <div class="w-full">
+          <h1 class="text-7xl sm:text-8xl lg:text-8xl xl:text-9xl text-white font-bold my-8">
+            Showcase your<br />
+            team value to<br />
+            <span class="text-blue-400">Company</span>
+          </h1>
+          <p class="text-xl text-white font-semibold">
+            Unified Leaderboard for SNI,<br />
+            Coaching, and Quality Assurance.
+          </p>
+        </div>
+      </div>
 
-</div>
-<div class="mt-5 text-right">
-  <%#= link_to "New Product", new_product_path, class:"bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-2" if user_signed_in? && current_user.admin? %>
-</div>
-<div class="flex flex-wrap -mx-1 lg:-mx-4 mt-2">
-  
-</div>
-
-<% if current_user %>
-  <div>
-    <h2><%= current_user.email %></h2>
-    <% unless current_user.avatar_url.nil? %>
-      <%= image_tag current_user.avatar_url %>
-    <% else %>
-      <%= image_tag 'https://static.thenounproject.com/png/5034901-200.png' %>
-    <% end %>
-    <h1><%= current_user.name %></h1>
-    <h2><%= current_user.title %></h2>
-    <p class='uppercase'><%= current_user.role %></p>
+    </div>
   </div>
-  <br />
-  <%= link_to 'Edit Account', edit_user_registration_path %>
-  <%= button_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo: 'false' } %>
-<% else %>
-  <%= link_to 'Login', new_user_session_path %>
-  <%= link_to 'Sign Up', new_user_registration_path %>
-<% end %>
+  </section>
+  <!-- WE CREATE -->
+  <section class="h-full">
+  <div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="relative px-8 py-8">
+      <div>
+        <h1 class="text-white text-white text-6xl font-bold "><span class="bg-blue-400 py-4 px-4 rounded-full text-5xl">Our Values</span></h1>
+      </div>
+    </div>
+    <div class="grid grid-cols-12 gap-6 px-8 py-8">
+      <div class="col-span-12 sm:col-span-12 md:col-span-5 lg:col-span-5 xxl:col-span-5">
+        <div class="py-4">
+          <p class="text-lg font-semibold text-blue-900"><span class="text-red-400 font-bold">1</span>    <span class="font-bold">We Value Our People First.</span></p>
+          <p class="text-blue-900 text-sm pl-8">
+            We lead with empathy and take care of one another.
+          </p>
+        </div>
+        <div class="py-4">
+          <p class="text-lg font-semibold text-blue-900"><span class="text-red-400 font-bold">2</span>   <span class="font-bold">We Stay Humble</span></p>
+          <p class="text-blue-900 text-sm pl-8">
+            Caring and committed, we grow with intention and partner with dedication.
+          </p>
+        </div>
+        <div class="py-4">
+          <p class="text-lg font-semibold text-blue-900"><span class="text-red-400 font-bold">3</span>   <span class="font-bold">We Improve Daily</span></p>
+          <p class="text-blue-900 text-sm pl-8">
+            Relentless and persistent, we pursue improvement for its own sake.
+        </div>
+        <div class="py-4">
+          <p class="text-lg font-semibold text-blue-900"><span class="text-red-400 font-bold">4</span>   <span class="font-bold">We Embrace Compassionate Candor</span></p>
+          <p class="text-blue-900 text-sm pl-8">
+            We believe that clarity and kindness are twin virtues.
+          </p>
+        </div>
+        <div class="py-4">
+          <p class="text-lg font-semibold text-blue-900"><span class="text-red-400 font-bold">5</span>   <span class="font-bold">We Live Joyfully</span></p>
+          <p class="text-blue-900 text-sm pl-8">
+            We know a sense of fun is not a distraction. It’s central to our culture.
+          </p>
+        </div>
+      </div>
+      <div class="col-span-12 sm:col-span-12 md:col-span-7 lg:col-span-7 xxl:col-span-7 flex justify-center">
+        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/male-employee-looking-at-customer-review-2937682-2426381.png" class="w-auto" />
+      </div>
+    </div>
+  </section>
+  <!-- Grow With Us -->
+  <section class="container my-12 mx-auto px-4 md:px-12"><div class="container my-12 mx-auto px-4 md:px-12">
+    <div class="grid grid-cols-12 gap-0">
+      <div class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 xxl:col-span-6 bg-yellow-500 h-full px-16 py-6">
+        <div>
+          <img
+            src="https://ouch-cdn2.icons8.com/c_sJhjs8JZ9WhtxfMnw0Eh2FpwIsj4VukdWjkjOiJqw/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMjEx/LzZkY2MyYWU2LWU5/MDYtNDJjNC05Yzk3/LTBiYjliMDgxOGMz/MC5wbmc.png"
+            class="w-52 -ml-4"
+          />
+          <h1 class="text-white font-semibold text-7xl">Coaching</h1>
+          <!--button class="my-6 bg-gradient-to-b from-yellow-400 to-yellow-500 text-white font-bold py-2 px-4 rounded-lg uppercase text-sm shadow-xl">
+            Hire Us
+          </button-->
+        </div>
+      </div>
+      <div class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 xxl:col-span-6 bg-blue-400 h-full px-16 py-6">
+        <div>
+          <img src="https://assets.materialup.com/uploads/641e0e0f-eddf-4d2c-b0ee-c6f55300bb1b/preview.png" class="w-52 -ml-10" />
+          <h1 class="text-white font-semibold text-7xl">Quality Assurance</h1>
+          <!--button class="my-6 bg-gradient-to-b from-red-400 to-red-500 text-white font-bold py-2 px-4 rounded-lg uppercase text-sm shadow-xl">
+            Hello@123.com
+          </button-->
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 
+<div class="container my-12 mx-auto px-4 md:px-12">
+  <div class="flex items-center justify-between pb-6 border-b">
+    <h1 class="font-bold text-5xl text-gray-900">Home</h1>
+    <%  if user_signed_in?%>
+      <p class="text-gray-700 text-2xl">
+        Hello, <%= current_user.name %>
+      </p>
+    <% end %>
+
+  </div>
+  <div class="mt-5 text-right">
+    <%#= link_to "New Product", new_product_path, class:"bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mt-2" if user_signed_in? && current_user.admin? %>
+  </div>
+  <div class="flex flex-wrap -mx-1 lg:-mx-4 mt-2">
+    
+  </div>
+
+  <% if current_user %>
+    <div>
+      <h2><%= current_user.email %></h2>
+      <% unless current_user.avatar_url.nil? %>
+        <%= image_tag current_user.avatar_url %>
+      <% else %>
+        <%= image_tag 'https://static.thenounproject.com/png/5034901-200.png' %>
+      <% end %>
+      <h1><%= current_user.name %></h1>
+      <h2><%= current_user.title %></h2>
+      <p class='uppercase'><%= current_user.role %></p>
+    </div>
+    <br />
+    <%= link_to 'Edit Account', edit_user_registration_path %>
+    <%= button_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo: 'false' } %>
+  <% else %>
+    <%= link_to 'Login', new_user_session_path %>
+    <%= link_to 'Sign Up', new_user_registration_path %>
+  <% end %>
+  </div>
 </div>

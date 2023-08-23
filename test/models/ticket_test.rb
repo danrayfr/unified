@@ -2,12 +2,12 @@ require 'test_helper'
 
 class TicketTest < ActiveSupport::TestCase
   def setup
-    @ticket = @manager.tickets.build(link: 'https://supportninja.zendesk.com', assignee: @agent.name,
-                                     account: @account)
     @manager = users(:manager1)
     @agent = users(:agent)
     @qa = users(:qa)
     @account = accounts(:projectq)
+    @ticket = @manager.tickets.build(link: 'https://supportninja.zendesk.com', assignee: @agent.name,
+      account: @account)
   end
 
   test 'should be valid' do

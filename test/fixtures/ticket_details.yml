@@ -2,10 +2,10 @@
 
 one:
   content: MyText
-  type: 1
+  access_level: inbound
   ticket: one
 
 two:
   content: MyText
-  type: 1
+  access_level: outbound
   ticket: two

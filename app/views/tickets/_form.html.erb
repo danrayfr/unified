@@ -1,19 +1,26 @@
+<div class="flex items-center justify-center p-12">
+<div class="mx-auto w-full max-w-[1000px]">
 <%= form_with(model: [account, ticket], local: true, data: { 
   controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form|  %>
   <%= render 'shared/error_messages', object: form.object %>
 
-  <div>
-    <%= form.label :link %>
-    <%= form.text_field :link %>
-  </div>
-
-  <div>
-    <%= form.label :assignee %>
-    <%= form.collection_select :assignee, @account.users.where(role: 'agent'), 
-                              :name, :name, prompt: 'Select Assignee' %>
-  </div>
-
   <%= form.hidden_field :account_id, value: @account.id %>
+      
+  <div class="mb-5">
+    <%= form.label :link, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+    <%= form.text_field :link, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+  </div>
+
+  <div class="mb-5">
+    <%= form.label :assignee, class:"mb-3 block text-base font-medium text-[#07074D]"  %>
+    <%= form.collection_select :assignee,
+                           @account.users.where(role: 'agent'),
+                           :name,
+                           :name,
+                           { prompt: 'Select Assignee' },
+                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" } %>
+
+  </div>
 
   <template data-nested-form-target="template">
     <%= form.fields_for :ticket_details, TicketDetail.new, child_index: 'NEW_RECORD' do |detail_fields| %>
@@ -26,10 +33,17 @@
   <% end %>
 
   <!-- Inserted elements will be injected before that target. -->
-  <div data-nested-form-target="target"></div>
+  <div class="mb-6">
+    <div data-nested-form-target="target"></div>
+  </div>
 
-  <button type="button" data-action="nested-form#add">Add Content</button>
+  <div class="mb-6">
+    <button type="button" data-action="nested-form#add">Add Content</button>
+  </div>
+  
   <div>
-    <%= form.submit %>
+    <%= form.submit class:"hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none" %>
   </div>
 <% end %>
+</div>
+</div>

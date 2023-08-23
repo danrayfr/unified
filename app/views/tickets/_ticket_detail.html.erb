@@ -1,10 +1,21 @@
 <div class="nested-form-wrapper" data-new-record="<%= f.object.new_record? %>">
-  <%= f.label :content %>
-  <%= f.text_field :content %>
+  <div class="mb-6">
+    <%= f.label :content, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+    <%= f.rich_text_area :content %>
+  </div>
 
-  <%= f.collection_select :access_level, TicketDetail.access_levels.keys, :to_s, :humanize, {}, { class: 'form-control' } %>
+  <div class="mb-6">
+    <%= f.collection_select :access_level, TicketDetail.access_levels.keys, :to_s, :humanize, {}, { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" }  %>
+  </div>
 
-  <button type="button" data-action="nested-form#remove">Remove todo</button>
-
-  <%= f.hidden_field :_destroy %>
+  
+  <div class="mb-6">
+    <button type="button" data-action="nested-form#remove">Remove todo</button>
+    <%= f.hidden_field :_destroy %>
+  </div>
 </div>
+
+  <div class="mb-5">
+    <%#= form.label :link, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+    <%#= form.text_field :link, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+  </div>

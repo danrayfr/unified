@@ -1,5 +1,3 @@
-require 'pry'
-
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_ticket, only: %i[show edit update destroy]
@@ -8,7 +6,8 @@ class TicketsController < ApplicationController
   before_action :check_role, only: %i[new edit destroy]
 
   def index
-    @tickets = Ticket.order(created_at: :desc)
+    @tickets_total = Ticket.all
+    @pagy, @tickets = pagy(Ticket.order(created_at: :desc))
   end
 
   def show; end
@@ -23,7 +22,7 @@ class TicketsController < ApplicationController
     @ticket = @account.tickets.build(ticket_params.merge(user_id: current_user.id))
 
     if @ticket.save
-      create_ticket_details
+      # create_ticket_details
       redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully created.'
     else
       render :new, status: :unprocessable_entity

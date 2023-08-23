@@ -1,40 +1,43 @@
-<% if current_user.accounts.any? %>
-  <div class="flex items-center justify-between pb-6 border-b">
-    <div class="space-y-2">
-      <h1 class="font-bold text-5xl text-gray-900">Current Account</h1>
-      <p>List of current account(s)</p>
-    </div>
-    <%  if user_signed_in?%>
-      <p class="text-gray-700 text-2xl">
-        Hello, <%= current_user.name %>
-      </p>
-    <% end %>
+<div class="container my-12 mx-auto px-4 md:px-12">
+  <% if current_user.accounts.any? %>
+    <div class="flex items-center justify-between pb-6 border-b">
+      <div class="space-y-2">
+        <h1 class="font-bold text-5xl text-gray-900">Current Account</h1>
+        <p>List of current account(s)</p>
+      </div>
+      <%  if user_signed_in?%>
+        <p class="text-gray-700 text-2xl">
+          Hello, <%= current_user.name %>
+        </p>
+      <% end %>
 
-  </div>
-  <div class="mt-5 text-right">
+    </div>
+    <div class="mt-5 text-right">
+    </div>
+    <div class="py-10 grid grid-cols-3 gap-6">
+      <% current_user.accounts.each do |account| %>
+        <%= render 'account', account: account %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="flex items-center justify-between pb-6 border-b mt-12">
+    <div class="space-y-2">
+      <h1 class="font-bold text-5xl text-gray-900">All Accounts</h1>
+      <p>List of all accounts</p>
+    </div>
+
+    <div>
+      <%= link_to "New Product", new_account_path, class:"bg-gray-500 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded mt-2" if user_signed_in? && current_user.admin? %>
+    </div>
   </div>
   <div class="py-10 grid grid-cols-3 gap-6">
-    <% current_user.accounts.each do |account| %>
+    <% @accounts.each do |account| %>
       <%= render 'account', account: account %>
     <% end %>
   </div>
-<% end %>
-
-<div class="flex items-center justify-between pb-6 border-b mt-12">
-  <div class="space-y-2">
-    <h1 class="font-bold text-5xl text-gray-900">All Accounts</h1>
-    <p>List of all accounts</p>
-  </div>
-
-  <div>
-    <%= link_to "New Product", new_account_path, class:"bg-gray-500 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded mt-2" if user_signed_in? && current_user.admin? %>
-  </div>
 </div>
-<div class="py-10 grid grid-cols-3 gap-6">
-  <% @accounts.each do |account| %>
-    <%= render 'account', account: account %>
-  <% end %>
-</div>
+
 
 
 <!--div>

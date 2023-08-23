@@ -1,17 +1,39 @@
-<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-      <%= link_to ticket.id, account_ticket_path(account, ticket) %>
-  </th>
-  <td class="px-6 py-4">
+<tr>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap font-medium"><%= link_to ticket.id, account_ticket_path(account, ticket) %></p>
+  </td>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap">
       <%= ticket.link %>
+    </p>
   </td>
-  <td class="px-6 py-4">
-    <%= ticket.assignee %>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <div class="flex items-center">
+      <div class="flex-shrink-0 w-10 h-10">
+        <%#= image_renderer(User.find_by(name: ticket.assignee).avatar_url, class: "w-full h-full rounded-full") %>
+      </div>
+      <div class="ml-3">
+        <p class="text-gray-900 whitespace-no-wrap">
+          <%= ticket.assignee %>
+        </p>
+      </div>
+    </div>
   </td>
-  <td class="px-6 py-4">
-    <%= ticket.user.name %>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <div class="flex items-center">
+      <div class="flex-shrink-0 w-10 h-10">
+        <%= image_renderer(ticket.user.avatar_url, class: "w-full h-full rounded-full") %>
+      </div>
+      <div class="ml-3">
+        <p class="text-gray-900 whitespace-no-wrap">
+          <%= ticket.user.name %>
+        </p>
+      </div>
+    </div>
   </td>
-  <td class="px-6 py-4">
-    <%= time_tag ticket.created_at, "data-local": "time-ago" %>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap">
+      <%= time_tag ticket.created_at, "data-local": "time-ago" %>
+    </p>
   </td>
 </tr>
