@@ -52,4 +52,8 @@ module ApplicationHelper
     content.html_safe
   end
   # rubocop:enable Metrics/MethodLength
+
+  def extract_url(url)
+    url.split('/').last
+  end
 end

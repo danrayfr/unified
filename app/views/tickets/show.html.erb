@@ -77,7 +77,7 @@
     <div class="container mx-auto px-4 sm:px-8">
       <div class="py-8">
         <div>
-          <h2 class="text-2xl font-semibold leading-tight">Ticket#<%= @ticket.id %></h2>
+          <h2 class="text-2xl font-semibold leading-tight">Ticket#<%= extract_url(@ticket.link) %></h2>
           <span class="text-sm text-gray-700"><%= link_to @ticket.link, "#{@ticket.link}", target: "_blank" %></span>
         </div>
         <div class="my-2 flex sm:flex-row flex-col">

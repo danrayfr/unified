@@ -1,10 +1,12 @@
 <tr>
   <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p class="text-gray-900 whitespace-no-wrap font-medium"><%= link_to ticket.id, account_ticket_path(account, ticket) %></p>
+    <p class="text-gray-900 whitespace-no-wrap"><%= ticket.id %></p>
   </td>
   <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p class="text-gray-900 whitespace-no-wrap">
-      <%= ticket.link %>
+    <p class="text-indigo-700 whitespace-no-wrap hover:text-indigo-600 hover:underline font-bold">
+      <%= link_to account_ticket_path(account, ticket) do %>
+        <%= extract_url(ticket.link) %>
+      <% end %>
     </p>
   </td>
   <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -25,8 +27,8 @@
         <%#= image_renderer(User.find_by(name: ticket.assignee).avatar_url, class: "w-full h-full rounded-full") %>
       </div>
       <div class="ml-3">
-        <p class="text-gray-900 whitespace-no-wrap">
-          <%= ticket.modified_by %>
+        <p class="text-gray-900 whitespace-no-wrap capitalize">
+          <%= User.where(email: ticket.modified_by).first.role %>
         </p>
       </div>
     </div>
