@@ -13,7 +13,7 @@
 
   <body>
     <header>
-      <% if request.path =~ %r{\A/accounts/.+/tickets} %>
+      <% if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
         <%= render 'layouts/sidebar' %>
       <% else %>
         <%= render 'layouts/navbar' %>

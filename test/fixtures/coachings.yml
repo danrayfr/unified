@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  coaching_start_date: <%= DateTime.parse('2023-08-21')%>
+  coaching_end_date: <%= DateTime.parse('2023-08-26') %>
+  acknowledgement: true
+  date_acknowledged: 2023-08-24 04:51:44
+  account: projectq
+  user: manager1
+
+two:
+  coaching_start_date: <%= DateTime.parse('2023-08-21')%>
+  coaching_end_date: <%= DateTime.parse('2023-08-26') %>
+  acknowledgement: true
+  date_acknowledged: 2023-08-24 04:51:44
+  account: projectq
+  user: agent
+
+three:
+  coaching_start_date: <%= DateTime.parse('2023-08-21')%>
+  coaching_end_date: <%= DateTime.parse('2023-08-26') %>
+  acknowledgement: false
+  date_acknowledged: nil
+  account: projectq
+  user: agent

@@ -1,0 +1,41 @@
+class Coaching < ApplicationRecord
+  belongs_to :user
+  belongs_to :account
+  has_one :note, as: :notable
+  accepts_nested_attributes_for :note
+
+  validates :coaching_start_date, presence: true
+  validates :coaching_end_date, presence: true
+  validates :user, presence: { message: 'Agent should not be blank.' }
+  validate :validate_week_duration
+
+  # rubocop:disable Metrics/AbcSize
+  def validate_week_duration
+    return unless coaching_start_date.present? && coaching_end_date.present?
+
+    # Get the week number and year for both dates
+    start_week_number = coaching_start_date.strftime('%U').to_i
+    start_year = coaching_start_date.year
+    end_week_number = coaching_end_date.strftime('%U').to_i
+    end_year = coaching_end_date.year
+
+    # Compare week numbers and years
+    return if start_week_number == end_week_number && start_year == end_year
+
+    errors.add(:coaching_end_date,
+               'must be in the same week as the start date')
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def acknowledged?
+    return 'No Date' unless acknowledgement
+
+    # Calculate the week and year for the start date
+    start_week = coaching_start_date.strftime('%U').to_i
+
+    formatted_start_date = coaching_start_date.strftime('%B %d, %Y')
+    formatted_end_date = coaching_end_date.strftime('%B %d, %Y')
+
+    "Week##{start_week} (#{formatted_start_date} - #{formatted_end_date})"
+  end
+end

@@ -1,0 +1,33 @@
+<tr>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap"><%= link_to coaching.id, account_coaching_path(account, coaching) %></p>
+  </td>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <div class="flex items-center">
+      <div class="flex-shrink-0 w-10 h-10">
+        <%= image_renderer(coaching.user.avatar_url, class: "w-full h-full rounded-full") %>
+      </div>
+      <div class="ml-3">
+        <p class="text-gray-900 whitespace-no-wrap capitalize">
+          <%= coaching.user.name %>
+        </p>
+      </div>
+    </div>
+  </td>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap">
+      <%= display_week(coaching) %>
+    </p>
+  </td>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap">
+      <%= display_acknowledgement_date(coaching) %>
+    </p>
+  </td>
+  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    <p class="text-gray-900 whitespace-no-wrap">
+      <%= time_tag coaching.created_at, "data-local": "time-ago" %>
+    </p>
+  </td>
+  
+</tr>

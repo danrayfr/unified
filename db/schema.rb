@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_23_183201) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_23_205229) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -69,6 +69,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_183201) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "coachings", force: :cascade do |t|
+    t.date "coaching_start_date"
+    t.date "coaching_end_date"
+    t.boolean "acknowledgement", default: false
+    t.datetime "date_acknowledged"
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_coachings_on_account_id"
+    t.index ["user_id"], name: "index_coachings_on_user_id"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -78,6 +91,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_183201) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "notable_type", null: false
+    t.bigint "notable_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
   end
 
   create_table "ticket_details", force: :cascade do |t|
@@ -120,6 +142,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_23_183201) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "coachings", "accounts"
+  add_foreign_key "coachings", "users"
   add_foreign_key "ticket_details", "tickets"
   add_foreign_key "tickets", "accounts"
   add_foreign_key "tickets", "users"

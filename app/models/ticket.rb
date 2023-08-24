@@ -7,12 +7,4 @@ class Ticket < ApplicationRecord
 
   validates :link, presence: true
   validates :modified_by, presence: true
-
-  def validate_user
-    user.manager? || user.qa? ? true : false
-  end
-
-  def check_membership
-    account.users.include?(user)
-  end
 end

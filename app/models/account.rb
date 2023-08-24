@@ -10,6 +10,7 @@ class Account < ApplicationRecord
 
   has_and_belongs_to_many :users
   has_many :tickets
+  has_many :coachings
 
   def should_generate_new_friendly_id?
     name_changed? || slug.blank?

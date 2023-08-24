@@ -26,12 +26,12 @@ class TicketTest < ActiveSupport::TestCase
 
   test 'manager and qa can only create a ticket entry' do
     @ticket.user = @manager
-    assert @ticket.validate_user
+    assert @manager.validate_ticket_access
 
     @ticket.user = @qa
-    assert @ticket.validate_user
+    assert @qa.validate_ticket_access
 
     @ticket.user = @agent
-    assert_not @ticket.validate_user
+    assert_not @agent.validate_ticket_access
   end
 end

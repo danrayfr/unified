@@ -13,6 +13,7 @@ class User < ApplicationRecord
   enum role: %i[agent manager qa admin]
 
   has_many :tickets
+  has_many :coachings
   has_and_belongs_to_many :accounts
 
   def self.from_omniauth(auth)
@@ -40,6 +41,14 @@ class User < ApplicationRecord
     else
       true
     end
+  end
+
+  def validate_coaching_access
+    manager? || agent? ? true : false
+  end
+
+  def validate_ticket_access
+    manager? || qa? ? true : false
   end
 
   def manager?
