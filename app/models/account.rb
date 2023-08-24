@@ -1,4 +1,25 @@
-# frozen_string_literal: true
+# == Schema Information
+#
+# Table name: accounts
+#
+# id                          :bigint                 not null, primary key
+# uid                         :string                 not null, unique key
+# name                        :string
+# description                 :string
+# slug                        :string
+# created_at                  :datetime               not null
+# updated_at                  :datetime               not null
+#
+# Indexes
+#
+# index_accounts_users_on_account_id_and_user_id      (account_id_and_user_id)
+# index_accounts_users_on_user_id_and_account_id      (index_accounts_users_on_user_id_and_account_id)
+#
+# Foreign keys
+#
+# fk_rails ... (user_id => users.id)
+# fk_rails ... (account_id => accounts.id)
+#
 
 class Account < ApplicationRecord
   extend FriendlyId
@@ -23,6 +44,3 @@ class Account < ApplicationRecord
     self.uid ||= SecureRandom.uuid
   end
 end
-
-# validates name and description. name should be unique.
-# name and description should minimum and maximum characters.

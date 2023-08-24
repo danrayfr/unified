@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: users
+#
+# id                          :bigint                 not null, primary key
+# uid                         :string                 not null, unique key
+# provider                    :string
+# email                       :string
+# title                       :string
+# role                        :integer                default(0)
+# encrypted_password          :string                 not null, default('')
+# reset_password_token        :string
+# reset_password_sent_at      :datetime
+# remember_created_at         :datetime
+# created_at                  :datetime               not null
+# updated_at                  :datetime               not null
+#
+# Indexes
+#
+# index_users_on_email
+# index_users_on_reset_password_token
+#
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -44,7 +67,7 @@ class User < ApplicationRecord
   end
 
   def validate_coaching_access
-    manager? || agent? ? true : false
+    manager? || agent? || admin? ? true : false
   end
 
   def validate_ticket_access

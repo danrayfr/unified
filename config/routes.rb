@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :tickets
 
     # QA is block in this resources.
-    authenticated :user, ->(user) { user.admin? || user.manager? || user.agent? } do
+    authenticated :user, ->(user) { user.validate_coaching_access } do
       resources :coachings do
         resources :notes, module: :accounts, only: :create
         member do

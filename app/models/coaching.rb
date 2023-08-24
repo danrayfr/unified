@@ -1,3 +1,28 @@
+# == Schema Information
+#
+# Table name: coachings
+#
+# id                          :bigint                 not null, primary key
+# coaching_start_date         :date
+# coaching_end_date           :date
+# acknowledgement             :boolean                default(false)
+# date_acknowledged           :datetime
+# user_id                     :bigint                 not null, foreign key
+# account_id                  :bigint                 not null, foreign_key
+# created_at                  :datetime               not null
+# updated_at                  :datetime               not null
+#
+# Indexes
+#
+# index_coachings_on_account_id
+# index_coachings_on_account_id
+#
+# Foreign keys
+#
+# fk_rails ... (account_id => accounts.id)
+# fk_rails ... (user_id => users.id)
+#
+
 class Coaching < ApplicationRecord
   belongs_to :user
   belongs_to :account
