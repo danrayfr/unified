@@ -4,14 +4,13 @@
 #
 # id                          :bigint                 not null, primary key
 # content                     :string
-# access_level                :integer                not null, foreign key
-# ticket_id                   :bigint                 not null, foreign key
+# access_level                :integer                not null, default(0)
 # created_at                  :datetime               not null
 # updated_at                  :datetime               not null
 #
 # Indexes
 #
-# index_ticket_details_on_ticket_id
+# index_ticket_details_on_ticket_id                   (ticket_id)
 #
 # Foreign Key
 #

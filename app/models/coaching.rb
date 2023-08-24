@@ -7,15 +7,13 @@
 # coaching_end_date           :date
 # acknowledgement             :boolean                default(false)
 # date_acknowledged           :datetime
-# user_id                     :bigint                 not null, foreign key
-# account_id                  :bigint                 not null, foreign_key
 # created_at                  :datetime               not null
 # updated_at                  :datetime               not null
 #
 # Indexes
 #
-# index_coachings_on_account_id
-# index_coachings_on_account_id
+# index_coachings_on_account_id                       (account_id)
+# index_coachings_on_user_id                          (user_id)
 #
 # Foreign keys
 #

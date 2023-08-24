@@ -4,14 +4,12 @@
 #
 # id                          :bigint                 not null, primary key
 # content                     :text
-# notable_type                :string                 not null, foreign key
-# notable_id                  :bigint                 not null, foreign key
 # created_at                  :datetime               not null
 # updated_at                  :datetime               not null
 #
 # Indexes
 #
-# index_notes_on_notable
+# index_notes_on_notable                              (notable_id, notable_type)
 #
 # Foreign keys
 #
