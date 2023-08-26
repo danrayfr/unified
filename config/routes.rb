@@ -3,7 +3,14 @@
 Rails.application.routes.draw do
   get 'coaching/index'
   resources :accounts do
-    resources :tickets
+    resources :tickets do
+      resource :qa, controller: :qualities, except: :index do
+        member do
+          get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
+        end
+        resources :notes, module: :accounts, only: :create
+      end
+    end
 
     # QA is block in this resources.
     authenticated :user, ->(user) { user.validate_coaching_access } do

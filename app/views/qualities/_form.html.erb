@@ -1,0 +1,44 @@
+<div class="flex items-center justify-center p-12">
+<div class="mx-auto w-full max-w-[1000px]">
+<%= form_with(model: [account, ticket, @quality], url: account_ticket_qa_path(account, ticket)) do |form|  %>
+  <%= render 'shared/error_messages', object: form.object %>
+
+  <%= form.hidden_field :ticket_id, value: @ticket.id %>
+
+  <%= form.hidden_field :quality_id, value: @quality.id %>
+
+  <div class="mb-6">
+    <%= form.label :rating, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+    <%= form.number_field :rating, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+  </div>
+
+  <%= form.fields_for(:note, @note) do |note_form| %>
+    <% if current_user.agent? %>
+      <div class="mb-6">
+        <%= note_form.label :note, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+        <div class="trix-editor" data-trix-target="content" contenteditable="false">
+          <%= @note.content %>
+        </div>
+        <%= note_form.hidden_field :content, value: @note.content %>
+      </div>
+    <% else %>
+      <div class="mb-6">
+        <%= note_form.label :note %>
+        <%= note_form.rich_text_area :content, value: @note.content  %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="mb-6">
+    <% if current_user.agent? %>
+      <%= form.label :acknowledgement, class: "mb-3 block text-base font-medium text-[#07074D]" %>
+      <%= form.check_box :acknowledgement, checked_value: true, unchecked_value: false, disabled: @quality.acknowledgement %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit class:"hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none" %>
+  </div>
+<% end %>
+</div>
+</div>

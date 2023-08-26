@@ -1,11 +1,13 @@
+require 'pry'
+
 class CoachingsController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_membership
+  before_action :set_coaching, only: %i[show edit update destroy acknowledgement]
+  before_action :set_account, only: %i[show new create edit update destroy acknowledgement]
   before_action :mentee, only: %i[acknowledgement]
   before_action :mentor, only: %i[new create edit]
   before_action :admin?, only: :destroy
-  before_action :set_coaching, only: %i[show edit update destroy acknowledgement]
-  before_action :set_account, only: %i[show new create edit update destroy acknowledgement]
 
   def index
     @coachings = Coaching.all
@@ -87,7 +89,7 @@ class CoachingsController < ApplicationController
   def mentee
     @account = Account.find(params[:account_id])
 
-    return if current_user.agent?
+    return if current_user.agent? && @coaching.user == current_user
 
     redirect_url = @ticket ? account_coaching_url(@account, @coaching) : account_coachings_url(@account)
     redirect_to redirect_url, alert: "You're not allowed to acknowledge this coaching record."

@@ -81,7 +81,7 @@
       <%= @coaching.note&.content %>
 
       <%= link_to 'Delete', account_coaching_path(@account, @coaching), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
+      <%= link_to 'Acknowledge', acknowledgement_account_coaching_path(@account, @coaching) if @coaching.user == current_user %>
     </div>
   </div>
 </div>
-
