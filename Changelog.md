@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.1.1] : 2023-27-08
+
+### Update
+
+- Redesign sign in/up form page
+
 ## [0.1.0] : 2023-27-08
 
 ### Added
@@ -16,4 +22,5 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.1.1]: https://github.com/danrayfr/unified/pull/1
 [0.1.0]: https://github.com/danrayfr/unified
