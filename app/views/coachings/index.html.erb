@@ -53,6 +53,9 @@
       <div class="py-8">
         <div>
           <h2 class="text-2xl font-semibold leading-tight">Coachings</h2>
+          <br />
+            <%= link_to "Add new coaching", new_account_coaching_path, class:"hover:shadow-form rounded-md bg-fern hover:bg-graphite py-3 px-8 text-base font-semibold text-white outline-none" %>
+          <br /><br />
         </div>
         <div class="my-2 flex sm:flex-row flex-col">
           <div class="flex flex-row mb-1 sm:mb-0">
@@ -127,10 +130,10 @@
             </table>
             <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
               <span class="text-xs xs:text-sm text-gray-900">
-                <%#== pagy_info(@pagy) %>
+                <%== pagy_info(@pagy) %>
               </span>
               <div class="inline-flex mt-2 xs:mt-0">
-                <%#== pagy_nav(@pagy) %>
+                <%== pagy_nav(@pagy) %>
               </div>
             </div>
           </div>
