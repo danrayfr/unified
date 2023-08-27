@@ -38,6 +38,7 @@ class User < ApplicationRecord
   has_many :tickets
   has_many :coachings
   has_and_belongs_to_many :accounts
+  has_many :comments, dependent: :destroy
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

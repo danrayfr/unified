@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_24_234923) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_27_071957) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,6 +80,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_234923) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_coachings_on_account_id"
     t.index ["user_id"], name: "index_coachings_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.boolean "pinned", default: false
+    t.bigint "ticket_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_id"], name: "index_comments_on_ticket_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -154,6 +164,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_24_234923) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "coachings", "accounts"
   add_foreign_key "coachings", "users"
+  add_foreign_key "comments", "tickets"
+  add_foreign_key "comments", "users"
   add_foreign_key "qualities", "tickets"
   add_foreign_key "ticket_details", "tickets"
   add_foreign_key "tickets", "accounts"

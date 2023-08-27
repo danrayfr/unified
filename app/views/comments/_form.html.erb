@@ -1,0 +1,18 @@
+<%= form_with(model: [account, ticket, Comment.new]) do |form| %>
+   <div class="mb-6">
+    <%= form.label :pinned, class: "mb-3 block text-base font-medium text-[#07074D]" %>
+    <%= form.check_box :pinned, checked_value: true, unchecked_value: false %>
+   </div>
+
+  <%= form.fields_for(:note, Note.new) do |note_form| %>
+    <div class="mb-6">
+      <%= note_form.label :note %>
+      <%= note_form.rich_text_area :content %>
+    </div>
+  <% end %>
+
+  <div class="mb-6">
+    <%= form.submit %>
+  </div>
+
+<% end %>

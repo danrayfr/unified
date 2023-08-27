@@ -173,14 +173,20 @@
                   </div>
                 </div>
                 <div class="relative flex items-center self-center w-full max-w-xl p-4 overflow-hidden text-gray-600 focus-within:text-gray-400">
-                  <div class="w-full">
-                    
+                  
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="w-full">
+                    <% @ticket.comments.each do |comment| %>
+                      <%= render 'comments/comment', account: @account, ticket: @ticket, comment: comment %>
+                      <%#= button_to 'Delete', account_ticket_comments_path(@account, @ticket, comment), method: :delete, data: { turbo_confirm: 'Are you sure?' }, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' %>
+                    <% end %>
+                    
+                    <%= render partial: 'comments/form', locals: { account: @account, ticket: @ticket } %>
       </div>
     </div>
   </div>

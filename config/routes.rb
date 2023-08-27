@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'coaching/index'
   resources :accounts do
     resources :tickets do
+      resources :comments, only: %i[create destroy]
       resource :qa, controller: :qualities, except: :index do
         member do
           get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
