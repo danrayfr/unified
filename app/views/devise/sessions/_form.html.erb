@@ -1,0 +1,30 @@
+<%= render "devise/shared/links" %>
+
+<div class="w-full flex items-center justify-between py-5">
+  <hr class="w-full bg-graphite" />
+  <p class="text-base font-medium leading-4 px-2.5 text-graphite">OR</p>
+  <hr class="w-full bg-graphite" />
+</div>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="mb-6">
+    <%= f.label :email, class:"text-sm font-medium leading-none text-gray-800" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2" %>
+  </div>
+
+  <div class="mb-6">
+    <%= f.label :password, class:"text-sm font-medium leading-none text-gray-800" %><br />
+    <%= f.password_field :password, autocomplete: "current-password", class:"bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2" %>
+  </div>
+
+  <% if devise_mapping.rememberable? %>
+    <div class="mb-6">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit "Log in", class:"focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-fern border rounded hover:bg-graphite py-4 w-full" %>
+  </div>
+<% end %>
