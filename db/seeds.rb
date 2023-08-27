@@ -11,12 +11,12 @@
 User.destroy_all
 Account.destroy_all
 
-danray = User.create!(email: 'danray@joinable.com', password: 'password', password_confirmation: 'password')
-genie = User.create!(email: 'genie@joinable.com', password: 'password', password_confirmation: 'password')
+admin = User.create!(email: 'admin@unified.com', password: 'password', password_confirmation: 'password', role: 'admin')
+qa = User.create!(email: 'qa@unified.com', password: 'password', password_confirmation: 'password', role: 'qa')
 
-account1 = Account.create!(name: 'Account 1', description: 'dadsadsa')
-account2 = Account.create!(name: 'Account 2', description: 'djkahfjkdsahfkjsda')
+projectq = Account.create!(name: 'Project Q', description: 'Technical Account')
+everpresent = Account.create!(name: 'Everpresent', description: 'Support Account ')
 
-account1.users << danray
-account1.users << genie
-account2.users << danray
+projectq.users << admin
+projectq.users << qa
+everpresent.users << admin

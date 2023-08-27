@@ -10,7 +10,8 @@ class CoachingsController < ApplicationController
   before_action :admin?, only: :destroy
 
   def index
-    @coachings = Coaching.all
+    # @coachings = Coaching.all
+    @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
   end
 
   def show; end
