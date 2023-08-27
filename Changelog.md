@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.1.2] : 2023-28-08
+
+### Update
+
+- Redesign ticket pages
+
 ## [0.1.1] : 2023-27-08
 
 ### Update
@@ -22,5 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.1.2]: https://github.com/danrayfr/unified/pull/3
 [0.1.1]: https://github.com/danrayfr/unified/pull/1
 [0.1.0]: https://github.com/danrayfr/unified
