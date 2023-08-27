@@ -2,7 +2,7 @@
 
 This is a Rails 7 app.
 
-Release version 0.1.0
+Release version 0.1.1
 
 ## Documentation
 
