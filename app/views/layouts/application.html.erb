@@ -16,7 +16,7 @@
       <% if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
         <%= render 'layouts/sidebar' %>
       <% else %>
-        <%= render 'layouts/navbar' %>
+        <%= render 'layouts/navbar' unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
       <% end %>
       <%= render 'shared/notifications' %>
     </header>
