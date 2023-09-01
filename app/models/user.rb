@@ -25,7 +25,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
@@ -42,6 +42,7 @@ class User < ApplicationRecord
   has_many :coachings, dependent: :destroy
   has_and_belongs_to_many :accounts
   has_many :comments, dependent: :destroy
+  has_many :invitees, class_name: 'User', foreign_key: :invited_by_id
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
