@@ -7,7 +7,7 @@
       </div>
       <%  if user_signed_in?%>
         <p class="text-gray-700 text-2xl">
-          Hello, <%= current_user.name %>
+          <%= greetings(current_user) %>
         </p>
       <% end %>
 

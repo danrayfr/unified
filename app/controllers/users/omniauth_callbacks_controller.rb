@@ -19,7 +19,8 @@ module Users
       else
         flash[:alert] =
           if user.present?
-            t 'devise.omniauth_callbacks.failure', kind: 'Google', reason: 'Email domain is not authorized. Please use your @supportninja.com provided email.'
+            t 'devise.omniauth_callbacks.failure', kind: 'Google',
+                                                   reason: 'Email domain is not authorized. Please use your @supportninja.com provided email.'
           else
             t 'devise.omniauth_callbacks.failure', kind: 'Google', reason: "#{auth.info.email} is not authorized."
           end

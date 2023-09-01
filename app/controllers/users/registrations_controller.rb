@@ -67,7 +67,7 @@ module Users
     end
 
     # The path used after sign up.
-    def after_sign_up_path_for(resource)
+    def after_sign_up_path_for(_resource)
       stored_location_for(resource_or_scope) || root_path(subdomain: 'internal')
     end
 

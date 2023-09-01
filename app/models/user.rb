@@ -26,14 +26,14 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+         :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
   before_validation :generate_uuid, on: :create
   before_validation :default_provider, on: :create
 
   validates :email, presence: true, uniqueness: true
-  validate :allowed_email_domain, on: :create
+  # validate :allowed_email_domain, on: :create
   validate :validate_account_limit, on: :update
 
   enum role: %i[agent qa manager operations admin]
@@ -93,7 +93,7 @@ class User < ApplicationRecord
   end
 
   def allowed_email_domain
-    return unless email.match(/\A[^@]+@supportninja\.com\z/i)
+    return if email.match(/\A[^@]+@supportninja\.com\z/i)
 
     errors.add(:email, 'must have an allowed email domain')
   end

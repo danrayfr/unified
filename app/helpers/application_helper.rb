@@ -56,4 +56,8 @@ module ApplicationHelper
   def extract_url(url)
     url.split('/').last
   end
+
+  def greetings(user)
+    "Hello, #{user.name}" unless user.name.nil?
+  end
 end

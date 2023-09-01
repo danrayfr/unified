@@ -17,6 +17,13 @@ module Users
     #   super
     # end
 
+    private
+
+    def after_confirmation_path_for(_resource_name, resource)
+      sign_in(resource) # In case you want to sign in the user
+      accounts_path
+    end
+
     # protected
 
     # The path used after resending confirmation instructions.
