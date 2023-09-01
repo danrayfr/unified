@@ -1,39 +1,75 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'coaching/index'
-  resources :accounts do
-    resources :tickets do
-      resources :comments, only: %i[create destroy]
-      resource :qa, controller: :qualities, except: :index do
-        member do
-          get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
+  # get 'coaching/index'
+  # resources :accounts do
+  #   resources :tickets do
+  #     resources :comments, only: %i[create destroy]
+  #     resource :qa, controller: :qualities, except: :index do
+  #       member do
+  #         get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
+  #       end
+  #       resources :notes, module: :accounts, only: :create
+  #     end
+  #   end
+# 
+  #   # QA is block in this resources.
+  #   authenticated :user, ->(user) { user.validate_coaching_access } do
+  #     resources :coachings do
+  #       resources :notes, module: :accounts, only: :create
+  #       member do
+  #         get 'acknowledgement', to: 'coachings#acknowledgement', as: 'acknowledgement'
+  #       end
+  #     end
+  #   end
+# 
+  #   post 'join', on: :member
+  #   post 'invite', on: :member
+  #   delete 'leave', on: :member
+  #   delete 'remove', on: :member
+  # end
+
+  # Route for the app subdomain
+  constraints subdomain: 'internal' do
+    # Add other app-specific routes here
+    root 'accounts#index', as: :accounts
+    resources :accounts do
+      resources :tickets do
+        resources :comments, only: %i[create destroy]
+        resource :qa, controller: :qualities, except: :index do
+          member do
+            get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
+          end
+          resources :notes, module: :accounts, only: :create
         end
-        resources :notes, module: :accounts, only: :create
       end
+  
+      # QA is block in this resources.
+      authenticated :user, ->(user) { user.validate_coaching_access } do
+        resources :coachings do
+          resources :notes, module: :accounts, only: :create
+          member do
+            get 'acknowledgement', to: 'coachings#acknowledgement', as: 'acknowledgement'
+          end
+        end
+      end
+  
+      post 'join', on: :member
+      post 'invite', on: :member
+      delete 'leave', on: :member
+      delete 'remove', on: :member
     end
 
-    # QA is block in this resources.
-    authenticated :user, ->(user) { user.validate_coaching_access } do
-      resources :coachings do
-        resources :notes, module: :accounts, only: :create
-        member do
-          get 'acknowledgement', to: 'coachings#acknowledgement', as: 'acknowledgement'
-        end
-      end
-    end
-
-    post 'join', on: :member
-    post 'invite', on: :member
-    delete 'leave', on: :member
-    delete 'remove', on: :member
+    devise_for :users, controllers: {
+      registrations: 'users/registrations',
+      sessions: 'users/sessions',
+      omniauth_callbacks: 'users/omniauth_callbacks'
+    }
   end
-
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions',
-    omniauth_callbacks: 'users/omniauth_callbacks'
-  }
-
-  root 'pages#home'
+  
+  # Route for the app subdomain
+  constraints subdomain: 'app' do
+    root 'pages#home'
+    # Add other app-specific routes here
+  end
 end

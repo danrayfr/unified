@@ -31,12 +31,14 @@ class User < ApplicationRecord
   before_validation :generate_uuid, on: :create
   before_validation :default_provider, on: :create
 
+  validates :email, presence: true, uniqueness: true
+  validate :allowed_email_domain, on: :create
   validate :validate_account_limit_per_role, on: :update
 
   enum role: %i[agent manager qa admin]
 
-  has_many :tickets
-  has_many :coachings
+  has_many :tickets, dependent: :destroy
+  has_many :coachings, dependent: :destroy
   has_and_belongs_to_many :accounts
   has_many :comments, dependent: :destroy
 
@@ -87,9 +89,16 @@ class User < ApplicationRecord
     role == 'agent'
   end
 
+  def allowed_email_domain
+    return unless email.match(/\A[^@]+@supportninja\.com\z/i)
+
+    errors.add(:email, 'must have an allowed email domain')
+  end
+
   private
 
-  # Generate a random number for uuid, since I don't want the field uuid to be empty.
+  # Generate a random number for uuid, since we don't want the attribute uuid to be empty,
+  # and attribute can also be use to identify user.
   def generate_uuid
     self.uid ||= SecureRandom.uuid
   end
