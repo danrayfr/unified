@@ -8,37 +8,56 @@
 # email                       :string
 # title                       :string
 # role                        :integer                default(0)
+# account_limit               :integer                default(1)
 # encrypted_password          :string                 not null, default('')
 # reset_password_token        :string
 # reset_password_sent_at      :datetime
 # remember_created_at         :datetime
 # created_at                  :datetime               not null
 # updated_at                  :datetime               not null
+# invitation_token            :string
+# invitation_created_at       :datetime
+# invitation_sent_at          :datetime
+# invitation_accepted_at      :datetime
+# invitation_limit            :integer
+# invited_by_type             :string
+# invited_by_id               :bigint
+# invitations_count           :integer                default(0)
+# confirmation_token          :string
+# confirmed_at                :datetime
+# confirmation_sent_at        :datetime
 #
 # Indexes
 #
-# index_users_on_email
-# index_users_on_reset_password_token
+# index_users_on_confirmation_token                   (confirmation_token)
+# index_users_on_email                                (email)
+# index_users_on_invitation_token                     (invitation_token)
+# index_users_on_invited_by_id                        (invited_by_id)
+# index_users_on_invited_by
+# index_users_on_reset_password_token                 (reset_password_token)
 #
 
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
+  devise :invitable, :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
-  before_validation :generate_uuid, on: :create
-  before_validation :default_provider, on: :create
+  # before_validation :generate_uuid, on: :create
+  # before_validation :default_provider, on: :create
 
-  validate :validate_account_limit_per_role, on: :update
+  validates :email, presence: true, uniqueness: true
+  # validate :allowed_email_domain, on: :create
+  validate :validate_account_limit, on: :update
+  
+  enum role: %i[agent qa manager operations admin client]
 
-  enum role: %i[agent manager qa admin]
-
-  has_many :tickets
-  has_many :coachings
+  has_many :tickets, dependent: :destroy
+  has_many :coachings, dependent: :destroy
   has_and_belongs_to_many :accounts
   has_many :comments, dependent: :destroy
+  has_many :invitees, class_name: 'User', foreign_key: :invited_by_id
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -53,18 +72,11 @@ class User < ApplicationRecord
     end
   end
 
-  # Responsible for validating user account limit per role,
-  # agent = 1, manager = 2, QA = 3 or more.
-  def validate_account_limit_per_role
-    if agent? && accounts.size >= 1
-      false
-    elsif manager? && accounts.size >= 2
-      false
-    elsif qa? && accounts.size >= 3
-      false
-    else
-      true
-    end
+  # Responsible for validating user account limit per role.
+  def validate_account_limit
+    return if operations? || admin?
+
+    account_limit == accounts.size
   end
 
   def validate_coaching_access
@@ -87,9 +99,24 @@ class User < ApplicationRecord
     role == 'agent'
   end
 
+  def operations?
+    role == 'operations'
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  def allowed_email_domain
+    return unless email.match(/\A[^@]+@supportninja\.com\z/i)
+
+    errors.add(:email, 'must have an allowed email domain')
+  end
+
   private
 
-  # Generate a random number for uuid, since I don't want the field uuid to be empty.
+  # Generate a random number for uuid, since we don't want the attribute uuid to be empty,
+  # and attribute can also be use to identify user.
   def generate_uuid
     self.uid ||= SecureRandom.uuid
   end

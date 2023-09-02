@@ -121,7 +121,7 @@ class AccountsController < ApplicationController
   # Confirm if the user and their role can have multiple accounts,
   # Both Manager and QA are allow to multiple accounts.
   def validate_before_joining(user)
-    return if user.validate_account_limit_per_role
+    return if user.validate_account_limit
 
     redirect_to accounts_url, notice: "#{user.email} have reach your maximum account allowed."
   end

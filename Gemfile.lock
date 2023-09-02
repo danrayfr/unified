@@ -96,6 +96,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_invitable (2.0.8)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     dotenv (2.8.1)
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
@@ -296,6 +299,7 @@ DEPENDENCIES
   capybara
   debug
   devise
+  devise_invitable (~> 2.0.0)
   dotenv-rails
   friendly_id (~> 5.4.0)
   image_processing (~> 1.2)
