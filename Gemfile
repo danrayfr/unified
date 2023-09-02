@@ -80,6 +80,7 @@ group :test do
 end
 
 gem 'devise'
+gem 'devise_invitable', '~> 2.0.0'
 gem 'dotenv-rails'
 gem 'friendly_id', '~> 5.4.0'
 gem 'omniauth'

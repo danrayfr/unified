@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.2.0] : 2023-03-09
+
+### Added
+
+- Added account limit attributes
+- Added devise confirmable
+- Added devise invitation for client
+
 ## [0.1.2] : 2023-28-08
 
 ### Update
