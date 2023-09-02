@@ -15,11 +15,26 @@
 # remember_created_at         :datetime
 # created_at                  :datetime               not null
 # updated_at                  :datetime               not null
+# invitation_token            :string
+# invitation_created_at       :datetime
+# invitation_sent_at          :datetime
+# invitation_accepted_at      :datetime
+# invitation_limit            :integer
+# invited_by_type             :string
+# invited_by_id               :bigint
+# invitations_count           :integer                default(0)
+# confirmation_token          :string
+# confirmed_at                :datetime
+# confirmation_sent_at        :datetime
 #
 # Indexes
 #
-# index_users_on_email
-# index_users_on_reset_password_token
+# index_users_on_confirmation_token                   (confirmation_token)
+# index_users_on_email                                (email)
+# index_users_on_invitation_token                     (invitation_token)
+# index_users_on_invited_by_id                        (invited_by_id)
+# index_users_on_invited_by
+# index_users_on_reset_password_token                 (reset_password_token)
 #
 
 class User < ApplicationRecord
@@ -29,11 +44,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :confirmable,
          :omniauthable, omniauth_providers: [:google_oauth2]
 
-  before_validation :generate_uuid, on: :create
-  before_validation :default_provider, on: :create
+  # before_validation :generate_uuid, on: :create
+  # before_validation :default_provider, on: :create
 
   validates :email, presence: true, uniqueness: true
-  # validate :allowed_email_domain, on: :create
+  validate :allowed_email_domain, on: :create
   validate :validate_account_limit, on: :update
 
   enum role: %i[agent qa manager operations admin]
@@ -93,7 +108,7 @@ class User < ApplicationRecord
   end
 
   def allowed_email_domain
-    return if email.match(/\A[^@]+@supportninja\.com\z/i)
+    return unless email.match(/\A[^@]+@supportninja\.com\z/i)
 
     errors.add(:email, 'must have an allowed email domain')
   end

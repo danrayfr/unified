@@ -11,8 +11,8 @@
 User.destroy_all
 Account.destroy_all
 
-admin = User.create!(email: 'admin@unified.com', password: 'password', password_confirmation: 'password', role: 'admin')
-qa = User.create!(email: 'qa@unified.com', password: 'password', password_confirmation: 'password', role: 'qa')
+admin = User.create!(email: 'ninjafied@supportninja.com', password: 'password', password_confirmation: 'password', role: 'admin')
+qa = User.create!(email: 'qa@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa')
 
 projectq = Account.create!(name: 'Project Q', description: 'Technical Account')
 everpresent = Account.create!(name: 'Everpresent', description: 'Support Account ')
