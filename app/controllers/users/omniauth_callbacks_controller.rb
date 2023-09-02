@@ -13,6 +13,7 @@ module Users
       user = User.from_omniauth(auth)
 
       if user.present? && user.allowed_email_domain
+        user.update(uid: auth.uid)
         sign_out_all_scopes
         flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
         sign_in_and_redirect user, event: :authentication

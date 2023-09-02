@@ -11,7 +11,7 @@
 
     <div class="field">
       <%= f.label :role %><br />
-      <%= f.select :role, [['Agent', 'agent'], ['Manager', 'manager'], ['QA', 'qa'], ['Operations', 'operations']], prompt: 'Select Role' %>
+      <%= f.hidden_field :role, value: 'client' %>
     </div>
   <% end -%>
 

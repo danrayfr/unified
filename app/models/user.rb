@@ -48,10 +48,10 @@ class User < ApplicationRecord
   # before_validation :default_provider, on: :create
 
   validates :email, presence: true, uniqueness: true
-  validate :allowed_email_domain, on: :create
+  # validate :allowed_email_domain, on: :create
   validate :validate_account_limit, on: :update
-
-  enum role: %i[agent qa manager operations admin]
+  
+  enum role: %i[agent qa manager operations admin client]
 
   has_many :tickets, dependent: :destroy
   has_many :coachings, dependent: :destroy
