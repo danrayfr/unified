@@ -2,39 +2,28 @@
   <tr>
     <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
       <div>
-        <h2 class="font-medium text-gray-800 capitalize"><%= link_to account.name, account_path(account) %></h2>
-        <!--p class="text-sm font-normal text-gray-600"><%= account.uid %></p-->
+        <h2 class="font-medium text-gray-800 capitalize">
+          <%= link_to account.name, account_path(account) %>
+        </h2>
       </div>
     </td>
     <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
       <%= site_with_color(account) %>
-      <!--div class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-700 gap-x-2 bg-emerald-100/60">
-      </div-->
     </td>
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div class="flex items-center">
         <% account.users.limit(5).each do |user| %> 
-          <%= image_renderer(user.avatar_url, class: 'object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full shrink-0') %>
-        <% end %>
-
+          <%= image_renderer(user.avatar_url, class: 'object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full shrink-0') %> 
+        <% end %> 
         <% if account.users.count > 5 %>
           <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full"><%= account.users.count - 3%></p>
         <% end %>
       </div>
     </td>
-
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
         <div class="bg-blue-500 w-2/3 h-1.5"></div>
       </div>
-    </td>
-
-    <td class="px-4 py-4 text-sm whitespace-nowrap">
-      <button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z" />
-        </svg>
-      </button>
     </td>
   </tr>
 </div>

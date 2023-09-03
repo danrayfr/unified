@@ -3,10 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="filter"
 export default class extends Controller {
   static targets = ["select"];
-  connect() {
-    console.log("Hello, Stimulus!", this.element);
-    console.log(this.selectTarget.value);
-  }
   filterAccounts() {
     const filter_by = this.selectTarget.value;
     // const url = `/accounts?filter_by=${filter_by}`;
@@ -41,7 +37,6 @@ export default class extends Controller {
       });
   }
   update() {
-    console.log("update");
     this.filterAccounts();
   }
 }

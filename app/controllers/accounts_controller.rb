@@ -19,7 +19,6 @@ class AccountsController < ApplicationController
       format.html
       format.turbo_stream
     end
-
   end
 
   def show
@@ -136,7 +135,7 @@ class AccountsController < ApplicationController
   end
 
   def filter_by
-    filtered = case params[:filter_by]
+    case params[:filter_by]
     when 'hideout'
       Account.where(site: 'hideout').all
     when 'sanctum'
