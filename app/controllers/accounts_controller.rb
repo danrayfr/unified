@@ -10,7 +10,8 @@ class AccountsController < ApplicationController
   before_action :set_account, except: %i[index new create]
 
   def index
-    @accounts = Account.all.order(created_at: :asc)
+    @pagy, @accounts = pagy(Account.includes(:users).order(created_at: :asc))
+    @total_accounts = Account.count
   end
 
   def show
@@ -103,7 +104,7 @@ class AccountsController < ApplicationController
   end
 
   def account_params
-    params.require(:account).permit(:name, :description)
+    params.require(:account).permit(:name, :description, :site, :enable_kpi)
   end
 
   def authenticate_account_access
