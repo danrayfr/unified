@@ -26,7 +26,7 @@
 
 class Account < ApplicationRecord
   extend FriendlyId
-  Pagy::DEFAULT[:items] = 8
+  Pagy::DEFAULT[:items] = 20
   friendly_id :name, use: %i[slugged history finders]
 
   before_validation :generate_uuid, on: :create

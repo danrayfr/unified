@@ -10,8 +10,16 @@ class AccountsController < ApplicationController
   before_action :set_account, except: %i[index new create]
 
   def index
-    @pagy, @accounts = pagy(Account.includes(:users).order(created_at: :asc))
+    filtered = filter_by
+
+    @pagy, @accounts = pagy(filtered.includes(:users).order(created_at: :asc))
     @total_accounts = Account.count
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
+
   end
 
   def show
@@ -125,5 +133,20 @@ class AccountsController < ApplicationController
     return if user.validate_account_limit
 
     redirect_to accounts_url, notice: "#{user.email} have reach your maximum account allowed."
+  end
+
+  def filter_by
+    filtered = case params[:filter_by]
+    when 'hideout'
+      Account.where(site: 'hideout').all
+    when 'sanctum'
+      Account.where(site: 'sanctum').all
+    when 'foundry'
+      Account.where(site: 'foundry').all
+    when 'remote'
+      Account.where(site: 'remote').all
+    else
+      Account.all
+    end
   end
 end
