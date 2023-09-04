@@ -44,6 +44,8 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.3.0]: https://github.com/danrayfr/unified/pull/6
+[0.2.0]: https://github.com/danrayfr/unified/pull/5
 [0.1.2]: https://github.com/danrayfr/unified/pull/3
 [0.1.1]: https://github.com/danrayfr/unified/pull/1
 [0.1.0]: https://github.com/danrayfr/unified
