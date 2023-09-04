@@ -7,6 +7,9 @@
 # name                        :string
 # description                 :string
 # slug                        :string
+# site                        :integer
+# enable_kpi                  :boolean                default(true)
+# status                      :integer                default(0)
 # created_at                  :datetime               not null
 # updated_at                  :datetime               not null
 #
@@ -23,11 +26,15 @@
 
 class Account < ApplicationRecord
   extend FriendlyId
+  Pagy::DEFAULT[:items] = 20
   friendly_id :name, use: %i[slugged history finders]
 
   before_validation :generate_uuid, on: :create
   validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
   validates :description, presence: true, length: { maximum: 255 }
+
+  enum :site, %i[hideout sanctum foundry remote]
+  enum :status, %i[active inactive pending]
 
   has_and_belongs_to_many :users
   has_many :tickets

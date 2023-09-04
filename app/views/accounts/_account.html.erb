@@ -1,42 +1,29 @@
-<div id="<%= dom_id(account) %>">
-  <div class="p-6 border shadow-xl rounded-xl block hover:shadow-lg transition ease-in duration-300 relative overflow-hidden">
-    <div class="h-1 w-full absolute top-0 left-0 right-0" style="background-color: gray;"></div>
-    <div class="py-10 px-8">
-      <h3 class="font-bold text-4xl text-gray-600 py-5 hover:text-gray-700"><%= link_to account.name, account_path(account) %></h3>
-      <div class="text-gray-600 text-sm font-medium flex mb-4 mt-2 hover:text-black transition duration-300 ease-in-out">
-        <p><%= account.uid %></p>
+<div id="<%= dom_id(account) %> ">
+  <tr>
+    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+      <div>
+        <h2 class="font-medium text-gray-800 capitalize">
+          <%= link_to account.name, account_path(account) %>
+        </h2>
       </div>
-      <p class="leading-7">
-        <%= account.description %>
-      </p>
-      <div class="mt-10 flex justify-between items-center">
-        <div>
-        <% if account.users.any? %>
-          <h3 class="uppercase font-weight-300 text-sm mt-6">Members</h3>
-          <div class="flex -space-x-3 mt-2">
-          <% account.users.each do |user| %> 
-            <%= image_renderer(user.avatar_url, class: 'w-10 h-10 border-2 border-gray-200 rounded-full') %> 
-          <% end %>
-        </div >
-        <% end %>
-        </div>
-        <% if account.users.include?(current_user) %>
-        <%= link_to account_tickets_path(account), class:"flex items-center" do %>
-          <p class="mr-4">Go to Dashboard</p>
-          <svg xmlns="http://www.w3.org/2000/svg" width="14.125" height="13.358" viewBox="0 0 14.125 13.358">
-            <g transform="translate(-3 -3.293)">
-              <path id="Path_7" data-name="Path 7" d="M14.189,10.739H3V9.2H14.189L9.361,4.378l1.085-1.085,6.679,6.679-6.679,6.679L9.361,15.566Z" fill="#1d1d1d" fill-rule="evenodd"></path>
-            </g>
-          </svg>
+    </td>
+    <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+      <%= site_with_color(account) %>
+    </td>
+    <td class="px-4 py-4 text-sm whitespace-nowrap">
+      <div class="flex items-center">
+        <% account.users.limit(5).each do |user| %> 
+          <%= image_renderer(user.avatar_url, class: 'object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full shrink-0') %> 
         <% end %> 
+        <% if account.users.count > 5 %>
+          <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full"><%= account.users.count - 3%></p>
         <% end %>
       </div>
-
-      <% if current_user.manager? %>
-        <div class="mt-6 text-gray-600">
-          <% if account.users.include?(current_user) %> <%= button_to 'Leave', leave_account_path(account), method: :delete %> <% else %> <%= button_to 'Join', join_account_path(account), method: :post %> <% end %>
-        </div>
-      <% end %>
-    </div>
-  </div>
+    </td>
+    <td class="px-4 py-4 text-sm whitespace-nowrap">
+      <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
+        <div class="bg-blue-500 w-2/3 h-1.5"></div>
+      </div>
+    </td>
+  </tr>
 </div>
