@@ -1,22 +1,63 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
+# frozen_string_literal: true
 
 User.destroy_all
 Account.destroy_all
 
-admin = User.create!(email: 'ninjafied@supportninja.com', password: 'password', password_confirmation: 'password', role: 'admin', confirmed_at: Time.now)
-qa = User.create!(email: 'qa@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa', confirmed_at: Time.now)
+# Create admin and qa users
+admin = User.create!(email: 'ninjafied@supportninja.com', password: 'password', password_confirmation: 'password',
+                     role: 'admin', confirmed_at: Time.now)
+qa = User.create!(email: 'qa@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa',
+                  confirmed_at: Time.now)
 
+# Create accounts
 projectq = Account.create!(name: 'Project Q', description: 'Technical Account')
-everpresent = Account.create!(name: 'Everpresent', description: 'Support Account ')
+everpresent = Account.create!(name: 'Everpresent', description: 'Support Account')
 
+# Assign users to accounts
 projectq.users << admin
 projectq.users << qa
 everpresent.users << admin
+
+# Set the desired number of Faker accounts to generate
+num_accounts_to_generate = 1000
+
+# Initialize an array to track used names
+used_names = []
+used_account_names = []
+
+# Loop to generate and save users and accounts
+num_accounts_to_generate.times do
+  name = Faker::Name.name
+  account_name = Faker::Company.name
+
+  # Ensure the generated name is unique
+  name = Faker::Name.name while used_names.include?(name)
+
+  account_name = Faker::Company.name while used_account_names.include?(account_name)
+
+  used_names << name
+  used_account_names << account_name
+
+  # Create a new user with a unique name and random data
+  faker_user = User.create!(
+    name:,
+    email: Faker::Internet.email,
+    password: 'password',
+    password_confirmation: 'password',
+    confirmed_at: Time.now,
+    role: User.roles.keys.sample
+  )
+
+  # Create a new account with random data
+  faker_account = Account.create!(
+    name: account_name,
+    description: Faker::Lorem.sentence,
+    site: Account.sites.keys.sample,
+    enable_kpi: Faker::Boolean.boolean
+  )
+
+  # Assign the user to the account
+  faker_account.users << faker_user
+end

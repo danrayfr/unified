@@ -50,7 +50,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   # validate :allowed_email_domain, on: :create
   validate :validate_account_limit, on: :update
-  
+
   enum role: %i[agent qa manager operations admin client]
 
   has_many :tickets, dependent: :destroy

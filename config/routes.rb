@@ -32,8 +32,9 @@ Rails.application.routes.draw do
   # Route for the app subdomain
   constraints subdomain: 'internal' do
     # Add other app-specific routes here
-    root 'accounts#index', as: :accounts
+    root 'accounts#index', as: :account_root
     resources :accounts do
+      # post 'create', on: :collection
       resources :tickets do
         resources :comments, only: %i[create destroy]
         resource :qa, controller: :qualities, except: :index do
