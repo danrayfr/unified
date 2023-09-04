@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.3.0] : 2023-04-09
+
+### Added
+
+- Added site, enable kpi, status attributes on account
+- Redesign accounts index from cards to table
+- Implement pagy and filter by site
+
 ## [0.2.0] : 2023-03-09
 
 ### Added

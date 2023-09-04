@@ -12,7 +12,7 @@ class AccountsController < ApplicationController
   def index
     filtered = filter_by
 
-    @pagy, @accounts = pagy(filtered.includes(:users).order(created_at: :asc))
+    @pagy, @accounts = pagy(filtered.includes(:users).all)
     @total_accounts = Account.count
 
     respond_to do |format|
