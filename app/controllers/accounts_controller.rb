@@ -2,7 +2,7 @@ require 'pry'
 
 class AccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :admin?, except: %i[index show join leave invite remove]
+  before_action :admin?, except: %i[index show join leave invite remove accept_invitation edit update]
   # before_action :validate_before_joining, only: %i[join invite]
   # before_action :authenticate_account_access, only: :show
   before_action :authenticate_remove_access, only: :remove
