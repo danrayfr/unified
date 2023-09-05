@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.4.1] : 2023-06-09
+
+### Update
+
+- Update html mailer of devise confirmation and invitation
+
 ## [0.4.0] : 2023-06-09
 
 ### Added
@@ -50,6 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.4.1]: https://github.com/danrayfr/unified/pull/8
 [0.4.0]: https://github.com/danrayfr/unified/pull/7
 [0.3.0]: https://github.com/danrayfr/unified/pull/6
 [0.2.0]: https://github.com/danrayfr/unified/pull/5
