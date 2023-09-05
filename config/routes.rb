@@ -57,8 +57,10 @@ Rails.application.routes.draw do
   
       post 'join', on: :member
       post 'invite', on: :member
+      match 'accept_invitation/:token', to: 'accounts#accept_invitation', as: 'accept_invitation', via: [:get, :post]
       delete 'leave', on: :member
       delete 'remove', on: :member
+
     end
 
     devise_for :users, controllers: {

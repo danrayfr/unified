@@ -12,6 +12,8 @@ module Users
     def google_oauth2
       user = User.from_omniauth(auth)
 
+      # Use allowed_email_domain method here, instead on User model. To still allow signing up user
+      # with other email domain, specially inviting user as a client.
       if user.present? && user.allowed_email_domain
         user.update(uid: auth.uid)
         sign_out_all_scopes

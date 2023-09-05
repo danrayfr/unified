@@ -10,9 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_03_155424) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_152319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "account_invitations", force: :cascade do |t|
+    t.boolean "accepted"
+    t.datetime "accepted_at"
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "token"
+    t.datetime "expires_at"
+    t.index ["account_id"], name: "index_account_invitations_on_account_id"
+    t.index ["token"], name: "index_account_invitations_on_token", unique: true
+    t.index ["user_id"], name: "index_account_invitations_on_user_id"
+  end
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
@@ -179,6 +193,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_03_155424) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "account_invitations", "accounts"
+  add_foreign_key "account_invitations", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "coachings", "accounts"

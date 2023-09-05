@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add your CSS and other dependencies here -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet" />
+  </head>
+  <body style="margin: 0; padding: 0;" dir="ltr" bgcolor="#ffffff">
+    <span style="display: none !important; font-size: 1px;">Account Invitation</span>
+    <div style="width: 100%; background: white; color: #555;">
+      <div class="email-wrapper" style="max-width: 600px; margin: auto;">
+        <table class="email-header" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="border-spacing: 0; border-collapse: collapse; max-width: 600px; margin: 0 auto;">
+          <tbody>
+            <tr>
+              <td style="font-family: 'Helvetica Neue', sans-serif; color: #999; font-size: 13px; line-height: 1.6; padding: 20px 0;" align="center">
+                  <%= image_tag("https://lever-client-logos.s3.us-west-2.amazonaws.com/2751e796-440e-4844-8ebf-6bb9bb87977f-1680092675313.png", style:"height: auto; line-height: 100%; outline: none; text-decoration: none; max-width: 400px !important; border: 0;",alt:"supportninja", width:"200")  %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="email-body" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="border-spacing: 0; border-collapse: collapse; max-width: 600px; margin: 0 auto;" bgcolor="#ffffff">
+          <tbody>
+            <tr>
+              <td>
+                <table border="0" cellpadding="30" cellspacing="0" width="100%" style="border-spacing: 0; border-collapse: collapse; margin: 0 auto;">
+                  <tbody>
+                    <tr>
+                      <td valign="top" style="font-family: 'Helvetica Neue', sans-serif; color: #444; font-size: 14px; line-height: 150%;">
+                        <p style="font-size: 14px; color: #222222;">
+                          Hi <%= @invitation.user.name || @invitation.user.email %>!
+                        </p>
+                        <p style="margin-top: 15px; margin-bottom: 15px; font-size: 14px; color: #222222; line-height: 2;">
+                          You have been invited to join the account:&nbsp; <span style="font-weight: bold;"><%= @invitation.account.name %></span>.&nbsp; You can have access to this account, once
+                          you accept the invite.
+                          <br /><br />
+                          <span style="color: #222222;">Best of luck!</span>
+                        </p>
+
+                        <p style="text-align: center;">
+                          <%= link_to 'Accept Invitation', account_accept_invitation_url(@invitation.account, token: @invitation.token, subdomain: 'internal'),
+                          style:"
+                              border: 1px solid #003822;
+                              text-decoration: none;
+                              color: #fff;
+                              font-size: 14px;
+                              padding: 10px 20px;
+                              background: #003822;
+                              border-radius: 3px;
+                              display: block;
+                              margin: 30px auto;
+                              width: 120px;
+                              text-align: center;
+                              cursor: pointer;
+                              font-weight: bold; 
+                            "
+                          %>
+                        </p>
+
+                        <p style="margin-top: 15px; margin-bottom: 15px; font-size: 14px; color: #222222;">
+                          If you need additional assistance, please visit our&nbsp;
+                          <a href="help_center" style="text-decoration: underline; cursor: pointer; color: #003822; font-weight: bold;">Help Center</a>
+                          <br />
+                          Best,
+                          <br />
+                          The <%= @invitation.account.name %> team
+                        </p>
+
+                        <hr style="border: none; border-bottom-width: 1px; border-bottom-color: #eee; border-bottom-style: solid;" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="email-footer" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="border-spacing: 0; border-collapse: collapse; max-width: 600px; margin: 0 auto;">
+          <tbody>
+            <tr>
+              <td style="font-family: 'Helvetica Neue', sans-serif; color: #003822; font-size: 12px; line-height: 1.6; padding: 30px 5%;" align="center">
+                <div style="margin-top: 10px;"><span class="il">© Ninja Asia Inc.</span> &nbsp;•&nbsp; <span class="il">Ninjafied</span> &nbsp;•&nbsp; All rights reserved</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
+
