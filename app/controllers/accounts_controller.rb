@@ -105,16 +105,16 @@ class AccountsController < ApplicationController
   def accept_invitation # rubocop:disable Metrics/AbcSize
     invitation = AccountInvitation.find_by(token: params[:token])
 
-    if invitation
-      if invitation.expires_at >= Time.now
-        invitation.update(accepted: true, accepted_at: Time.now)
-        invitation.account.users << invitation.user
-        redirect_to account_path(invitation.account), notice: 'Invitation accepted, user added to the account.'
-      else
-        redirect_to root_path, alert: 'Invitation already expired, please create a new one.'
-      end
+    redirect_to root_path, alert: 'Invalid invitation link.' unless invitation
+
+    if invitation.account.users.include?(invitation.user)
+      redirect_to root_path, alert: 'User already a member'
+    elsif invitation.expires_at >= Time.now
+      invitation.update(accepted: true, accepted_at: Time.now)
+      invitation.account.users << invitation.user
+      redirect_to account_path(invitation.account), notice: 'Invitation accepted, user added to the account.'
     else
-      redirect_to root_path, alert: 'Invalid invitation link.'
+      redirect_to root_path, alert: 'Invitation already expired, please create a new one.'
     end
   end
   # rubocop:enable Metrics/MethodLength
