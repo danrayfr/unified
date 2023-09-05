@@ -21,7 +21,7 @@ projectq.users << qa
 everpresent.users << admin
 
 # Set the desired number of Faker accounts to generate
-num_accounts_to_generate = 1000
+num_accounts_to_generate = 50
 
 # Initialize an array to track used names
 used_names = []
