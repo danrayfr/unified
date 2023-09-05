@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.4.0] : 2023-06-09
+
+### Added
+
+- Implement invite/accept to account with mailer
+
 ## [0.3.0] : 2023-04-09
 
 ### Added
@@ -44,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.4.0]: https://github.com/danrayfr/unified/pull/7
 [0.3.0]: https://github.com/danrayfr/unified/pull/6
 [0.2.0]: https://github.com/danrayfr/unified/pull/5
 [0.1.2]: https://github.com/danrayfr/unified/pull/3
