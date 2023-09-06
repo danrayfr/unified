@@ -8,11 +8,19 @@ class QaTemplatesController < ApplicationController
     @templates = QaTemplate.all
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @template.to_json(include: { note: { only: %i[id content] } }) }
+    end
+  end
+
+  # BASE_SCORE = 100
 
   def new
     @template = @account.qa_templates.build
     @template.build_note
+    # @rating = BASE_SCORE
   end
 
   def create

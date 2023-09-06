@@ -26,5 +26,3 @@ class QaTemplate < ApplicationRecord
 
   validates :name, presence: true
 end
-
-# metric_name, deduction, check

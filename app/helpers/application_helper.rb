@@ -63,7 +63,7 @@ module ApplicationHelper
 
   def template_status(template)
     published = template.published ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-    published_status = template.published ? 'Publish' : 'Unpublish'
+    published_status = template.published ? 'Publish' : 'Not publish'
 
     content_tag(:div, published_status, class: "inline px-3 py-1 text-sm font-normal rounded-full #{published} gap-x-2")
   end

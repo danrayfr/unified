@@ -1,33 +1,52 @@
 <div class="flex items-center justify-center p-12">
 <div class="mx-auto w-full max-w-[1000px]">
-<%= form_with(model: [account, ticket, @quality], url: account_ticket_qa_path(account, ticket)) do |form|  %>
+<%= form_with(model: [account, ticket, @quality], url: account_ticket_qa_path(account, ticket), data: { controller: "quality-form" }) do |form|  %>
   <%= render 'shared/error_messages', object: form.object %>
 
   <%= form.hidden_field :ticket_id, value: @ticket.id %>
 
   <%= form.hidden_field :quality_id, value: @quality.id %>
 
+  <%= form.hidden_field :account_id, value: account.id, data: { quality_form_target: "currentAccount" } %>
+
+  <!--div id="score-display" data-quality-form-target="scoreDisplay">Score: 100</div-->
+
+  <%= form.number_field :rating, value: 100, data: { quality_form_target:"ratingInput" } %>
+
   <div class="mb-6">
-    <%= form.label :rating, class:"mb-3 block text-base font-medium text-[#07074D]" %>
-    <%= form.number_field :rating, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+    <%= form.label :qa_template_id, class: "mb-3 block text-base font-medium text-[#07074D]" %>
+    <%= form.collection_select :qa_template_id, QaTemplate.all, :id, :name, {}, { id: "qa-template-select", data: { quality_form_target:"templateSelect", action: "change->quality-form#updateFormFields" } } %>
+  </div>
+
+  <div class="mb-6">
+    <%#= form.label :note, class: "mb-3 block text-base font-medium text-[#07074D]" %>
+    <%#= form.text_area :note, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", data: { quality_form_target: "noteField" } %>
+  </div>
+
+  <div id="metric-checkboxes" data-quality-form-target="metricCheckboxes"></div>
+
+  <div class="mb-6">
+    <%#= form.label :rating, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+    <%#= form.number_field :rating, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
   </div>
 
   <%= form.fields_for(:note, @note) do |note_form| %>
-    <% if current_user.agent? %>
-      <div class="mb-6">
-        <%= note_form.label :note, class:"mb-3 block text-base font-medium text-[#07074D]" %>
-        <div class="trix-editor" data-trix-target="content" contenteditable="false">
-          <%= @note.content %>
-        </div>
-        <%= note_form.hidden_field :content, value: @note.content %>
-      </div>
-    <% else %>
-      <div class="mb-6">
-        <%= note_form.label :note %>
-        <%= note_form.rich_text_area :content, value: @note.content  %>
-      </div>
-    <% end %>
+    <div class="mb-6">
+      <%= note_form.label :note %>
+      <% if @quality.new_record? %>
+        <% if current_user.agent? %>
+          <div class="trix-editor" data-trix-target="content" contenteditable="false">
+            <%= @note.content %>
+          </div>
+        <% else %>
+          <%= note_form.rich_text_area :content, data: { quality_form_target: "noteField" } %>
+        <% end %>
+      <% else %>
+       <%= note_form.rich_text_area :content, value: @note.content, data: { quality_form_target: "noteField", editing: @quality.persisted? } %>
+      <% end %>
+    </div>
   <% end %>
+  
 
   <div class="mb-6">
     <% if current_user.agent? %>
@@ -42,3 +61,7 @@
 <% end %>
 </div>
 </div>
+
+<script>
+  var isEditing = <%= @quality.persisted? ? 'true' : 'false' %>;
+</script>
