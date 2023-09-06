@@ -2,9 +2,9 @@ require 'pry'
 
 class AccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :admin?, except: %i[index show join leave invite remove]
-  # before_action :validate_before_joining, only: %i[join invite]
-  # before_action :authenticate_account_access, only: :show
+  before_action :admin?, except: %i[index show join leave invite remove accept_invitation edit update]
+  before_action :validate_before_joining, only: %i[join invite]
+  before_action :authenticate_account_access, only: :show
   before_action :authenticate_remove_access, only: :remove
   # TODO: Implement helper, only admin or role that are similar to admin can create new account.
   before_action :set_account, except: %i[index new create accept_invitation]
@@ -12,7 +12,7 @@ class AccountsController < ApplicationController
   def index
     filtered_accounts = filter_by_site
 
-    @pagy, @accounts = pagy(filtered_accounts.order(created_at: :asc))
+    @pagy, @accounts = pagy(filtered_accounts)
     @total_accounts = Account.count
 
     respond_to do |format|
@@ -105,16 +105,16 @@ class AccountsController < ApplicationController
   def accept_invitation # rubocop:disable Metrics/AbcSize
     invitation = AccountInvitation.find_by(token: params[:token])
 
-    if invitation
-      if invitation.expires_at >= Time.now
-        invitation.update(accepted: true, accepted_at: Time.now)
-        invitation.account.users << invitation.user
-        redirect_to account_path(invitation.account), notice: 'Invitation accepted, user added to the account.'
-      else
-        redirect_to root_path, alert: 'Invitation already expired, please create a new one.'
-      end
+    redirect_to root_path, alert: 'Invalid invitation link.' unless invitation
+
+    if invitation.account.users.include?(invitation.user)
+      redirect_to root_path, alert: 'User already a member'
+    elsif invitation.expires_at >= Time.now
+      invitation.update(accepted: true, accepted_at: Time.now)
+      invitation.account.users << invitation.user
+      redirect_to account_path(invitation.account), notice: 'Invitation accepted, user added to the account.'
     else
-      redirect_to root_path, alert: 'Invalid invitation link.'
+      redirect_to root_path, alert: 'Invitation already expired, please create a new one.'
     end
   end
   # rubocop:enable Metrics/MethodLength

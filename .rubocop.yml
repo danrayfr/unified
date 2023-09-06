@@ -4,6 +4,10 @@ AllCops:
     - config/locales/devise.en.yml
     - db/migrate/*
     - config/routes.rb
+    - config/environments/development.rb
+    - app/controllers/users/omniauth_callbacks_controller.rb
+    - app/controllers/accounts_controller.rb
+    - app/models/user.rb
   Style/MultilineTernaryOperator:
 Style/Documentation:
   Enabled: false
@@ -15,3 +19,4 @@ Style/NumericPredicate:
   Enabled: false
 Style/MultilineTernaryOperator:
   Enabled: false
+  

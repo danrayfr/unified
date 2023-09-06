@@ -26,8 +26,10 @@
 
 class Account < ApplicationRecord
   extend FriendlyId
-  Pagy::DEFAULT[:items] = 20
+  Pagy::DEFAULT[:items] = 8
   friendly_id :name, use: %i[slugged history finders]
+
+  default_scope -> { order(created_at: :asc) }
 
   before_validation :generate_uuid, on: :create
   validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
@@ -37,8 +39,9 @@ class Account < ApplicationRecord
   enum :status, %i[active inactive pending]
 
   has_and_belongs_to_many :users
-  has_many :tickets
-  has_many :coachings
+  has_many :tickets, dependent: :destroy
+  has_many :coachings, dependent: :destroy
+  has_many :qa_templates, dependent: :destroy
 
   def should_generate_new_friendly_id?
     name_changed? || slug.blank?
