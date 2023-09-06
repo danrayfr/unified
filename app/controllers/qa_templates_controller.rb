@@ -1,8 +1,8 @@
 # frozen_literal_string: true
 
 class QaTemplatesController < ApplicationController
-  before_action :set_template, only: %i[show edit update]
-  before_action :set_account, only: %i[index show new create edit update]
+  before_action :set_template, only: %i[show edit update destroy]
+  before_action :set_account
 
   def index
     @templates = @account.qa_templates
@@ -20,7 +20,6 @@ class QaTemplatesController < ApplicationController
   def new
     @template = @account.qa_templates.build
     @template.build_note
-    # @rating = BASE_SCORE
   end
 
   def create
@@ -48,6 +47,12 @@ class QaTemplatesController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def destroy
+    respond_to do |format|
+      format.html { redirect_to account_qa_templates_path(@account), notice: 'Template deleted.' } if @template.destroy
     end
   end
 

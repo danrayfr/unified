@@ -21,6 +21,7 @@
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div class="flex items-center">
         <%= template_status(template) %>
+        <%= link_to 'Destroy', account_qa_template_path(@account, template), data: { turbo_method: :delete } if current_user.admin? %>
       </div>
     </td>
   </tr>
