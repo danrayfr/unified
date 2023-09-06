@@ -1,0 +1,11 @@
+<%= @template.name %>
+
+<%= @template.note.content %>
+
+<% @template.metrics.each do |metric| %>
+  <div>
+    <%= metric['metric_name'] %>
+    <%= metric['deduction'] %>
+    <%= metric['description'] %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module QaTemplatesHelper
+end

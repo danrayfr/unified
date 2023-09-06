@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_05_152319) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_203830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -129,6 +129,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_152319) do
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
   end
 
+  create_table "qa_templates", force: :cascade do |t|
+    t.string "name"
+    t.boolean "published", default: true
+    t.jsonb "metrics", default: [], array: true
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_qa_templates_on_account_id"
+  end
+
   create_table "qualities", force: :cascade do |t|
     t.bigint "ticket_id", null: false
     t.integer "rating"
@@ -201,6 +211,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_05_152319) do
   add_foreign_key "coachings", "users"
   add_foreign_key "comments", "tickets"
   add_foreign_key "comments", "users"
+  add_foreign_key "qa_templates", "accounts"
   add_foreign_key "qualities", "tickets"
   add_foreign_key "ticket_details", "tickets"
   add_foreign_key "tickets", "accounts"
