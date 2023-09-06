@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.5.0] : 2023-07-09
+
+### Added
+
+- Added QA template and metrics functionality
+
 ## [0.4.1] : 2023-06-09
 
 ### Update
@@ -56,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.5.0]: https://github.com/danrayfr/unified/pull/9
 [0.4.1]: https://github.com/danrayfr/unified/pull/8
 [0.4.0]: https://github.com/danrayfr/unified/pull/7
 [0.3.0]: https://github.com/danrayfr/unified/pull/6
