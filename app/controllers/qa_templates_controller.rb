@@ -2,10 +2,10 @@
 
 class QaTemplatesController < ApplicationController
   before_action :set_template, only: %i[show edit update]
-  before_action :set_account, only: %i[show new create edit update]
+  before_action :set_account, only: %i[index show new create edit update]
 
   def index
-    @templates = QaTemplate.all
+    @templates = @account.qa_templates
   end
 
   def show
