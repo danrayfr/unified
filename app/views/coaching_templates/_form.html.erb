@@ -1,0 +1,21 @@
+<%= form_with(model: [account, coaching_template], local: true, id: "#{dom_id(coaching_template)}_form") do |form| %>
+  <%= render 'shared/error_messages', object: form.object %>
+
+  <div class="mb-6">
+    <%= form.label :name, class:"mb-3 block text-base font-medium text-[#07074D]" %> <%= form.text_field :name, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none
+    focus:border-[#6A64F1] focus:shadow-md" %>
+  </div>
+
+  <%= form.fields_for(:note, @note) do |note_form| %>
+  <div class="mb-6">
+      <%= note_form.label :note, class:"mb-3 block text-base font-medium text-[#07074D]" %>
+      <div class="trix-editor" data-trix-target="content" contenteditable="false">
+      <%= note_form.rich_text_area :content %>
+  </div>
+  <% end %>
+
+  <div class="mt-12">
+    <%= form.submit %> 
+  </div>
+  
+<% end %>

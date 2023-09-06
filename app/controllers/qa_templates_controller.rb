@@ -15,8 +15,6 @@ class QaTemplatesController < ApplicationController
     end
   end
 
-  # BASE_SCORE = 100
-
   def new
     @template = @account.qa_templates.build
     @template.build_note
