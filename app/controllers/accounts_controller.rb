@@ -3,8 +3,8 @@ require 'pry'
 class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :admin?, except: %i[index show join leave invite remove accept_invitation edit update]
-  # before_action :validate_before_joining, only: %i[join invite]
-  # before_action :authenticate_account_access, only: :show
+  before_action :validate_before_joining, only: %i[join invite]
+  before_action :authenticate_account_access, only: :show
   before_action :authenticate_remove_access, only: :remove
   # TODO: Implement helper, only admin or role that are similar to admin can create new account.
   before_action :set_account, except: %i[index new create accept_invitation]

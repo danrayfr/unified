@@ -1,13 +1,13 @@
 class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_ticket, only: %i[show edit update destroy]
-  before_action :set_account, only: %i[create]
+  before_action :set_account, only: %i[index create]
   before_action :authenticate_membership
   before_action :check_role, only: %i[new create edit destroy]
 
   def index
-    @tickets_total = Ticket.all
-    @pagy, @tickets = pagy(Ticket.order(created_at: :desc))
+    @tickets_total = @account.tickets
+    @pagy, @tickets = pagy(@account.tickets.order(created_at: :desc))
   end
 
   def show; end
