@@ -6,7 +6,12 @@ class CoachingTemplatesController < ApplicationController
     @templates = @account.coaching_templates
   end
 
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @coaching_template.to_json(include: { note: { only: %i[id content] } }) }
+    end
+  end
 
   def new
     @coaching_template = @account.coaching_templates.build

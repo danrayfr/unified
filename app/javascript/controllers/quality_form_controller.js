@@ -30,7 +30,7 @@ export default class extends Controller {
     // this.calculateScore()
     
     if (selectedTemplateId) {
-       // Make an AJAX request to fetch the selected qa_template data.
+       // Make an AJAX request to fetch the selected qa template data.
        fetch(`${baseUrl}/accounts/${currentAccount}/qa_templates/${selectedTemplateId}.json`)
         .then((response) => response.json())
         .then((data) => {

@@ -15,7 +15,7 @@
 
   <div class="mb-6">
     <%= form.label :qa_template_id, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-    <%= form.collection_select :qa_template_id, QaTemplate.all, :id, :name, {}, { id: "qa-template-select", data: { quality_form_target:"templateSelect", action: "change->quality-form#updateFormFields" } } %>
+    <%= form.collection_select :qa_template_id, @account.qa_templates, :id, :name, {}, { id: "qa-template-select", data: { quality_form_target:"templateSelect", action: "change->coaching-form#updateFormFields" } } %>
   </div>
 
   <div class="mb-6">
