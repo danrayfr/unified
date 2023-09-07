@@ -31,6 +31,7 @@
       </li>
     </ul>
   </div>
+  <%= render 'layouts/notifications' %>
 
   <div class="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
     <%= button_to destroy_user_session_path,  method: :delete, data: { turbo: 'false' }, class:"px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group" do %>

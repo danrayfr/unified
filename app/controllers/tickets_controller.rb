@@ -2,6 +2,7 @@ class TicketsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_ticket, only: %i[show edit update destroy]
   before_action :set_account, only: %i[index create]
+  before_action :mark_notifications_as_read, only: :show
   before_action :authenticate_membership
   before_action :check_role, only: %i[new create edit destroy]
 
@@ -23,6 +24,8 @@ class TicketsController < ApplicationController
 
     if @ticket.save
       # create_ticket_details
+      # TicketNotification.with(post: @post).deliver_later(current_user)
+      # TicketNotification.with(ticket: @ticket).deliver_now!(current_user)
       redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully created.'
     else
       render :new, status: :unprocessable_entity
@@ -65,5 +68,10 @@ class TicketsController < ApplicationController
 
     redirect_url = @ticket ? account_ticket_url(@account, @ticket) : account_tickets_url(@account)
     redirect_to redirect_url, alert: "You're not allowed to do that!"
+  end
+
+  def mark_notifications_as_read
+    notification_to_mark_as_read = @ticket.notifications_as_ticket.where(recipient: current_user)
+    notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
   end
 end
