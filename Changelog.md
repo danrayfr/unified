@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.8.0] : 2023-07-09
+
+### Added
+
+- Implement notification and mailer to coaching
+
 ## [0.7.0] : 2023-07-09
 
 ### Added
@@ -75,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.8.0]: https://github.com/danrayfr/unified/pull/14
 [0.7.0]: https://github.com/danrayfr/unified/pull/12
 [0.6.0]: https://github.com/danrayfr/unified/pull/10
 [0.5.0]: https://github.com/danrayfr/unified/pull/9
