@@ -42,7 +42,7 @@ class Ticket < ApplicationRecord
   private
 
   def notify_recipient
-    TicketNotification.with(ticket: self).deliver_later(ticket.user)
+    TicketNotification.with(ticket: self).deliver_later(user)
   end
 
   def clean_notifications

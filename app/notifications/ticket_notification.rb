@@ -7,7 +7,7 @@ class TicketNotification < Noticed::Base
   # Add your delivery methods
   #
   deliver_by :database
-  # deliver_by :email, mailer: "UserMailer"
+  deliver_by :email, mailer: 'TicketMailer', delay: 1.minute, unless: :read?
   # deliver_by :slack
   # deliver_by :custom, class: "MyDeliveryMethod"
 

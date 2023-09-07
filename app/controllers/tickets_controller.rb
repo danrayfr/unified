@@ -24,6 +24,8 @@ class TicketsController < ApplicationController
 
     if @ticket.save
       # create_ticket_details
+      # TicketNotification.with(post: @post).deliver_later(current_user)
+      # TicketNotification.with(ticket: @ticket).deliver_now!(current_user)
       redirect_to account_ticket_path(@account, @ticket), notice: 'Ticket successfully created.'
     else
       render :new, status: :unprocessable_entity
