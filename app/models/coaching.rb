@@ -32,6 +32,12 @@ class Coaching < ApplicationRecord
   validates :user, presence: { message: 'Agent should not be blank.' }
   validate :validate_week_duration
 
+  has_noticed_notifications model_name: 'Notification'
+  has_many :notifications, through: :user, dependent: :destroy
+
+  after_create_commit :notify_recipient
+  before_destroy :clean_notifications
+
   # rubocop:disable Metrics/AbcSize
   def validate_week_duration
     return unless coaching_start_date.present? && coaching_end_date.present?
@@ -60,5 +66,15 @@ class Coaching < ApplicationRecord
     formatted_end_date = coaching_end_date.strftime('%B %d, %Y')
 
     "Week##{start_week} (#{formatted_start_date} - #{formatted_end_date})"
+  end
+
+  private
+
+  def notify_recipient
+    CoachingNotification.with(coaching: self).deliver_later(user)
+  end
+
+  def clean_notifications
+    notifications_as_ticket.destroy_all
   end
 end

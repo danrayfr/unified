@@ -1,4 +1,6 @@
 class TicketMailer < ApplicationMailer
+  append_view_path Rails.root.join('app', 'views', 'mailers')
+
   def ticket_notification
     @ticket = params[:ticket]
     @user = params[:recipient]
