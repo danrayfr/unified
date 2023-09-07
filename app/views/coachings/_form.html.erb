@@ -6,8 +6,8 @@
   <%= form.hidden_field :account_id, value: @account.id, data: { coaching_form_target: "currentAccount" } %>
 
     <div class="mb-6">
-    <%= form.label :qa_template_id, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-    <%= form.collection_select :qa_template_id, @account.coaching_templates, :id, :name, {}, { id: "coaching-template-select", data: { coaching_form_target:"templateSelect", action: "change->coaching-form#updateFormFields" } } %>
+    <%= form.label :qa_template_id, class: "mb-3 block text-base font-medium text-[#07074D]" unless coaching.persisted? %>
+    <%= form.collection_select :qa_template_id, @account.coaching_templates, :id, :name, {}, { id: "coaching-template-select", data: { coaching_form_target:"templateSelect", action: "change->coaching-form#updateFormFields" } } unless coaching.persisted? %>
   </div>
 
   <div class="mb-6">
@@ -76,5 +76,5 @@
 </div>
 
 <script>
-  var isEditing = <%= @coaching.persisted? ? 'true' : 'false' %>;
+  var isEditing = <%= coaching.persisted? ? 'true' : 'false' %>;
 </script>
