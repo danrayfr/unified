@@ -58,6 +58,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :accounts
   has_many :comments, dependent: :destroy
   has_many :invitees, class_name: 'User', foreign_key: :invited_by_id
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

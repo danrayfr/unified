@@ -16,6 +16,10 @@ module Sni
     config.hosts << 'internal.lvh.me'
     config.hosts << 'lvh.me'
 
+    host = 'lvh.me:3000' # Local server
+
+    config.action_mailer.default_url_options = { host:, protocol: 'http' } # Use https if deploy on cloud
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
