@@ -4,6 +4,7 @@ class CoachingMailer < ApplicationMailer
   def coaching_notification
     @coaching = params[:coaching]
     @user = params[:recipient]
+
     mail(
       to: params[:recipient].email,
       subject: "[Ninjafied] You have been assigned to a Coaching Log##{@coaching.id}."

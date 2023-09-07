@@ -5,6 +5,7 @@ class CoachingsController < ApplicationController
   before_action :authenticate_membership
   before_action :set_coaching, only: %i[show edit update destroy acknowledgement]
   before_action :set_account, only: %i[show new create edit update destroy acknowledgement]
+  before_action :mark_notifications_as_read, only: :show
   before_action :mentee, only: %i[acknowledgement]
   before_action :mentor, only: %i[new create edit]
   before_action :admin?, only: :destroy
@@ -14,7 +15,9 @@ class CoachingsController < ApplicationController
     @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
   end
 
-  def show; end
+  def show
+    mark_notifications_as_read(@coachings)
+  end
 
   def new
     @note = Note.new
@@ -94,5 +97,10 @@ class CoachingsController < ApplicationController
 
     redirect_url = @ticket ? account_coaching_url(@account, @coaching) : account_coachings_url(@account)
     redirect_to redirect_url, alert: "You're not allowed to acknowledge this coaching record."
+  end
+
+  def mark_notifications_as_read
+    notification_to_mark_as_read = @coaching.notifications_as_coaching.where(recipient: current_user)
+    notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
   end
 end

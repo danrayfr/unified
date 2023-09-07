@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet" />
   </head>
   <body style="margin: 0; padding: 0;" dir="ltr" bgcolor="#ffffff">
-    <span style="display: none !important; font-size: 1px;">Coaching Log# <%= @coaching.name %></span>
+    <span style="display: none !important; font-size: 1px;">QA Audit Log# <%= @qa.id %></span>
     <div style="width: 100%; background: white; color: #555;">
       <div class="email-wrapper" style="max-width: 600px; margin: auto;">
         <table class="email-header" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="border-spacing: 0; border-collapse: collapse; max-width: 600px; margin: 0 auto;">
@@ -32,13 +32,13 @@
                           Hi <%= @user.name || @user.email %>!
                         </p>
                         <p style="margin-top: 15px; margin-bottom: 15px; font-size: 14px; color: #222222; line-height: 2;">
-                          You have been assigned to a Coaching Log&nbsp; <span style="font-weight: bold;"><%= @coaching.id %></span>.&nbsp; You can view this on ninjafied, or by clicking to the link below: 
+                          You have been assigned to a QA Audit Log&nbsp; <span style="font-weight: bold;"><%= @qa.id %></span>.&nbsp; You can view this on ninjafied, or by clicking to the link below: 
                           <br /><br />
                           <span style="color: #222222;">Best of luck!</span>
                         </p>
 
                         <p style="text-align: center;">
-                          <%= link_to 'View Coaching', account_coaching_url(@coaching.account_id, @coaching.id, subdomain: 'internal'),
+                          <%= link_to 'View QA Audit', account_ticket_qa_url(@qa.ticket.account_id, @qa.ticket_id, @qa.id, subdomain: 'internal'),
                           style:"
                               border: 1px solid #003822;
                               text-decoration: none;

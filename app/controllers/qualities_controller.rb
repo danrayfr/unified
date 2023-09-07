@@ -4,12 +4,14 @@ class QualitiesController < ApplicationController
   # before_action :set_quality, only: %i[show update destroy]
   before_action :find_account, only: %i[show new create edit update destroy acknowledgement]
   before_action :find_ticket, only: %i[show new create edit update destroy acknowledgement]
+  # before_action :mark_notifications_as_read, only: :show
   before_action :qa, only: %i[new edit]
   before_action :check_if_qa_exist, only: %i[show]
   before_action :mentee, only: :acknowledgement
 
   def show
     @quality = @ticket.quality
+    mark_notifications_as_read
   end
 
   def new
@@ -101,5 +103,10 @@ class QualitiesController < ApplicationController
 
     redirect_to account_ticket_qa_path(@account, @ticket),
                 alert: "You're not suppose to acknowledge this QA record."
+  end
+
+  def mark_notifications_as_read
+    notification_to_mark_as_read = @quality.notifications_as_quality.where(recipient: current_user)
+    notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
   end
 end
