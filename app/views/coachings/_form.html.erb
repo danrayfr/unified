@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center p-12">
 <div class="mx-auto w-full max-w-[1000px]">
-<%= form_with(model: [account, coaching], data: { controller: "coaching-form" }) do |form|  %>
+<%= form_with(model: [account, coaching], data: { controller: coaching.new_record? ? "coaching-form" : "" }) do |form|  %>
   <%= render 'shared/error_messages', object: form.object %>
 
   <%= form.hidden_field :account_id, value: @account.id, data: { coaching_form_target: "currentAccount" } %>

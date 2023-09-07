@@ -3,10 +3,15 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="coaching-form"
 export default class extends Controller {
   static targets = [
-    "templateSelect", "noteField", "currentAccount"
+    "templateSelect", "noteField",
+    "currentAccount", "selectBlock"
   ]
+
+
   connect() {
-    this.updateFormFields();
+    if (!isEditing) {
+      this.updateFormFields();
+    } 
   }
 
   updateFormFields() {
@@ -44,6 +49,6 @@ export default class extends Controller {
       "Fetch URL": ${fetchURL}
     `;
 
-    // console.log(targets);
+    console.log(targets);
   }
 }
