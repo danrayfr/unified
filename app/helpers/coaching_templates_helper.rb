@@ -1,0 +1,2 @@
+module CoachingTemplatesHelper
+end

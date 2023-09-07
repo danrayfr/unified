@@ -3,28 +3,16 @@
     <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
       <div>
         <h2 class="font-medium text-gray-800 capitalize">
-          <%= link_to template.name, account_qa_template_path(template.account, template) %>
+          <%= link_to template.name, account_coaching_template_path(template.account, template) %>
         </h2>
       </div>
-    </td>
-    <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-      <ul>
-      <% if template.metrics.any? %>
-        <% template.metrics.each do |metric| %>
-          <li><%= metric['metric_name'] %> : <%= metric['deduction'] %></li>
-        <% end %>
-      <% else %>
-        <li>No metrics</li>
-      <% end %>
-      </ul>
     </td>
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div class="flex items-center">
         <%= template_status(template) %>
-        <%= link_to 'Destroy', account_qa_template_path(@account, template), data: { turbo_method: :delete } if current_user.admin? %>
+        <%= link_to 'Destroy', account_coaching_template_path(@account, template), data: { turbo_method: :delete } if current_user.admin? %>
       </div>
     </td>
-
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div class="flex items-center">
         <%= time_tag template.created_at, "data-local": "time-ago" %>

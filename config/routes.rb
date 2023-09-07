@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       # post 'create', on: :collection
 
       resources :qa_templates
+      resources :coaching_templates
 
       resources :tickets do
         resources :comments, only: %i[create destroy]

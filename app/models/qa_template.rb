@@ -24,5 +24,5 @@ class QaTemplate < ApplicationRecord
   has_one :note, as: :notable
   accepts_nested_attributes_for :note
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 end

@@ -1,9 +1,14 @@
 <div class="flex items-center justify-center p-12">
 <div class="mx-auto w-full max-w-[1000px]">
-<%= form_with(model: [account, coaching]) do |form|  %>
+<%= form_with(model: [account, coaching], data: { controller: coaching.new_record? ? "coaching-form" : "" }) do |form|  %>
   <%= render 'shared/error_messages', object: form.object %>
 
-  <%= form.hidden_field :account_id, value: @account.id %>
+  <%= form.hidden_field :account_id, value: @account.id, data: { coaching_form_target: "currentAccount" } %>
+
+    <div class="mb-6">
+    <%= form.label :qa_template_id, class: "mb-3 block text-base font-medium text-[#07074D]" unless coaching.persisted? %>
+    <%= form.collection_select :qa_template_id, @account.coaching_templates, :id, :name, {}, { id: "coaching-template-select", data: { coaching_form_target:"templateSelect", action: "change->coaching-form#updateFormFields" } } unless coaching.persisted? %>
+  </div>
 
   <div class="mb-6">
     <%= form.label :coaching_start_date, class:"mb-3 block text-base font-medium text-[#07074D]" %>
@@ -37,20 +42,20 @@
   </div>
 
   <%= form.fields_for(:note, @note) do |note_form| %>
-    <% if current_user.agent? %>
-      <div class="mb-6">
-        <%= note_form.label :note, class:"mb-3 block text-base font-medium text-[#07074D]" %>
-        <div class="trix-editor" data-trix-target="content" contenteditable="false">
-          <%= @note.content %>
-        </div>
-        <%= note_form.hidden_field :content, value: @note.content %>
-      </div>
-    <% else %>
-      <div class="mb-6">
-        <%= note_form.label :note %>
-        <%= note_form.rich_text_area :content %>
-      </div>
-    <% end %>
+    <div class="mb-6">
+      <%= note_form.label :note %>
+      <% if @coaching.new_record? %>
+        <% if current_user.agent? %>
+          <div class="trix-editor" data-trix-target="content" contenteditable="false">
+            <%= @note.content %>
+          </div>
+        <% else %>
+          <%= note_form.rich_text_area :content, data: { coaching_form_target: "noteField" } %>
+        <% end %>
+      <% else %>
+       <%= note_form.rich_text_area :content, value: @note.content, data: { coaching_form_target: "noteField", editing: @coaching.persisted? } %>
+      <% end %>
+    </div>
   <% end %>
 
   <% if coaching.persisted? %>
@@ -69,3 +74,7 @@
 <% end %>
 </div>
 </div>
+
+<script>
+  var isEditing = <%= coaching.persisted? ? 'true' : 'false' %>;
+</script>

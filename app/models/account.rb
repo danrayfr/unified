@@ -42,6 +42,7 @@ class Account < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :coachings, dependent: :destroy
   has_many :qa_templates, dependent: :destroy
+  has_many :coaching_templates, dependent: :destroy
 
   def should_generate_new_friendly_id?
     name_changed? || slug.blank?

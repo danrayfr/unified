@@ -1,6 +1,6 @@
 <%= @template.name %>
 
-<%= @template.note.content %>
+<%= @template.note&.content %>
 
 <% @template.metrics.each do |metric| %>
   <div>
