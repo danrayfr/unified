@@ -7,7 +7,7 @@ class QualityNotification < Noticed::Base
   # Add your delivery methods
   #
   deliver_by :database
-  # deliver_by :email, mailer: "UserMailer"
+  deliver_by :email, mailer: 'QualityMailer'
   # deliver_by :slack
   # deliver_by :custom, class: "MyDeliveryMethod"
 
@@ -16,10 +16,10 @@ class QualityNotification < Noticed::Base
   # param :post
 
   # Define helper methods to make rendering easier.
-  #
+
   def message
-    @quality = Quality.find(params[:quality][:id])
-    "QA Audit Log #{@quality.id} with a rating of #{@quality.rating}% have been assigned to you."
+    quality = Quality.find(params[:quality][:id])
+    "QA Audit Log #{quality.id} with a rating of #{quality.rating}% have been assigned to you."
   end
 
   def url

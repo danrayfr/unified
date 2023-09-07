@@ -32,8 +32,8 @@ class Coaching < ApplicationRecord
   validates :user, presence: { message: 'Agent should not be blank.' }
   validate :validate_week_duration
 
-  has_noticed_notifications model_name: 'Notification'
   has_many :notifications, through: :user, dependent: :destroy
+  has_noticed_notifications model_name: 'Notification'
 
   after_create_commit :notify_recipient
   before_destroy :clean_notifications
