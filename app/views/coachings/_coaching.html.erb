@@ -1,33 +1,62 @@
-<tr>
-  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p class="text-gray-900 whitespace-no-wrap"><%= link_to coaching.id, account_coaching_path(account, coaching) %></p>
+<tr class="transition-all hover:bg-gray-100 hover:shadow-lg">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-900">
+     <%= link_to coaching.id, account_coaching_path(account, coaching) %>
+    </div>
   </td>
-  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+  <td class="px-6 py-4 whitespace-nowrap">
     <div class="flex items-center">
       <div class="flex-shrink-0 w-10 h-10">
-        <%= image_renderer(coaching.user.avatar_url, class: "w-full h-full rounded-full") %>
+        <%= image_renderer(coaching.user.avatar_url, class: "w-10 h-10 rounded-full") %>
       </div>
-      <div class="ml-3">
-        <p class="text-gray-900 whitespace-no-wrap capitalize">
-          <%= coaching.user.name %>
-        </p>
+      <div class="ml-4">
+        <div class="text-sm font-medium text-gray-900"><%= coaching.user.name %></div>
+        <div class="text-sm text-gray-500"><%= coaching.user.email %></div>
       </div>
     </div>
   </td>
-  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p class="text-gray-900 whitespace-no-wrap">
-      <%= display_week(coaching) %>
-    </p>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-500"><%= formatted_date(coaching.coaching_start_date, coaching.coaching_end_date) %></div>
   </td>
-  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p class="text-gray-900 whitespace-no-wrap">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <% if coaching.acknowledgement? %>
+      <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+        Acknowledged
+      </span>
+    <% else %>
+      <span class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
+        No Acknowledgement yet.
+      </span>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-500">
       <%= display_acknowledgement_date(coaching) %>
-    </p>
+    </div>
   </td>
-  <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-    <p class="text-gray-900 whitespace-no-wrap">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div class="text-sm text-gray-500">
       <%= time_tag coaching.created_at, "data-local": "time-ago" %>
-    </p>
+    </div>
   </td>
-  
+  <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap"></td>
+  <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+    <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+      <div class="flex space-x-4">
+        <%= link_to edit_account_coaching_url(account, coaching), class: "text-gold hover:text-graphite" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+          <p>Edit</p>
+        <% end if current_user.manager?%>
+
+        <%= link_to account_coaching_url(account, coaching), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, method: :delete, class:"text-coral hover:text-graphite" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-1 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          <p>Delete</p>
+        <% end if current_user.admin? %>
+      </div>
+    </td>
+  </td>
 </tr>

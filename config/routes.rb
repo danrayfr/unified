@@ -34,10 +34,10 @@ Rails.application.routes.draw do
     # Add other app-specific routes here
     root 'accounts#index', as: :account_root
     resources :accounts do
-      # post 'create', on: :collection
 
-      resources :qa_templates
-      resources :coaching_templates
+      get 'settings', to: 'settings#index'
+      resources :qa_templates, path: 'settings/qa_templates'
+      resources :coaching_templates, path: 'settings/coaching_templates'
 
       resources :tickets do
         resources :comments, only: %i[create destroy]
@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       # QA is block in this resources.
       authenticated :user, ->(user) { user.validate_coaching_access } do
         resources :coachings do
+          resources :comments, only: %i[create destroy]
           resources :notes, module: :accounts, only: :create
           member do
             get 'acknowledgement', to: 'coachings#acknowledgement', as: 'acknowledgement'

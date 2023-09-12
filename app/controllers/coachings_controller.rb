@@ -6,8 +6,8 @@ class CoachingsController < ApplicationController
   before_action :set_coaching, only: %i[show edit update destroy acknowledgement]
   before_action :set_account, only: %i[show new create edit update destroy acknowledgement]
   before_action :mark_notifications_as_read, only: :show
-  before_action :mentee, only: %i[acknowledgement]
-  before_action :mentor, only: %i[new create edit]
+  before_action :coachee, only: %i[acknowledgement]
+  before_action :coach, only: %i[new create edit]
   before_action :admin?, only: :destroy
 
   def index
@@ -16,7 +16,8 @@ class CoachingsController < ApplicationController
   end
 
   def show
-    mark_notifications_as_read(@coachings)
+    # mark_notifications_as_read(@coachings)
+    @previous_coaching_log = Coaching.where('id < ?', @coaching.id).order(id: :desc).first
   end
 
   def new
@@ -82,7 +83,7 @@ class CoachingsController < ApplicationController
     redirect_back(fallback_location: root_path, alert: "You're not authorized.")
   end
 
-  def mentor
+  def coach
     @account = Account.find(params[:account_id])
 
     return if current_user.manager?
@@ -90,7 +91,7 @@ class CoachingsController < ApplicationController
     redirect_to account_coachings_url(@account), alert: "You're not allowed create or edit a coaching form."
   end
 
-  def mentee
+  def coachee
     @account = Account.find(params[:account_id])
 
     return if current_user.agent? && @coaching.user == current_user
@@ -102,5 +103,13 @@ class CoachingsController < ApplicationController
   def mark_notifications_as_read
     notification_to_mark_as_read = @coaching.notifications_as_coaching.where(recipient: current_user)
     notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
+  end
+
+  def filter_by_agent
+    agent = params[:filter_by]
+
+    return Account.includes(:users).all if site == 'all' || site.blank?
+
+    Account.includes(:users).where(site:).all
   end
 end

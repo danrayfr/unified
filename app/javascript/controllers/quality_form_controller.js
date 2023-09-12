@@ -3,31 +3,24 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="quality-form"
 export default class extends Controller {
   static targets = [
-    "templateSelect",
-    "noteField",
-    "metricCheckboxes",
-    "currentAccount",
-    "checkboxes",
-    "ratingInput"
+    "templateSelect", "noteField",
+    "metricCheckboxes", "currentAccount",
+    "checkboxes", "ratingInput"
   ];
 
   connect() {
     this.updateFormFields();
     this.calculateScore();
-    // const currentAccount = this.currentAccountTarget.value;
   }
-
+  
   updateFormFields() {
     const selectedTemplateId = this.templateSelectTarget.value;
     const currentAccount = this.currentAccountTarget.value;
     const ratingInput = this.ratingInputTarget;
     const baseUrl = window.location.origin;
 
-    // Populate the form with qa_template note only if not in edit mode
-    const editing = window.isEditing; // Corrected line
-
-    // console.log(`${baseUrl}/accounts/project-q/qa_templates/${selectedTemplateId}.json`)
-    // this.calculateScore()
+    // Populate the form with qa_template note only if edit mode is false.
+    const editing = window.isEditing;
     
     if (selectedTemplateId) {
        // Make an AJAX request to fetch the selected qa template data.
@@ -35,7 +28,6 @@ export default class extends Controller {
         .then((response) => response.json())
         .then((data) => {
         
-          // console.log(data);
           // Clear the existing checkboxes
           this.metricCheckboxesTarget.innerHTML = "";
           ratingInput.value = 100;
@@ -78,11 +70,8 @@ export default class extends Controller {
           // Subtract the checkbox value from the score if it's checked
           const checkboxValue = parseInt(checkbox.value)
           rating -= checkboxValue;
-          // console.log("Deducted: ", checkboxValue)
         }
       });
-
-      console.log("New rating: ", rating); // Add this line for debugging
 
       if (ratingInput) {
         ratingInput.value = rating;

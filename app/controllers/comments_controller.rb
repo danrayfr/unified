@@ -1,21 +1,21 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
   # before_action :authenticate_membership
-  before_action :set_ticket
+  before_action :set_coaching
   before_action :set_account
 
   # rubocop:disable Metrics/AbcSize
   def create
-    @ticket = Ticket.find(params[:ticket_id])
-    @comment = @ticket.comments.build(comment_params.merge(user: current_user))
+    # @coaching = Coaching.find(params[:ticket_id])
+    @comment = @coaching.comments.build(comment_params.merge(user: current_user))
 
-    @account = Account.find(params[:account_id])
+    # @account = Account.find(params[:account_id])
 
     if @comment.save
       @comment.build_note
-      redirect_to account_ticket_path(@account, @ticket), notice: 'created'
+      # redirect_to account_ticket_path(@account, @ticket), notice: 'created'
     else
-      redirect_to account_ticket_path(@account, @ticket), alert: 'not created'
+      # redirect_to account_ticket_path(@account, @ticket), alert: 'not created'
     end
   end
   # rubocop:enable Metrics/AbcSize
@@ -27,8 +27,8 @@ class CommentsController < ApplicationController
 
   private
 
-  def set_ticket
-    @ticket = Ticket.find(params[:ticket_id])
+  def set_coaching
+    @coaching = Coaching.find(params[:coaching_id])
   end
 
   def set_account

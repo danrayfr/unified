@@ -111,7 +111,7 @@ class User < ApplicationRecord
   def allowed_email_domain
     return unless email.match(/\A[^@]+@supportninja\.com\z/i)
 
-    errors.add(:email, 'must have an allowed email domain')
+    errors.add(:email, 'Must have an allowed email domain.')
   end
 
   private
@@ -124,6 +124,6 @@ class User < ApplicationRecord
 
   # Add a default value to a user if provider is empty, null: false
   def default_provider
-    self.provider = 'default' if provider.nil?
+    self.provider = 'devise' if provider.nil?
   end
 end

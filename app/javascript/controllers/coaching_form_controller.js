@@ -7,7 +7,6 @@ export default class extends Controller {
     "currentAccount", "selectBlock"
   ]
 
-
   connect() {
     if (!isEditing) {
       this.updateFormFields();
@@ -20,8 +19,6 @@ export default class extends Controller {
     const baseUrl = window.location.origin;
     
     const isEditing = window.isEditing; // Check if @coaching.persisted?
-
-    const fetchURL = `${baseUrl}/accounts/${currentAccount}/coaching_templates/${selectedTemplate}.json`
 
     if (selectedTemplate)
     {
@@ -36,19 +33,5 @@ export default class extends Controller {
         }
       })
     }
-
-    const targets = `
-      "Template Id": ${selectedTemplate},
-
-      "Current Account": ${currentAccount},
-
-      "Base URL": ${baseUrl},
-
-      "Editing": ${isEditing},
-
-      "Fetch URL": ${fetchURL}
-    `;
-
-    console.log(targets);
   }
 }
