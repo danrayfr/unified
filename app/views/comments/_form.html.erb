@@ -11,7 +11,7 @@
     <%#= form.label :commitment, class: "block text-base font-bold text-[#07074D]" %>
    </div>
 
-  <% if @coaching.user == current_user %>
+  <% if commentable.user == current_user %>
     <div class="mb-6">
       <label class="flex items-center">
         <%= form.check_box :pinned, unchecked_value: false, checked_value: true,class: "w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" %>
