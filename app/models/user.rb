@@ -111,7 +111,7 @@ class User < ApplicationRecord
   def allowed_email_domain
     return unless email.match(/\A[^@]+@supportninja\.com\z/i)
 
-    errors.add(:email, 'Must have an allowed email domain.')
+    errors.add(:email, 'Must have an allowed email domain')
   end
 
   private

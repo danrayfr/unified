@@ -23,7 +23,7 @@ export default class extends Controller {
     if (selectedTemplate)
     {
       // Make AJAX request to fetch the selected coaching template data
-      fetch(`${baseUrl}/accounts/${currentAccount}/coaching_templates/${selectedTemplate}.json`)
+      fetch(`${baseUrl}/accounts/${currentAccount}/settings/coaching_templates/${selectedTemplate}.json`)
       .then((response) => response.json())
       .then((data) => {
 

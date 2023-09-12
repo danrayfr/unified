@@ -37,7 +37,7 @@
                            :id,
                            :email,
                            { prompt: 'Select Agent' },
-                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: current_user.agent?} %>
+                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: current_user.agent? } %>
 
   </div>
 
@@ -60,16 +60,16 @@
 
   <% if coaching.persisted? %>
     <div class="mb-6">
-      <% if current_user.agent? %>
-        <%= form.label :acknowledgement, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-        <%= form.check_box :acknowledgement, checked_value: true, unchecked_value: false, disabled: coaching.acknowledgement %>
-      <% end %>
+      <label class="flex items-center">
+        <%= form.check_box :acknowledgement, unchecked_value: false, checked_value: true,class: "w-4 h-4 text-paleFern border-gray-300 rounded focus:ring-paleFern focus:ring-2" %>
+        <span class="ml-2 text-md font-bold text-gray-900">Acknowledgement</span>
+        <p class="ml-2 text-sm font-normal text-gray-500">(By ticking the check box, you're acknowledging this coaching log.)</p>
+      </label>
     </div>
-
   <% end %>
 
   <div>
-    <%= form.submit class:"hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none" %>
+    <%= form.submit class:"hover:shadow-form rounded-md bg-paleFern hover:bg-graphite py-3 px-8 text-base font-semibold text-white outline-none" %>
   </div>
 <% end %>
 </div>

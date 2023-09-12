@@ -13,6 +13,10 @@
     <%= link_to edit_account_coaching_url(@account, @coaching), class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-gold text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
         <span>Edit coaching</span>
     <% end if current_user.manager? %>
+
+    <%= link_to acknowledgement_account_coaching_url(@account, @coaching), class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-paleFern text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
+        <span>Acknowledgement</span>
+    <% end if @coaching.user == current_user && !@coaching.acknowledgement %>
   </div>
 </div>
 
@@ -27,6 +31,12 @@
           </div>
         </dl>
         <div><h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">Coaching Log <%= @coaching.id %></h1></div>
+        <dl class="space-y-12">
+          <div>
+            <dt class="sr-only">Coaching Date</dt>
+            <dd class="text-base font-medium leading-6 text-gray-500"><time datetime="2023-08-05T00:00:00.000Z">Coaching Date:  <%= formatted_date(@coaching.coaching_start_date, @coaching.coaching_end_date) %></time></dd>
+          </div>
+        </dl>
       </div>
     </header>
     <div class="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
@@ -35,56 +45,22 @@
         <dd>
           <ul class="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
             <li class="flex items-center space-x-2">
-              <%= image_tag @coaching.user.avatar_url, class: "h-10 w-10 rounded-full", style:"color: transparent;" %>
+              <%= image_renderer(@coaching.user.avatar_url, class: "h-10 w-10 rounded-full", style:"color: transparent;") %>
               <dl class="whitespace-nowrap text-sm font-medium leading-5">
-                <dt class="sr-only">Name</dt>
                 <dd class="text-gray-900"><%= @coaching.user.name %></dd>
-                <dt class="sr-only">Twitter</dt>
                 <dd class="text-gray-900">Coachee</dd>
               </dl>
             </li>
 
             <li class="flex items-center space-x-2">
-              <img
-                alt="avatar"
-                loading="lazy"
-                width="38"
-                height="38"
-                decoding="async"
-                data-nimg="1"
-                class="h-10 w-10 rounded-full"
-                srcset="/_next/image?url=%2Fstatic%2Fimages%2Favatar.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fstatic%2Fimages%2Favatar.png&amp;w=96&amp;q=75 2x"
-                src="/_next/image?url=%2Fstatic%2Fimages%2Favatar.png&amp;w=96&amp;q=75"
-                style="color: transparent;"
-              />
+              <% coach = @account.users.where(role: 'manager').first %>
+              <%= image_renderer(coach.avatar_url, class: "h-10 w-10 rounded-full", style:"color: transparent;") %>
               <dl class="whitespace-nowrap text-sm font-medium leading-5">
-                <dt class="sr-only">Name</dt>
-                <dd class="text-gray-900">Tails Azimuth</dd>
-                <dt class="sr-only">Twitter</dt>
-                <dd><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/Twitter" class="text-primary-500 hover:text-primary-600">@Twitter</a></dd>
+                <dd class="text-gray-900"><%= coach.name %></dd>
+                <dd class="text-gray-900">Coachee</dd>
               </dl>
             </li>
 
-            <li class="flex items-center space-x-2">
-              <img
-                alt="avatar"
-                loading="lazy"
-                width="38"
-                height="38"
-                decoding="async"
-                data-nimg="1"
-                class="h-10 w-10 rounded-full"
-                srcset="/_next/image?url=%2Fstatic%2Fimages%2Favatar.png&amp;w=48&amp;q=75 1x, /_next/image?url=%2Fstatic%2Fimages%2Favatar.png&amp;w=96&amp;q=75 2x"
-                src="/_next/image?url=%2Fstatic%2Fimages%2Favatar.png&amp;w=96&amp;q=75"
-                style="color: transparent;"
-              />
-              <dl class="whitespace-nowrap text-sm font-medium leading-5">
-                <dt class="sr-only">Name</dt>
-                <dd class="text-gray-900">Tails Azimuth</dd>
-                <dt class="sr-only">Twitter</dt>
-                <dd><a target="_blank" rel="noopener noreferrer" href="https://twitter.com/Twitter" class="text-primary-500 hover:text-primary-600">@Twitter</a></dd>
-              </dl>
-            </li>
           </ul>
         </dd>
       </dl>
@@ -94,20 +70,29 @@
           <%= @coaching.note.content %>
           
         </div>
-        <div class="pb-6 pt-6 text-center text-gray-700" id="comment">
+        
+        <div class="pb-6 pt-6 text-center text-gray-700">
           <!--button>Load Comments</button-->
-          Commitments
+          <section class="bg-white py-8 lg:py-16 antialiased">
+            <div class="max-w-2xl mx-auto px-4">
+              <div class="flex justify-between items-center mb-6">
+                <% if @coaching.acknowledgement %>
+                  <h2 class="text-lg lg:text-2xl font-semibold text-lightFern">You acknowledged this coaching log <%= time_ago_in_words @coaching.date_acknowledged %> ago.</h2>
+                <% else %>
+                  <h2 class="text-lg lg:text-2xl font-bold text-coral">Please sign this coaching log by acknowledging it.</h2>
+                <% end %>
+              </div>
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-lg lg:text-2xl font-bold text-gray-900">Commitment/Comments (<%= @coaching.comments.count %>)</h2>
+              </div>
 
-          <div class="w-full">
-          <div class="border-b">
-            <h1 class="text-graphite text-5xl font-medium">Comments</h1>
-          </div>
-          <% @coaching.comments.each do |comment| %>
-              <%= render 'comments/comment', account: @account, ticket: @ticket, comment: comment %>
-            <% end %>
-            
-            <%= render partial: 'comments/form', locals: { account: @account, ticket: @ticket } %>
-          </div>
+              <%= render "comments/form", account: @account, commentable: @coaching %>
+
+              <div class="space-y-12">
+                <%= render partial: 'comments/comment', locals: { account: @account, commentable: @coaching } %>
+              </div>
+            </div>
+          </section>
 
         </div>
       </div>
