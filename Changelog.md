@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.10.0] : 2023-13-09
+
+### Added
+
+- Add wicked gem to pdf implementation and pdf attachment on mailer
+- Add filter by user email on coachings
+
 ## [0.9.0] : 2023-08-09
 
 ### Added
@@ -87,6 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.10.0]: https://github.com/danrayfr/unified/pull/16
 [0.9.0]: https://github.com/danrayfr/unified/pull/15
 [0.8.0]: https://github.com/danrayfr/unified/pull/14
 [0.7.0]: https://github.com/danrayfr/unified/pull/12
