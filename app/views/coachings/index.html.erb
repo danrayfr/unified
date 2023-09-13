@@ -38,6 +38,7 @@
 <!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
 <h3 class="mt-6 text-lg uppercase">Coaching Logs (<%= @coachings.count %>)</h3>
 
+<% if current_user.manager? %>
 <div class="mt-6 md:flex md:items-center md:justify-between">
   <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
     <div class="relative inline-flex" data-controller="filter">
@@ -53,8 +54,8 @@
     </div>
   </div>
 </div>
+<% end %>
 
 <%= render "coachings" %>
 
-<%#= render "shared/pagy" %>
 <% end %>
