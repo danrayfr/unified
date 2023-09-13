@@ -12,12 +12,23 @@ class CoachingsController < ApplicationController
 
   def index
     # @coachings = Coaching.all
-    @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+    if current_user.agent?
+      @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
+    else
+      @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+    end
   end
 
   def show
     # mark_notifications_as_read(@coachings)
     @previous_coaching_log = Coaching.where('id < ?', @coaching.id).order(id: :desc).first
+    respond_to do |format|
+      format.html
+      format.json { render json: @coaching.to_json(include: { note: { only: %i[id content] } }) }
+      format.pdf do
+        render pdf: "hello-filename", template: "coachings/coaching_pdf", formats: [:html], layout: 'pdf'
+      end
+    end
   end
 
   def new
@@ -106,7 +117,7 @@ class CoachingsController < ApplicationController
   end
 
   def filter_by_agent
-    agent = params[:filter_by]
+    params[:filter_by]
 
     return Account.includes(:users).all if site == 'all' || site.blank?
 

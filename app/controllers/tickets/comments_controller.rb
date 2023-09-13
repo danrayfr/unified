@@ -1,9 +1,11 @@
-class Tickets::CommentsController < CommentsController
-  before_action :set_commentable
+module Tickets
+  class CommentsController < CommentsController
+    before_action :set_commentable
 
-  private
+    private
 
-  def set_commentable
-    @commentable = Ticket.find(params[:id])
+    def set_commentable
+      @commentable = Ticket.find(params[:id])
+    end
   end
 end

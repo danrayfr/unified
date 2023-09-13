@@ -4,6 +4,7 @@
      <%= link_to coaching.id, account_coaching_path(account, coaching) %>
     </div>
   </td>
+  <% unless current_user.agent? %>
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="flex items-center">
       <div class="flex-shrink-0 w-10 h-10">
@@ -15,6 +16,7 @@
       </div>
     </div>
   </td>
+  <% end %>
   <td class="px-6 py-4 whitespace-nowrap">
     <div class="text-sm text-gray-500"><%= formatted_date(coaching.coaching_start_date, coaching.coaching_end_date) %></div>
   </td>

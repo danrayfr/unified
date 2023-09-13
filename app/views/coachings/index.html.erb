@@ -47,9 +47,11 @@
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Coaching Log id
               </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Coachee name
-              </th>
+              <% unless current_user.agent? %>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  Coachee name
+                </th>
+              <% end %>
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Coaching Date(s)
               </th>
@@ -69,7 +71,7 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <% @coachings.each do |coaching| %>
-              <%= render 'coaching', coaching: coaching, account: @account %>
+                <%= render 'coaching', coaching: coaching, account: @account %>
             <% end %>
           </tbody>
         </table>
@@ -77,4 +79,6 @@
     </div>
   </div>
 </div>
+
+<%= render "shared/pagy" %>
 <% end %>

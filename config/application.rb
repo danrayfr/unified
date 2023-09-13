@@ -32,5 +32,9 @@ module Sni
     Dotenv::Railtie.load if %w[development test].include?(ENV['RAILS_ENV'])
 
     HOSTNAME = ENV['HOSTNAME']
+
+    config.action_dispatch.default_headers = {
+      'Content-Security-Policy' => "default-src 'self' https://example.com;"
+    }
   end
 end

@@ -16,6 +16,7 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:pinned, :user_id, :commentable_id, :commentable_type, note_attributes: %i[id content])
+    params.require(:comment).permit(:pinned, :user_id, :commentable_id, :commentable_type,
+                                    note_attributes: %i[id content])
   end
 end

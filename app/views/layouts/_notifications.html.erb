@@ -31,9 +31,9 @@
         <% end %>
 
         <% if @read.count > 0 && @unread.count > 0%>
-          <li class="flex items-center p-3 text-sm font-medium text-red-600 border-b border-gray-300 hover:underline"></li>
+          <li class="flex items-center p-3 text-sm font-medium text-red-600 border-b-4 border-gray-300 hover:underline"></li>
         <% elsif %>
-          <li class="flex items-center p-3 text-sm font-medium text-red-600 border-b border-gray-300 hover:underline">No new notifications yet.</li>
+          <li class="flex items-center p-3 text-sm font-medium text-red-600 border-b-4 border-gray-300 hover:underline">No new notifications yet.</li>
         <% end %>
 
         <% @read.each do |notification| %>

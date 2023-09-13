@@ -22,6 +22,8 @@
 #
 
 class Coaching < ApplicationRecord
+  default_scope -> { order(acknowledgement: :asc, created_at: :desc) }
+
   belongs_to :user
   belongs_to :account
   has_one :note, as: :notable, dependent: :destroy
@@ -64,8 +66,8 @@ class Coaching < ApplicationRecord
     # Calculate the week and year for the start date
     start_week = coaching_start_date.strftime('%U').to_i
 
-    formatted_start_date = coaching_start_date.strftime('%B %d, %Y')
-    formatted_end_date = coaching_end_date.strftime('%B %d, %Y')
+    coaching_start_date.strftime('%B %d, %Y')
+    coaching_end_date.strftime('%B %d, %Y')
 
     "Week #{start_week}" # (#{formatted_start_date} - #{formatted_end_date})
   end
