@@ -20,7 +20,7 @@
 #
 
 class Ticket < ApplicationRecord
-  Pagy::DEFAULT[:items] = 6
+  Pagy::DEFAULT[:items] = 8
 
   belongs_to :user
   belongs_to :account

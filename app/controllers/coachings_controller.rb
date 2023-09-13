@@ -11,11 +11,19 @@ class CoachingsController < ApplicationController
   before_action :admin?, only: :destroy
 
   def index
-    # @coachings = Coaching.all
+    filtered_coachings = filter_by_agent
+
     if current_user.agent?
-      @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
+      # @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
+      @coachings = filtered_coachings.where(user: current_user) # Coaching.where(user: current_user).order(created_at: :desc)
     else
-      @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+      # @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+      @coachings = filtered_coachings #Coaching.order(created_at: :desc)
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
     end
   end
 
@@ -117,10 +125,12 @@ class CoachingsController < ApplicationController
   end
 
   def filter_by_agent
-    params[:filter_by]
+    email = params[:filter_by]
 
-    return Account.includes(:users).all if site == 'all' || site.blank?
+    user = User.find_by(email: email)
 
-    Account.includes(:users).where(site:).all
+    return Coaching.all if email == 'all' || email.blank?
+
+    Coaching.where(user: user)
   end
 end

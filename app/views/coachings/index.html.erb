@@ -37,48 +37,24 @@
 <% if @coachings.any? %>
 <!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
 <h3 class="mt-6 text-lg uppercase">Coaching Logs (<%= @coachings.count %>)</h3>
-<div class="flex flex-col mt-6">
-  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-      <div class="overflow-hidden border-b border-gray-200 rounded-md shadow-md">
-        <table class="min-w-full overflow-x-scroll divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Coaching Log id
-              </th>
-              <% unless current_user.agent? %>
-                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                  Coachee name
-                </th>
-              <% end %>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Coaching Date(s)
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Status
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Date acknowledged
-              </th>
-              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Date Created
-              </th>
-              <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Actions</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <% @coachings.each do |coaching| %>
-                <%= render 'coaching', coaching: coaching, account: @account %>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+
+<div class="mt-6 md:flex md:items-center md:justify-between">
+  <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
+    <div class="relative inline-flex" data-controller="filter">
+      <select class="text-gray-500 bg-white border border-gray-300 pl-8 text-sm px-9 py-1.5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md" name="filter_by" id="filter_by" data-action="filter#update" data-filter-target="select">
+        <option value="all" <%= 'selected' if params[:filter] == 'all' %>>All</option>
+        <% @account.users.where(role: 'agent').each do |user| %>
+          <option value="<%= user.email %>" <%= 'selected' if params[:filter] == user.email%>><%= user.email %></option>
+        <% end %>
+      </select>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="filters" class="w-4 h-4 absolute pointer-events-none left-2 top-1/2 transform -translate-y-1/2 z-10">
+        <path d="M19,2H5A3,3,0,0,0,2,5V6.17a3,3,0,0,0,.25,1.2l0,.06a2.81,2.81,0,0,0,.59.86L9,14.41V21a1,1,0,0,0,.47.85A1,1,0,0,0,10,22a1,1,0,0,0,.45-.11l4-2A1,1,0,0,0,15,19V14.41l6.12-6.12a2.81,2.81,0,0,0,.59-.86l0-.06A3,3,0,0,0,22,6.17V5A3,3,0,0,0,19,2ZM13.29,13.29A1,1,0,0,0,13,14v4.38l-2,1V14a1,1,0,0,0-.29-.71L5.41,8H18.59ZM20,6H4V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z"></path>
+      </svg>
     </div>
   </div>
 </div>
 
-<%= render "shared/pagy" %>
+<%= render "coachings" %>
+
+<%#= render "shared/pagy" %>
 <% end %>
