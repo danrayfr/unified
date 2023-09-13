@@ -22,9 +22,12 @@
 #
 
 class Coaching < ApplicationRecord
+  default_scope -> { order(acknowledgement: :asc, created_at: :desc) }
+  # Pagy::DEFAULT[:items] = 8
+
   belongs_to :user
   belongs_to :account
-  has_one :note, as: :notable
+  has_one :note, as: :notable, dependent: :destroy
   accepts_nested_attributes_for :note
 
   validates :coaching_start_date, presence: true
@@ -34,6 +37,8 @@ class Coaching < ApplicationRecord
 
   has_many :notifications, through: :user, dependent: :destroy
   has_noticed_notifications model_name: 'Notification'
+
+  has_many :comments, as: :commentable, dependent: :destroy
 
   after_create_commit :notify_recipient
   before_destroy :clean_notifications
@@ -62,10 +67,23 @@ class Coaching < ApplicationRecord
     # Calculate the week and year for the start date
     start_week = coaching_start_date.strftime('%U').to_i
 
+    coaching_start_date.strftime('%B %d, %Y')
+    coaching_end_date.strftime('%B %d, %Y')
+
+    "Week #{start_week}" # (#{formatted_start_date} - #{formatted_end_date})
+  end
+
+  def week
+    # Calculate the week and year for the start date
+    start_week = coaching_start_date.strftime('%U').to_i
+    "Week##{start_week}"
+  end
+
+  def date_format
     formatted_start_date = coaching_start_date.strftime('%B %d, %Y')
     formatted_end_date = coaching_end_date.strftime('%B %d, %Y')
 
-    "Week##{start_week} (#{formatted_start_date} - #{formatted_end_date})"
+    "(#{formatted_start_date} - #{formatted_end_date})"
   end
 
   private

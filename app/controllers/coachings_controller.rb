@@ -6,17 +6,37 @@ class CoachingsController < ApplicationController
   before_action :set_coaching, only: %i[show edit update destroy acknowledgement]
   before_action :set_account, only: %i[show new create edit update destroy acknowledgement]
   before_action :mark_notifications_as_read, only: :show
-  before_action :mentee, only: %i[acknowledgement]
-  before_action :mentor, only: %i[new create edit]
+  before_action :coachee, only: %i[acknowledgement]
+  before_action :coach, only: %i[new create edit]
   before_action :admin?, only: :destroy
 
   def index
-    # @coachings = Coaching.all
-    @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+    filtered_coachings = filter_by_agent
+
+    if current_user.agent?
+      # @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
+      @coachings = filtered_coachings.where(user: current_user) # Coaching.where(user: current_user).order(created_at: :desc)
+    else
+      # @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+      @coachings = filtered_coachings #Coaching.order(created_at: :desc)
+    end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def show
-    mark_notifications_as_read(@coachings)
+    # mark_notifications_as_read(@coachings)
+    @previous_coaching_log = Coaching.where('id < ?', @coaching.id).order(id: :desc).first
+    respond_to do |format|
+      format.html
+      format.json { render json: @coaching.to_json(include: { note: { only: %i[id content] } }) }
+      format.pdf do
+        render pdf: "hello-filename", template: "coachings/coaching_pdf", formats: [:html], layout: 'pdf'
+      end
+    end
   end
 
   def new
@@ -82,7 +102,7 @@ class CoachingsController < ApplicationController
     redirect_back(fallback_location: root_path, alert: "You're not authorized.")
   end
 
-  def mentor
+  def coach
     @account = Account.find(params[:account_id])
 
     return if current_user.manager?
@@ -90,7 +110,7 @@ class CoachingsController < ApplicationController
     redirect_to account_coachings_url(@account), alert: "You're not allowed create or edit a coaching form."
   end
 
-  def mentee
+  def coachee
     @account = Account.find(params[:account_id])
 
     return if current_user.agent? && @coaching.user == current_user
@@ -102,5 +122,15 @@ class CoachingsController < ApplicationController
   def mark_notifications_as_read
     notification_to_mark_as_read = @coaching.notifications_as_coaching.where(recipient: current_user)
     notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
+  end
+
+  def filter_by_agent
+    email = params[:filter_by]
+
+    user = User.find_by(email: email)
+
+    return Coaching.all if email == 'all' || email.blank?
+
+    Coaching.where(user: user)
   end
 end

@@ -1,7 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Connects to data-controller="notification"
 export default class extends Controller {
+  static targets = ["notif"];
+  
   connect() {
-    this.element.textContent = "Hello World!";
+    console.log(this.element);
   }
 }

@@ -1,142 +1,92 @@
-<div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
-  <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
-    <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-      <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Dashboard</h5>
-      <button class="w-12 h-16 -mr-2 border-r lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-      <div class="flex space-x-4">
-        <!--search bar -->
-        <div hidden class="md:block">
-          <div class="relative flex items-center text-gray-400 focus-within:text-cyan-400">
-            <span class="absolute left-4 h-6 flex items-center pr-3 border-r border-gray-300">
-              <svg xmlns="http://ww50w3.org/2000/svg" class="w-4 fill-current" viewBox="0 0 35.997 36.004">
-                <path
-                  id="Icon_awesome-search"
-                  data-name="search"
-                  d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z"
-                ></path>
-              </svg>
-            </span>
-            <input type="search" name="leadingIcon" id="leadingIcon" placeholder="Search here" class="w-full pl-14 pr-4 py-2.5 rounded-xl text-sm text-gray-600 outline-none border border-gray-300 focus:border-cyan-300 transition" />
-          </div>
+<%= provide(:h1, "Dashboard") %>
+<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+  <h1 class="text-md font-medium whitespace-nowrap text-gray-600">Pages / <%= yield(:h1) %></h1>
+  <div class="space-y-6 md:space-x-2 md:space-y-0">
+    <!--a href="https://kamona-wd.github.io/kwd-dashboard/" target="_blank" class="inline-flex items-center justify-center px-4 py-1 space-x-1 bg-red-500 text-white rounded-md shadow animate-bounce hover:bg-red-600">
+      <span>See Dark & Light version</span>
+    </a-->
+  </div>
+</div>
+
+<!-- Start Content -->
+<div class="grid grid-cols-1 gap-5 mt-6 sm:grid-cols-2 lg:grid-cols-4">
+  <template x-for="i in 4" :key="i">
+    <div class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
+      <div class="flex items-start justify-between">
+        <div class="flex flex-col space-y-2">
+          <span class="text-gray-400">Total Users</span>
+          <span class="text-lg font-semibold">100,221</span>
         </div>
-        <!--/search bar -->
-        <button aria-label="search" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200 md:hidden">
-          <svg xmlns="http://ww50w3.org/2000/svg" class="w-4 mx-auto fill-current text-gray-600" viewBox="0 0 35.997 36.004">
-            <path
-              id="Icon_awesome-search"
-              data-name="search"
-              d="M35.508,31.127l-7.01-7.01a1.686,1.686,0,0,0-1.2-.492H26.156a14.618,14.618,0,1,0-2.531,2.531V27.3a1.686,1.686,0,0,0,.492,1.2l7.01,7.01a1.681,1.681,0,0,0,2.384,0l1.99-1.99a1.7,1.7,0,0,0,.007-2.391Zm-20.883-7.5a9,9,0,1,1,9-9A8.995,8.995,0,0,1,14.625,23.625Z"
-            ></path>
-          </svg>
-        </button>
-        <button aria-label="chat" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 m-auto text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-          </svg>
-        </button>
-        <button aria-label="notification" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 m-auto text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
-          </svg>
-        </button>
+        <div class="p-10 bg-gray-200 rounded-md"></div>
+      </div>
+      <div>
+        <span class="inline-block px-2 text-sm text-white bg-green-300 rounded">14%</span>
+        <span>from 2019</span>
       </div>
     </div>
-  </div>
+  </template>
+</div>
 
-  <div class="px-6 pt-6 2xl:container">
-    <!-- component -->
-    <div class="container mx-auto px-4 sm:px-8">
-      <div class="py-8">
-        <div>
-          <h2 class="text-2xl font-semibold leading-tight">Tickets (<%= @tickets_total.count %>)</h2>
-          <br />
-          <%= link_to "Add new ticket", new_account_ticket_path, class:"hover:shadow-form rounded-md bg-fern hover:bg-graphite py-3 px-8 text-base font-semibold text-white outline-none" %>
-          <br /><br />
-        </div>
-        <div class="my-2 flex sm:flex-row flex-col">
-          <div class="flex flex-row mb-1 sm:mb-0">
-            <!--div class="relative">
-              <select class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                <option>5</option>
-                <option>10</option>
-                <option>20</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div>
-            <div-- class="relative">
-              <select
-                class="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
-              >
-                <option>All</option>
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                </svg>
-              </div>
-            </div-->
-          </div>
-          <div class="block relative">
-            <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-              <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current text-gray-500">
-                <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z"></path>
-              </svg>
-            </span>
-            <input
-              placeholder="Search"
-              class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
-            />
-          </div>
-        </div>
-        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-            <table class="min-w-full leading-normal">
-              <thead>
-                <tr>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    ID
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Ticket#
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Assignee
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Modified By
-                  </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                    Created
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @tickets.each do |ticket| %> 
-                  <%= render 'ticket', ticket: ticket, account: @account %>
-                <% end %>
-              </tbody>
-            </table>
-            <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-              <span class="text-xs xs:text-sm text-gray-900">
-                <%== pagy_info(@pagy) %>
-              </span>
-              <div class="inline-flex mt-2 xs:mt-0">
-                <%== pagy_nav(@pagy) %>
-              </div>
-            </div>
-          </div>
-        </div>
+<% if @tickets.any? %>
+<!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
+<h3 class="mt-6 text-xl">Users</h3>
+<div class="flex flex-col mt-6">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden border-b border-gray-200 rounded-md shadow-md">
+        <table class="min-w-full overflow-x-scroll divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Name
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Title
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Status
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Role
+              </th>
+              <th scope="col" class="relative px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <template x-for="i in 10" :key="i">
+              <tr class="transition-all hover:bg-gray-100 hover:shadow-lg">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="flex-shrink-0 w-10 h-10">
+                      <img class="w-10 h-10 rounded-full" src="https://avatars0.githubusercontent.com/u/57622665?s=460&u=8f581f4c4acd4c18c33a87b3e6476112325e8b38&v=4" alt="" />
+                    </div>
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">Ahmed Kamel</div>
+                      <div class="text-sm text-gray-500">ahmed.kamel@example.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                  <div class="text-sm text-gray-500">Optimization</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                    Active
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">Admin</td>
+                <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
+<% end %>

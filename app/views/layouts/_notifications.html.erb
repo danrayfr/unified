@@ -1,66 +1,55 @@
 <% if current_user %>
+
 <div data-controller="dropdown" class="relative">
 
-
-<button data-action="dropdown#toggle click@window->dropdown#hide" id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none" type="button"> 
-<svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
-    <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
-  </svg>
-<div class="relative flex">
-  <div class="relative inline-flex w-3 h-3 bg-red-500 border-2 border-white rounded-full -top-2 right-3">
-    <%= @unread.count >= 9 ? "9+" : @unread.count %>
-  </div>
-</div>
-</button>
-<!-- Dropdown menu -->
-<div id="dropdownNotification" class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow" aria-labelledby="dropdownNotificationButton" data-dropdown-target="menu">
-  <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
-      Notifications
-  </div>
-  <% @unread.each do |notification| %>
-    <%= link_to notification.to_notification.url do %>
-      <div class="divide-y divide-gray-100">
-          <div class="flex-shrink-0">
-            <img class="rounded-full w-11 h-11" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">
-            <div class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-blue-600 border border-white rounded-full">
-              <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z"/>
-                <path d="M4.439 9a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239Z"/>
-              </svg>
-            </div>
-          </div>
-          <div class="w-full pl-3">
-              <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><%= notification.to_notification.message %></div>
-              <div class="text-xs text-blue-600 dark:text-blue-500">a few moments ago</div>
-          </div>
-      </div>
-    <% end %>
-  <% end %>
-  <% if @read.count > 0 && @unread.count > 0%>
-    <div class="divide-y divide-gray-100"></div>
-  <% elsif %>
-    <div class="divide-y divide-gray-100">No notifications yet.</div>
-  <% end %>
-
-  <% @read.each do |notification| %>
-  <%= link_to notification.to_notification.url do %>
-  <div class="divide-y divide-gray-100">
-      <div class="flex-shrink-0">
-        <img class="rounded-full w-11 h-11" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">
-        <div class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-blue-600 border border-white rounded-full">
-          <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-            <path d="M1 18h16a1 1 0 0 0 1-1v-6h-4.439a.99.99 0 0 0-.908.6 3.978 3.978 0 0 1-7.306 0 .99.99 0 0 0-.908-.6H0v6a1 1 0 0 0 1 1Z"/>
-            <path d="M4.439 9a2.99 2.99 0 0 1 2.742 1.8 1.977 1.977 0 0 0 3.638 0A2.99 2.99 0 0 1 13.561 9H17.8L15.977.783A1 1 0 0 0 15 0H3a1 1 0 0 0-.977.783L.2 9h4.239Z"/>
+<div class="flex items-center">
+    <div x-data="{ notificationOpen: false }" class="relative">
+        <button data-action="dropdown#toggle click@window->dropdown#hide" aria-label="notification" class="w-10 h-10 rounded-xl border bg-gray-100 focus:bg-gray-100 active:bg-gray-200">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 m-auto text-gray-600" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
           </svg>
+
+            <div class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2">
+              <%= @unread.count >= 9 ? "9+" : @unread.count %>
+            </div>
+        </button>
+
+        <div x-show="notificationOpen" @click="notificationOpen = false" class="fixed inset-0 z-10 w-full h-full" style="display: none;"></div>
+
+        <div x-show="notificationOpen" class="absolute right-0 z-10 mt-2 overflow-hidden bg-white rounded-lg shadow-xl w-80 hidden" data-dropdown-target="menu">
+        <ul class="h-80 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
+        <% @unread.each do |notification| %>
+          <li>
+            <%= link_to notification.to_notification.url, class: "flex items-center px-4 py-3 -mx-2 text-gray-600 hover:text-white hover:bg-paleFern" do %>
+                <p class="mx-2 text-sm">
+                    <span class="font-bold" href="#"><%= notification.to_notification.message %>
+                    <br/>
+                    <span class="text-xs text-graphite"><%= time_ago_in_words notification.created_at %> ago</span>
+                </p>
+            <% end %>
+          </li>
+        <% end %>
+
+        <% if @read.count > 0 && @unread.count > 0%>
+          <li class="flex items-center p-3 text-sm font-medium text-red-600 border-b-4 border-gray-300 hover:underline"></li>
+        <% elsif %>
+          <li class="flex items-center p-3 text-sm font-medium text-red-600 border-b-4 border-gray-300 hover:underline">No new notifications yet.</li>
+        <% end %>
+
+        <% @read.each do |notification| %>
+          <li>
+            <%= link_to notification.to_notification.url, class: "flex items-center px-4 py-3 -mx-2 text-gray-600 hover:text-white hover:bg-paleFern" do %>
+                <p class="mx-2 text-sm">
+                    <span class="font-bold" href="#"><%= notification.to_notification.message %>
+                    <br/>
+                    <span class="text-xs text-graphite"><%= time_ago_in_words notification.created_at %> ago</span>
+                </p>
+            <% end %>
+          </li>
+        <% end %>
+        </ul>
         </div>
-      </div>
-      <div class="w-full pl-3">
-          <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><%= notification.to_notification.message %></div>
-          <div class="text-xs text-blue-600 dark:text-blue-500">a few moments ago</div>
-      </div>
-  </div>
-  <% end %>
-  <%end %>
+    </div>
 </div>
-</div>
+
 <% end %>

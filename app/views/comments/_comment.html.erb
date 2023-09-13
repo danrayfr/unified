@@ -1,8 +1,27 @@
-<div class="comment- <%= comment.id %>">
-  <%= comment.user.name %>
-  <%= comment.note&.content %>
+<% commentable.comments.each do |comment| %>
+<article class="p-6 text-base rounded-lg <%= comment.pinned? ? "bg-ivory" : "bg-gold" %>" id="comment- <%= comment.id %>">
+  <footer class="flex justify-between items-center mb-2">
+    <div class="flex items-center">
+      <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+        <%= image_renderer(comment.user.avatar_url, class: "mr-2 w-6 h-6 rounded-full") %>
+        <span class="text-graphite"><%= comment.user.name || comment.user.email %></span>
+      </p>
+      <p class="text-sm text-graphite">
+        <%= time_ago_in_words(comment.created_at) %> ago (<%= comment.pinned? ? "commitment" : "comment"%>)
+      </p>
+    </div>
 
-  <span><%= time_ago_in_words(comment.created_at) %></span>
-
-  <%= button_to 'Delete', [account, ticket, comment], method: :delete, class: 'text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900' if comment.user == current_user %>
-</div>
+  </footer>
+  <p class="text-gray-graphite">
+    <%= comment.note&.content %>
+  </p>
+  <div class="flex items-center mt-4 space-x-4">
+    <%= button_to [account, commentable, comment], method: :delete, class: 'flex items-center text-sm text-gray-500 hover:underline hover:text-coral font-medium' do%>
+      <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
+      </svg>
+      Delete
+    <% end if comment.user == current_user && comment.pinned %>
+  </div>
+</article>
+<% end %>

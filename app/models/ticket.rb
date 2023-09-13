@@ -20,13 +20,13 @@
 #
 
 class Ticket < ApplicationRecord
-  Pagy::DEFAULT[:items] = 6
+  Pagy::DEFAULT[:items] = 8
 
   belongs_to :user
   belongs_to :account
   has_many :ticket_details, dependent: :destroy
   has_one :quality, dependent: :destroy
-  has_many :comments, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   accepts_nested_attributes_for :ticket_details, allow_destroy: true, reject_if: :all_blank
 

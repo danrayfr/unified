@@ -165,12 +165,16 @@
           <div class="border-b">
             <h1 class="text-graphite text-5xl font-medium">Comments</h1>
           </div>
-          <% @ticket.comments.each do |comment| %>
-            <%= render 'comments/comment', account: @account, ticket: @ticket, comment: comment %>
-          <% end %>
+          <%# @ticket.comments.each do |comment| %>
+            <%#= render 'comments/comment', account: @account, ticket: @ticket, comment: comment %>
+          <%# end %>
           
-          <%= render partial: 'comments/form', locals: { account: @account, ticket: @ticket } %>
-      </div>
+          <%= render partial: "comments/comment", locals: { commentable: @ticket, account: @account } %>
+
+          <%= render partial: "comments/form", locals: { commentable: @ticket, account: @account } %>
+
+          <%# = render partial: 'comments/form', locals: { account: @account, ticket: @ticket, commentable: @ticket } %>
+        </div>
     </div>
   </div>
 </div>

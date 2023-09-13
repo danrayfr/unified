@@ -11,17 +11,36 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <header>
-      <% if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
-        <%= render 'layouts/sidebar' %>
-      <% else %>
-        <%= render 'layouts/navbar' unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
-      <% end %>
-      <%= render 'shared/notifications' %>
-    </header>
-    <main>
-      <%= yield %>
-    </main>
+  <body class="font-raleway">
+    <div class="flex h-screen overflow-y-hidden bg-white" x-data="setup()" 
+    x-init="$refs.loading.classList.add('hidden')">
+
+    <!-- Loading screen -->
+    <!--div x-ref="loading" class="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-50" style="backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
+      Loading.....
+    </div-->
+
+    <%= render 'layouts/sidebar' %>
+
+    <div class="flex flex-col flex-1 h-full overflow-hidden">
+      <%= render 'layouts/navbar' %>
+
+      <main class="flex-1 max-h-full p-5 overflow-hidden overflow-y-scroll">
+        <%= yield %>
+      </main>
+    </div>
+
+      <header>
+        <%#if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
+          <%# = render 'layouts/sidebar' %>
+        <% #else %>
+          <%#= render 'layouts/navbar' unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
+        <%# end %>
+        <%#= render 'shared/notifications' %>
+      </header>
+      <main>
+        <%#= yield %>
+      </main>
+    </div>
   </body>
 </html>

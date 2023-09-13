@@ -5,6 +5,11 @@ class CoachingMailer < ApplicationMailer
     @coaching = params[:coaching]
     @user = params[:recipient]
 
+    pdf = WickedPdf.new.pdf_from_string(
+      render_to_string('coachings/coaching_pdf', layout: 'layouts/pdf')
+    )
+    attachments["Coaching Log #{@coaching.id}.pdf"] = pdf
+
     mail(
       to: params[:recipient].email,
       subject: "[Ninjafied] You have been assigned to a Coaching Log##{@coaching.id}."

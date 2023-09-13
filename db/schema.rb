@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_07_155135) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_12_184131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -110,11 +110,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_155135) do
 
   create_table "comments", force: :cascade do |t|
     t.boolean "pinned", default: false
-    t.bigint "ticket_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ticket_id"], name: "index_comments_on_ticket_id"
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
@@ -231,7 +232,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_155135) do
   add_foreign_key "coaching_templates", "accounts"
   add_foreign_key "coachings", "accounts"
   add_foreign_key "coachings", "users"
-  add_foreign_key "comments", "tickets"
   add_foreign_key "comments", "users"
   add_foreign_key "qa_templates", "accounts"
   add_foreign_key "qualities", "tickets"

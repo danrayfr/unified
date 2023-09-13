@@ -1,19 +1,28 @@
-<%= form_with(model: [account, ticket, Comment.new]) do |form| %>
+<%= form_for([account, commentable, Comment.new]) do |form| %>
 
   <%= form.fields_for(:note, Note.new) do |note_form| %>
     <div class="mb-6">
-      <%= note_form.label :note %>
       <%= note_form.rich_text_area :content %>
     </div>
   <% end %>
 
-  <div class="mb-6">
-    <%= form.label :pinned, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-    <%= form.check_box :pinned, checked_value: true, unchecked_value: false %>
+  <div class="flex items-center mb-4 space-x-2">
+    <%#= form.check_box :pinned, checked_value: true, unchecked_value: false %>
+    <%#= form.label :commitment, class: "block text-base font-bold text-[#07074D]" %>
    </div>
 
+  <% if commentable.user == current_user %>
+    <div class="mb-6">
+      <label class="flex items-center">
+        <%= form.check_box :pinned, unchecked_value: false, checked_value: true,class: "w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" %>
+        <span class="ml-2 text-md font-bold text-gray-900">Commitment</span>
+        <p class="ml-2 text-sm font-normal text-gray-500">(Check the box if you're inputting your commitment)</p>
+      </label>
+    </div>
+  <% end %>
+
   <div class="mb-6">
-    <%= form.submit %>
+    <%= form.submit class: "inline-flex items-center justify-center px-4 py-1 space-x-1 bg-fern text-white rounded-md shadow hover:bg-graphite"%>
   </div>
 
 <% end %>

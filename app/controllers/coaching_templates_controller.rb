@@ -23,7 +23,7 @@ class CoachingTemplatesController < ApplicationController
 
     respond_to do |format|
       if @coaching_template.save
-        format.html { redirect_to account_coaching_templates_path(@account, @coaching_template), notice: 'Coaching template created.' } # rubocop:disable Layout/LineLength
+        format.html { redirect_to account_coaching_template_path(@account, @coaching_template), notice: 'Coaching template created.' } # rubocop:disable Layout/LineLength
       else
         format.html { render :new, status: :unprocessable_entity }
       end
