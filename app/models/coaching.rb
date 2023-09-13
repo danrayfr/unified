@@ -23,7 +23,8 @@
 
 class Coaching < ApplicationRecord
   default_scope -> { order(acknowledgement: :asc, created_at: :desc) }
-
+  Pagy::DEFAULT[:items] = 6
+  
   belongs_to :user
   belongs_to :account
   has_one :note, as: :notable, dependent: :destroy
