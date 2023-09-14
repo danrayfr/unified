@@ -23,6 +23,10 @@
 <% coaching_groups_per_acknowledgement = @account.coachings.group(:id, :acknowledgement).group_by(&:acknowledgement) %>
 <%#= pie_chart result = coaching_groups_per_acknowledgement.transform_keys { |key| acknowledgment_labels[key]}.transform_values(&:count) %>
 
+<% commitment_labels = { true => 'commitment', false => 'comments' } %>
+<% commitment_per_coachings = @account.coachings.joins(:comments).pluck(:pinned).group_by { |pinned| pinned } %>
+
+
 <% unless current_user.agent? %>
 
   <div class="flex flex-col px-20 md:px-10 md:flex-row items-center justify-center gap-6">
@@ -36,6 +40,13 @@
       <div class="px-9 pt-10 pb-14 border-2 rounded-lg">
         <span class="text-gray-400">Acknowledgement Pie Chart</span>
         <%= pie_chart result = coaching_groups_per_acknowledgement.transform_keys { |key| acknowledgment_labels[key]}.transform_values(&:count) %>
+      </div>
+    </div>
+
+    <div>
+      <div class="px-9 pt-10 pb-14 border-2 rounded-lg">
+        <span class="text-gray-400">Comment & Commitments Pie Chart</span>
+        <%= pie_chart result = commitment_per_coachings.transform_keys { |key| commitment_labels[key]}.transform_values(&:count) %>
       </div>
     </div>
   </div>

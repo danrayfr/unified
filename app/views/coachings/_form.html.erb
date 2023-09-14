@@ -1,5 +1,5 @@
 <section class="max-w-screen-lg p-6 mx-auto mt-20">
-  <h1 class="text-xl font-bold text-gray-600 capitalize">New Coaching</h1>
+  <h1 class="text-xl font-bold text-gray-600 capitalize"><%= @coaching.new_record? ? "New" : "Edit"%> Coaching</h1>
   <%= form_with(model: [account, coaching], data: { controller: coaching.new_record? ? "coaching-form" : "coaching-form" }) do |form|  %>
 
   <%= render 'shared/error_messages', object: form.object %>
@@ -9,12 +9,12 @@
   <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
     <div>
       <label class="text-gray-600 mb-3">Coaching Date Start</label>
-      <%= form.date_field :coaching_start_date, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: current_user.agent? %>
+      <%= form.date_field :coaching_start_date, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md",disabled: @coaching.persisted? ? true : false %>
     </div>
 
     <div>
       <label class="text-gray-600 mb-3">Coaching Date Start</label>
-      <%= form.date_field :coaching_end_date, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: current_user.agent? %>
+      <%= form.date_field :coaching_end_date, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: @coaching.persisted? ? true : false %>
     </div>
 
     <div>
@@ -24,7 +24,7 @@
                            :employee_id_and_name,
                            :employee_id_and_name,
                            { prompt: 'Select Manager' },
-                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: current_user.agent? } %>
+                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: @coaching.persisted? ? true : false } %>
     </div>
 
     <% unless coaching.persisted? %>
@@ -44,19 +44,19 @@
       <%= form.text_field :coach, value: @account.users.where(role: 'manager').first&.employee_id_and_name, readonly: true, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
     </div>
 
-    <div>
+    <div class="">
       <label class="text-gray-600">Coachee</label>
       <%= form.collection_select :user_id,
                            @account.users.where(role: 'agent'),
                            :id,
                            :employee_id_and_name,
                            { prompt: 'Select Agent' },
-                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: current_user.agent? } %>
+                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: @coaching.persisted? ? true : false } %>
     </div>
 
     <div class="mb-6">
       <label class="text-gray-600">Account</label>
-      <%= form.text_field :coach, value: @account.name, disabled: true, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+      <%= form.text_field :account, value: @account.name, readonly: true, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
     </div>
 
     <% if @account.enable_kpi %>
@@ -65,7 +65,16 @@
         <%#= form.text_field :coach, value: @account.name, disabled: true, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
       </div>
     <% end %>
+
+    </div>
+
+    <div class="mb-6">
+      <label class="text-gray-600">Custom Content</label>
+      <div id="custom-checkboxes" data-coaching-form-target="customCheckboxes" class="mb-6">
+    </div>
   </div>
+
+  <%= form.hidden_field :custom_note, value: @custom_note if @coaching.persisted? %>
 
   <%= form.fields_for(:note, @note) do |note_form| %>
     <div class="mb-6">
@@ -76,11 +85,11 @@
             <%= @note.content %>
           </div>
         <% else %>
-          <%= note_form.rich_text_area :content, data: { coaching_form_target: "noteField" } %>
+          <%= note_form.rich_text_area :content, value: @note.content, data: { coaching_form_target: "noteField" } %>
         <% end %>
       <% else %>
-       <%#= note_form.rich_text_area :content, value: @note.content, data: { coaching_form_target: "noteField", editing: @coaching.persisted? } %>
-       <%= note_form.rich_text_area :content %>
+       <%= note_form.rich_text_area :content, data: { coaching_form_target: "noteField" } %>
+       <%#= note_form.rich_text_area :content %>
       <% end %>
     </div>
   <% end %>

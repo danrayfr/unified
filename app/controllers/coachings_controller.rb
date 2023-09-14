@@ -48,6 +48,8 @@ class CoachingsController < ApplicationController
   def create
     @coaching = @account.coachings.build(coaching_params)
 
+    @coaching.custom_note = populate_customs
+
     if @coaching.save
       redirect_to account_coaching_path(@account, @coaching), notice: 'Successfully created.'
     else
@@ -58,16 +60,24 @@ class CoachingsController < ApplicationController
   def edit
     @note_content = @coaching.note.content if @coaching.note
     @note = @coaching.note
+
+    @custom_note = @coaching.custom_note
   end
 
   def acknowledgement
     @coaching = Coaching.find(params[:id])
     @note = @coaching.note
+
+    @custom_note = @coaching.custom_note
   end
 
   def update
     @coaching = Coaching.find(params[:id])
     @note = @coaching.note
+
+    @custom_note = @coaching.custom_note
+
+    # @coaching.custom_note = populate_customs
 
     if @coaching.update(coaching_params)
 
@@ -94,7 +104,7 @@ class CoachingsController < ApplicationController
     params.require(:coaching).permit(:coaching_start_date, :coaching_end_date, :acknowledgement,
                                      :date_acknowledged, :user_id, :account_id, :coaching_title,
                                      :manager, :coach, :review_frequency, :review_instance,
-                                     note_attributes: %i[id content])
+                                     custom_note: [], note_attributes: %i[id content])
   end
 
   def check_role
@@ -133,5 +143,16 @@ class CoachingsController < ApplicationController
     return Coaching.all if email == 'all' || email.blank?
 
     Coaching.where(user:)
+  end
+
+  def populate_customs
+    customs = []
+    params[:custom_name]&.each_with_index do |custom_name, index|
+      content = params[:custom_content][index]
+      custom = { custom_name:, content: }
+      customs << custom
+    end
+
+    customs
   end
 end

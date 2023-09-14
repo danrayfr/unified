@@ -96,7 +96,6 @@ export default class extends Controller {
 
       this.noteFieldTarget.value =  
       `<div class="mb-6"><p>${newNoteValue}</p></div><br/>` + (newNoteValue ? '\n\n' : '') + existingNoteValue;
-
     }
   }
 

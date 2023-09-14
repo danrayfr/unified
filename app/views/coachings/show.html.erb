@@ -6,7 +6,7 @@
       <a class="opacity-50 text-slate-700">Pages</a>
     </li>
     <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= link_to "Coaching", account_coachings_url(@account) %></li>
-    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= @coaching.id %></li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= @coaching.coaching_title %></li>
   </ol>
 
   <div class="space-y-6 md:space-x-2 md:space-y-0">
@@ -78,12 +78,54 @@
           </div>
 
           <div class="col-span-full">
-            <label for="street-address" class="block text-sm font-bold leading-6 text-gray-900">Notes</label>
+            <label for="street-address" class="block text-sm font-bold leading-6 text-gray-900 mb-6">Notes</label>
+              <div class="overflow-hidden border-dashed border-2 border-gray-600 md:rounded-lg p-6">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Step</th>
+
+                      <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Content</th>
+
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <% @coaching.custom_note.each do |custom| %> 
+                        <tr>
+                          <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                            <div>
+                              <h2 class="font-medium text-gray-800 capitalize">
+                                <%#= link_to template.name, account_coaching_template_path(template.account, template) %>
+                                <%= custom['custom_name']%>
+                              </h2>
+                            </div>
+                          </td>
+                          <td class="px-4 py-4 text-sm whitespace-nowrap">
+                            <div class="flex items-center">
+                              <%= custom['content'] %>
+                            </div>
+                          </td>
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+            </div>
+
             <div class="mt-6">
               <%= @coaching.note.content %>
             </div>
           </div>
+        </div>
+      </div>
 
+      <div class="flex justify-between items-center mb-6 mt-6">
+          <h2 class="text-lg lg:text-2xl font-medium text-gray-900">Commitment/Comments (<%= @coaching.comments.count %>)</h2>
+        </div>
+
+        <%= render "comments/form", account: @account, commentable: @coaching %>
+
+        <div class="space-y-12">
+          <%= render partial: 'comments/comment', locals: { account: @account, commentable: @coaching } %>
         </div>
       </div>
   </div>
