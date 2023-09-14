@@ -34,12 +34,15 @@ class Coaching < ApplicationRecord
   validates :coaching_end_date, presence: true
   validates :user, presence: { message: 'Agent should not be blank.' }
   validate :validate_week_duration
+  validate :validate_note_content
+  validates :coach, presence: true
 
   has_many :notifications, through: :user, dependent: :destroy
   has_noticed_notifications model_name: 'Notification'
 
   has_many :comments, as: :commentable, dependent: :destroy
 
+  before_create :set_coaching_title
   after_create_commit :notify_recipient
   before_destroy :clean_notifications
 
@@ -83,7 +86,19 @@ class Coaching < ApplicationRecord
     formatted_start_date = coaching_start_date.strftime('%B %d, %Y')
     formatted_end_date = coaching_end_date.strftime('%B %d, %Y')
 
-    "(#{formatted_start_date} - #{formatted_end_date})"
+    "#{formatted_start_date} - #{formatted_end_date}"
+  end
+
+  def set_coaching_title
+    self.coaching_title = "Coaching Log ID: #{user.employee_id} (#{coaching_start_date} - #{coaching_end_date})"
+  end
+
+  def self.acknowledged_count
+    where(acknowledgement: true).count
+  end
+
+  def self.unacknowledged_count
+    where(acknowledgement: false).count
   end
 
   private
@@ -94,5 +109,10 @@ class Coaching < ApplicationRecord
 
   def clean_notifications
     notifications_as_ticket.destroy_all
+  end
+
+  def validate_note_content
+    # Check if the associated note's content is present
+    errors.add(:base, "Note content can't be blank") if note && note.content.blank?
   end
 end

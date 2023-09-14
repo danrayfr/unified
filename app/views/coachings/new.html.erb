@@ -9,6 +9,9 @@
     <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">New</li>
   </ol>
 
+  <%= link_to :back, class:"hover:shadow-form cursor-pointer rounded-md border-2 border-gray-300 text-graphite hover:bg-graphite py-1 px-4 text-base font-semibold hover:text-white outline-none" do %>
+      <span>Cancel</span>
+    <% end if current_user.manager? %>
 </div>
 
 <%= render "form", account: @account, coaching: @coaching %>

@@ -13,13 +13,13 @@ class CoachingsController < ApplicationController
   def index
     filtered_coachings = filter_by_agent
 
-    if current_user.agent?
-      # @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
-      @coachings = filtered_coachings.where(user: current_user) # Coaching.where(user: current_user).order(created_at: :desc)
-    else
-      # @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
-      @coachings = filtered_coachings #Coaching.order(created_at: :desc)
-    end
+    @coachings = if current_user.agent?
+                   # @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
+                   filtered_coachings.where(user: current_user) # Coaching.where(user: current_user).order(created_at: :desc)
+                 else
+                   # @pagy, @coachings = pagy(Coaching.order(created_at: :desc))
+                   filtered_coachings # Coaching.order(created_at: :desc)
+                 end
 
     respond_to do |format|
       format.html
@@ -34,7 +34,7 @@ class CoachingsController < ApplicationController
       format.html
       format.json { render json: @coaching.to_json(include: { note: { only: %i[id content] } }) }
       format.pdf do
-        render pdf: "hello-filename", template: "coachings/coaching_pdf", formats: [:html], layout: 'pdf'
+        render pdf: 'hello-filename', template: 'coachings/coaching_pdf', formats: [:html], layout: 'pdf'
       end
     end
   end
@@ -92,7 +92,8 @@ class CoachingsController < ApplicationController
 
   def coaching_params
     params.require(:coaching).permit(:coaching_start_date, :coaching_end_date, :acknowledgement,
-                                     :date_acknowledged, :user_id, :account_id,
+                                     :date_acknowledged, :user_id, :account_id, :coaching_title,
+                                     :manager, :coach, :review_frequency, :review_instance,
                                      note_attributes: %i[id content])
   end
 
@@ -127,10 +128,10 @@ class CoachingsController < ApplicationController
   def filter_by_agent
     email = params[:filter_by]
 
-    user = User.find_by(email: email)
+    user = User.find_by(email:)
 
     return Coaching.all if email == 'all' || email.blank?
 
-    Coaching.where(user: user)
+    Coaching.where(user:)
   end
 end

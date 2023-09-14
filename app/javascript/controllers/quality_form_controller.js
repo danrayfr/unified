@@ -7,7 +7,7 @@ export default class extends Controller {
     "metricCheckboxes", "currentAccount",
     "checkboxes", "ratingInput"
   ];
-
+  
   connect() {
     this.updateFormFields();
     this.calculateScore();
@@ -24,7 +24,7 @@ export default class extends Controller {
     
     if (selectedTemplateId) {
        // Make an AJAX request to fetch the selected qa template data.
-       fetch(`${baseUrl}/accounts/${currentAccount}/qa_templates/${selectedTemplateId}.json`)
+       fetch(`${baseUrl}/accounts/${currentAccount}/settings/qa_templates/${selectedTemplateId}.json`)
         .then((response) => response.json())
         .then((data) => {
         
@@ -42,7 +42,7 @@ export default class extends Controller {
             const checkBoxHtml = `
               <div class="mb-6 inline-flex">
                 <label class="block">
-                  <input type="checkbox" name="quality[metric_ids][]" value="${metric.deduction}" data-action="change->quality-form#updateScore" quality-form-target="checkboxes">
+                  <input type="checkbox" name="quality[metric_ids][]" value="${metric.deduction}" data-action="change->quality-form#updateScore" quality-form-target="checkboxes" data-description="${metric.description}">
                   ${metric.metric_name}
                 </label>
               </div>
@@ -61,6 +61,9 @@ export default class extends Controller {
     const metricCheckboxesElement = this.metricCheckboxesTarget; // Get the parent element
     const checkboxes = metricCheckboxesElement.querySelectorAll('input[type="checkbox"]'); // Get all child checkboxes
     const ratingInput = this.ratingInputTarget;
+    const selectedDescriptions = []; // Initialize an array to store selected descriptions
+
+    // let selectedDescriptions = []; // Create an array to store selected descriptions
     
     if (checkboxes) {
       let rating = 100; // Initialize with the base score
@@ -70,12 +73,30 @@ export default class extends Controller {
           // Subtract the checkbox value from the score if it's checked
           const checkboxValue = parseInt(checkbox.value)
           rating -= checkboxValue;
+
+          // Append the description to the newNoteValue
+          const metricDescription = checkbox.dataset.description;
+          if (metricDescription) {
+            selectedDescriptions.push(metricDescription);
+          }
+
         }
       });
 
       if (ratingInput) {
         ratingInput.value = rating;
       }
+
+      const newNoteValue = selectedDescriptions.join('\n');
+
+      // Concatenate the selected descriptions with the existing value of noteFieldTarget
+      const existingNoteValue = this.noteFieldTarget.value;
+  
+      // this.noteFieldTarget.value = existingNoteValue + (existingNoteValue ? '\n\n' : '') + `<div class="mb-6"><p>${newNoteValue}</p></div`;
+
+      this.noteFieldTarget.value =  
+      `<div class="mb-6"><p>${newNoteValue}</p></div><br/>` + (newNoteValue ? '\n\n' : '') + existingNoteValue;
+
     }
   }
 
@@ -83,4 +104,3 @@ export default class extends Controller {
     this.calculateScore();
   }
 }
-

@@ -3,6 +3,8 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "trix"
 import "@rails/actiontext"
+import "chartkick"
+import "Chart.bundle"
 
 import LocalTime from "local-time"
 LocalTime.start()
