@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
-## [0.10.1] : 2023-13-09
+## [0.10.2] : 2023-15-09
+
+### Updated
+
+- Redesign coaching mailer and pdf
+
+## [0.10.1] : 2023-15-09
 
 ### Updated
 
@@ -102,6 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.10.2]: https://github.com/danrayfr/unified/pull/18
 [0.10.1]: https://github.com/danrayfr/unified/pull/17
 [0.10.0]: https://github.com/danrayfr/unified/pull/16
 [0.9.0]: https://github.com/danrayfr/unified/pull/15
