@@ -21,6 +21,9 @@ class CoachingTemplatesController < ApplicationController
   def create
     @coaching_template = @account.coaching_templates.build(template_params)
 
+    # Populate the metrics
+    @coaching_template.customs = populate_customs
+
     respond_to do |format|
       if @coaching_template.save
         format.html { redirect_to account_coaching_template_path(@account, @coaching_template), notice: 'Coaching template created.' } # rubocop:disable Layout/LineLength
@@ -60,6 +63,17 @@ class CoachingTemplatesController < ApplicationController
   end
 
   def template_params
-    params.require(:coaching_template).permit(:name, :published, :account_id, note_attributes: %i[id content])
+    params.require(:coaching_template).permit(:name, :published, :account_id, customs: [], note_attributes: %i[id content])
+  end
+
+  def populate_customs
+    customs = []
+    params[:custom_name]&.each_with_index do |custom_name, index|
+      content = params[:custom_content][index]
+      custom = { custom_name:, content: }
+      customs << custom
+    end
+
+    customs
   end
 end

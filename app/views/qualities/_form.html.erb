@@ -41,10 +41,10 @@
             <%= @note.content %>
           </div>
         <% else %>
-          <%= note_form.rich_text_area :content, data: { quality_form_target: "noteField" } %>
+          <%= note_form.rich_text_area :content, value: @note.content, data: { quality_form_target: "noteField" } %>
         <% end %>
       <% else %>
-       <%= note_form.rich_text_area :content, value: @note.content, data: { quality_form_target: "noteField", editing: @quality.persisted? } %>
+       <%= note_form.rich_text_area :content,  data: { quality_form_target: "noteField", editing: @quality.persisted? } %>
       <% end %>
     </div>
   <% end %>

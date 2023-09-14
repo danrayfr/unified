@@ -79,11 +79,13 @@ group :test do
   gem 'webdrivers'
 end
 
+gem 'chartkick'
 gem 'devise'
 gem 'devise_invitable', '~> 2.0.0'
 gem 'dotenv-rails'
 gem 'faker'
 gem 'friendly_id', '~> 5.4.0'
+gem 'groupdate'
 gem 'noticed', '~> 1.6'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'

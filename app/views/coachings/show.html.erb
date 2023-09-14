@@ -6,7 +6,7 @@
       <a class="opacity-50 text-slate-700">Pages</a>
     </li>
     <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= link_to "Coaching", account_coachings_url(@account) %></li>
-    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= @coaching.id %></li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= @coaching.coaching_title %></li>
   </ol>
 
   <div class="space-y-6 md:space-x-2 md:space-y-0">
@@ -22,7 +22,7 @@
 
 <article>
   <div class="xl:divide-y xl:divide-gray-200">
-    <header class="pt-6 xl:pb-6">
+    <header class="pt-6 xl:pb-6 border-b border-gray-300">
       <div class="space-y-1 text-center">
         <dl class="space-y-10">
           <div>
@@ -30,93 +30,103 @@
             <dd class="text-base font-medium leading-6 text-gray-500"><time datetime="2023-08-05T00:00:00.000Z">Created at  <%= time_tag @coaching.created_at, 'data-local': 'time-ago' %></time></dd>
           </div>
         </dl>
-        <div><h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">Coaching Log <%= @coaching.id %></h1></div>
-        <dl class="space-y-12">
-          <div>
-            <dt class="sr-only">Coaching Date</dt>
-            <dd class="text-base font-medium leading-6 text-gray-500"><time datetime="2023-08-05T00:00:00.000Z">Coaching Date:  <%= formatted_date(@coaching.coaching_start_date, @coaching.coaching_end_date) %></time></dd>
-          </div>
-        </dl>
+        <div><h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14"><%= @coaching.coaching_title %></h1></div>
       </div>
     </header>
-    <div class="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
-      <dl class="pb-10 pt-6 xl:border-b xl:border-gray-200 xl:pt-11">
-        <dt class="sr-only">Authors</dt>
-        <dd>
-          <ul class="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
-            <li class="flex items-center space-x-2">
-              <%= image_renderer(@coaching.user.avatar_url, class: "h-10 w-10 rounded-full", style:"color: transparent;") %>
-              <dl class="whitespace-nowrap text-sm font-medium leading-5">
-                <dd class="text-gray-900"><%= @coaching.user.name %></dd>
-                <dd class="text-gray-900">Coachee</dd>
-              </dl>
-            </li>
+    
+    <div class="max-w-screen-lg p-6 mx-auto mt-20">
+      
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Coaching Information</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">Kindly check your email as you have the copy of this coaching log in PDF format.</p>
 
-            <li class="flex items-center space-x-2">
-              <% coach = @account.users.where(role: 'manager').first %>
-              <%= image_renderer(coach.avatar_url, class: "h-10 w-10 rounded-full", style:"color: transparent;") %>
-              <dl class="whitespace-nowrap text-sm font-medium leading-5">
-                <dd class="text-gray-900"><%= coach.name %></dd>
-                <dd class="text-gray-900">Coachee</dd>
-              </dl>
-            </li>
-
-          </ul>
-        </dd>
-      </dl>
-      <div class="divide-y divide-gray-200 xl:col-span-3 xl:row-span-2 xl:pb-0">
-        <div class="prose max-w-none pb-8 pt-10">
-
-          <%= @coaching.note.content %>
-          
-        </div>
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         
-        <div class="pb-6 pt-6 text-center text-gray-700">
-          <!--button>Load Comments</button-->
-          <section class="bg-white py-8 lg:py-16 antialiased">
-            <div class="max-w-2xl mx-auto px-4">
-              <div class="flex justify-between items-center mb-6">
-                <% if @coaching.acknowledgement %>
-                  <h2 class="text-lg lg:text-2xl font-semibold text-lightFern">You acknowledged this coaching log <%= time_ago_in_words @coaching.date_acknowledged %> ago.</h2>
-                <% else %>
-                  <h2 class="text-lg lg:text-2xl font-bold text-coral">Please sign this coaching log by acknowledging it.</h2>
-                <% end %>
-              </div>
-              <div class="flex justify-between items-center mb-6">
-                <h2 class="text-lg lg:text-2xl font-bold text-gray-900">Commitment/Comments (<%= @coaching.comments.count %>)</h2>
-              </div>
+          <div class="sm:col-span-3">
+            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Manager</label>
+            <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
+              <%= @coaching&.manager %>
+            </p>
+          </div>
 
-              <%= render "comments/form", account: @account, commentable: @coaching %>
+          <div class="sm:col-span-3">
+            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Date of Coaching</label>
+            <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
+              <%= @coaching&.date_format %>
+            </p>
+          </div>
 
-              <div class="space-y-12">
-                <%= render partial: 'comments/comment', locals: { account: @account, commentable: @coaching } %>
-              </div>
+          <div class="sm:col-span-3">
+            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Coach</label>
+            <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
+              <%= @coaching&.coach %>
+            </p>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Coachee</label>
+            <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
+              <%= @coaching&.user.employee_id_and_name %>
+            </p>
+          </div>
+
+          <div class="sm:col-span-3">
+            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Account</label>
+            <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6 justify-content">
+              <%= @coaching&.account.name %>
+            </p>
+          </div>
+
+          <div class="col-span-full">
+            <label for="street-address" class="block text-sm font-bold leading-6 text-gray-900 mb-6">Notes</label>
+              <div class="overflow-hidden border-dashed border-2 border-gray-600 md:rounded-lg p-6">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Step</th>
+
+                      <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Content</th>
+
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <% @coaching.custom_note.each do |custom| %> 
+                        <tr>
+                          <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                            <div>
+                              <h2 class="font-medium text-gray-800 capitalize">
+                                <%#= link_to template.name, account_coaching_template_path(template.account, template) %>
+                                <%= custom['custom_name']%>
+                              </h2>
+                            </div>
+                          </td>
+                          <td class="px-4 py-4 text-sm whitespace-nowrap">
+                            <div class="flex items-center">
+                              <%= custom['content'] %>
+                            </div>
+                          </td>
+                        </tr>
+                    <% end %>
+                  </tbody>
+                </table>
             </div>
-          </section>
 
+            <div class="mt-6">
+              <%= @coaching.note.content %>
+            </div>
+          </div>
         </div>
       </div>
-      <footer>
-        <div class="divide-gray-200 text-sm font-medium leading-5 xl:col-start-1 xl:row-start-2 xl:divide-y">
-          <div class="py-4 xl:py-8">
-            <h2 class="text-xs uppercase tracking-wide text-gray-500">Meeting Type</h2>
-            <div class="flex flex-wrap">
-              <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600" href="/tags/next-js">Team</a>
-              <a class="mr-3 text-sm font-medium uppercase text-primary-500 hover:text-primary-600" href="/tags/tailwind">One on One</a>
-            </div>
-          </div>
-          <div class="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
-            <div>
-              <h2 class="text-xs uppercase tracking-wide text-gray-500">Previous Coaching Log</h2>
-              <div class="text-primary-500 hover:text-primary-600">
-                <%= link_to account_coaching_url(@account, @previous_coaching_log.id) do %>
-                  Coaching Log <%= @previous_coaching_log.id %>
-                <% end if @previous_coaching_log %>
-              </div>
-            </div>
-          </div>
+
+      <div class="flex justify-between items-center mb-6 mt-6">
+          <h2 class="text-lg lg:text-2xl font-medium text-gray-900">Commitment/Comments (<%= @coaching.comments.count %>)</h2>
         </div>
-      </footer>
-    </div>
+
+        <%= render "comments/form", account: @account, commentable: @coaching %>
+
+        <div class="space-y-12">
+          <%= render partial: 'comments/comment', locals: { account: @account, commentable: @coaching } %>
+        </div>
+      </div>
   </div>
 </article>

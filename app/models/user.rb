@@ -114,6 +114,10 @@ class User < ApplicationRecord
     errors.add(:email, 'Must have an allowed email domain')
   end
 
+  def employee_id_and_name
+    "#{employee_id} - #{name}" 
+  end
+
   private
 
   # Generate a random number for uuid, since we don't want the attribute uuid to be empty,
