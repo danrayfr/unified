@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_12_184131) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_183224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_184131) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "customs"
     t.index ["account_id"], name: "index_coaching_templates_on_account_id"
   end
 
@@ -104,6 +105,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_184131) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "coaching_title"
+    t.string "manager"
+    t.string "coach"
+    t.string "review_frequency"
+    t.string "review_instance"
+    t.string "kpi"
+    t.jsonb "custom_note"
     t.index ["account_id"], name: "index_coachings_on_account_id"
     t.index ["user_id"], name: "index_coachings_on_user_id"
   end
@@ -217,6 +225,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_12_184131) do
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.string "employee_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true

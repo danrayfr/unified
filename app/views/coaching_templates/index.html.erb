@@ -1,4 +1,15 @@
-<!-- component -->
+<%= provide(:title, "Settings/Coaching Templates") %>
+
+<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+    <li class="leading-normal text-sm">
+      <a class="opacity-50 text-slate-700">Pages</a>
+    </li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">Coaching Templates</li>
+  </ol>
+</div>
+
+
 <section class="container px-4 mx-auto my-12">
 <div class="sm:flex sm:items-center sm:justify-between">
   <div>
@@ -33,7 +44,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <span>Add coaching template</span>
-    <% end %>
+    <% end if current_user.manager? %>
   </div>
 </div>
     

@@ -27,7 +27,7 @@
 class Account < ApplicationRecord
   extend FriendlyId
   Pagy::DEFAULT[:items] = 8
-  
+
   friendly_id :name, use: %i[slugged history finders]
 
   default_scope -> { order(created_at: :asc) }

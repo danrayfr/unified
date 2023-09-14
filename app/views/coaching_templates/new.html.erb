@@ -1,5 +1,17 @@
+<%= provide(:title, "New Template") %>
+
+<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+    <li class="leading-normal text-sm">
+      <a class="opacity-50 text-slate-700">Pages</a>
+    </li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= link_to "Coaching Templates", account_coaching_templates_path(@account) %></li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">New</li>
+  </ol>
+</div>
+
 <div class="container mx-auto">
- <h1>Create new QA Audit Template</h1>
+ <h1>Add new coaching template</h1>
 
  <%= render 'form', account: @account, coaching_template: @coaching_template %>
 </div>

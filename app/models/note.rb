@@ -21,5 +21,8 @@ class Note < ApplicationRecord
   belongs_to :notable, polymorphic: true
 
   has_rich_text :content
-  validates :content, presence: true
+
+  # Commented the validates content in here,
+  # validate in model who uses notable instead.
+  # validates :content, presence: true
 end

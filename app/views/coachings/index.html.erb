@@ -15,30 +15,81 @@
   </div>
 </div>
 
-<!-- Start Content -->
-<div class="grid grid-cols-1 gap-5 mt-6 sm:grid-cols-2 lg:grid-cols-4">
-  <%# 4.times do %>
-    <!--div class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
-      <div class="flex items-start justify-between">
-        <div class="flex flex-col space-y-2">
-          <span class="text-gray-400">Total Users</span>
-          <span class="text-lg font-semibold">100,221</span>
+<%# coaching_groups = Coaching.group(:id, :user_id).group_by(&:user_id) %>
+<% coaching_groups_per_user = @account.coachings.joins(:user).pluck(:email).group_by{ |email| email } %>
+<%#= pie_chart user_counts = coaching_groups_per_user.transform_values(&:count) %>
+
+<% acknowledgment_labels = { true => 'acknowledge', false => 'not acknowledge' } %>
+<% coaching_groups_per_acknowledgement = @account.coachings.group(:id, :acknowledgement).group_by(&:acknowledgement) %>
+<%#= pie_chart result = coaching_groups_per_acknowledgement.transform_keys { |key| acknowledgment_labels[key]}.transform_values(&:count) %>
+
+<% commitment_labels = { true => 'commitment', false => 'comments' } %>
+<% commitment_per_coachings = @account.coachings.joins(:comments).pluck(:pinned).group_by { |pinned| pinned } %>
+
+
+<% unless current_user.agent? %>
+
+  <div class="flex flex-col px-20 md:px-10 md:flex-row items-center justify-center gap-6">
+    <div>
+      <div class="px-9 pt-10 pb-14 border-2 rounded-lg">
+        <span class="text-gray-400">Coaching per user Pie Chart</span>
+        <%= pie_chart user_counts = coaching_groups_per_user.transform_values(&:count) %>
+      </div>
+    </div>
+    <div>
+      <div class="px-9 pt-10 pb-14 border-2 rounded-lg">
+        <span class="text-gray-400">Acknowledgement Pie Chart</span>
+        <%= pie_chart result = coaching_groups_per_acknowledgement.transform_keys { |key| acknowledgment_labels[key]}.transform_values(&:count) %>
+      </div>
+    </div>
+
+    <div>
+      <div class="px-9 pt-10 pb-14 border-2 rounded-lg">
+        <span class="text-gray-400">Comment & Commitments Pie Chart</span>
+        <%= pie_chart result = commitment_per_coachings.transform_keys { |key| commitment_labels[key]}.transform_values(&:count) %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Start Content -->
+  <div class="grid grid-cols-1 gap-5 mt-6 sm:grid-cols-2 lg:grid-cols-4">
+    <%# 4.times do %>
+      <div class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
+        <div class="flex items-start justify-between">
+          <div class="flex flex-col space-y-2">
+            <span class="text-gray-400">Coaching Total</span>
+            <span class="text-lg font-semibold"><%= @coachings.count %></span>
+          </div>
+          <div class="p-10 bg-gray-200 rounded-md"></div>
         </div>
-        <div class="p-10 bg-gray-200 rounded-md"></div>
       </div>
-      <div>
-        <span class="inline-block px-2 text-sm text-white bg-green-300 rounded">14%</span>
-        <span>from 2019</span>
+      <div class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
+        <div class="flex items-start justify-between">
+          <div class="flex flex-col space-y-2">
+            <span class="text-gray-400">Acknowledged Ticket</span>
+            <span class="text-lg font-semibold"><%= @coachings.acknowledged_count %></span>
+          </div>
+          <div class="p-10 bg-gray-200 rounded-md"></div>
+        </div>
       </div>
-    </div-->
-  <%# end %>
+      <div class="p-4 transition-shadow border rounded-lg shadow-sm hover:shadow-lg">
+        <div class="flex items-start justify-between">
+          <div class="flex flex-col space-y-2">
+            <span class="text-gray-400">Unacknowledged Ticket</span>
+            <span class="text-lg font-semibold"><%= @coachings.unacknowledged_count %></span>
+          </div>
+          <div class="p-10 bg-gray-200 rounded-md"></div>
+        </div>
+      </div>
+    <%# end %>
 </div>
+<% end %>
 
 <% if @coachings.any? %>
 <!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
-<h3 class="mt-6 text-lg uppercase">Coaching Logs (<%= @coachings.count %>)</h3>
+<h3 class="mt-6 text-lg uppercase">Coaching Logs</h3>
 
-<% if current_user.manager? %>
+<% unless current_user.agent? %>
 <div class="mt-6 md:flex md:items-center md:justify-between">
   <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
     <div class="relative inline-flex" data-controller="filter">
