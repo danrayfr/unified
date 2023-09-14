@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.10.1] : 2023-13-09
+
+### Updated
+
+- Updated coachings template and design
+- Updated coachings template into a input textarea instead of checkbox
+- Added pie chart
+
 ## [0.10.0] : 2023-13-09
 
 ### Added
@@ -94,6 +102,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.10.1]: https://github.com/danrayfr/unified/pull/17
 [0.10.0]: https://github.com/danrayfr/unified/pull/16
 [0.9.0]: https://github.com/danrayfr/unified/pull/15
 [0.8.0]: https://github.com/danrayfr/unified/pull/14
