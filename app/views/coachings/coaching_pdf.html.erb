@@ -1,9 +1,62 @@
-PDF GENERATION Date:
-
-<%= Time.zone.now %>
-
-<%= @coaching.id %>
-
-<%= @coaching.user.name %>
-
-<%= @coaching.note.content %>
+PDF Generation Date: <%= Time.zone.now %>
+<header>
+  <div class="text-center">
+    <dl>
+      <div>
+        <dt>Published on</dt>
+        <dd>
+          <time datetime="2023-08-05T00:00:00.000Z"><%= time_tag @coaching.created_at, 'data-local': 'time-ago' %></span></time>
+        </dd>
+      </div>
+    </dl>
+    <h1><%= @coaching.coaching_title %></h1>
+  </div>
+</header>
+<div class="border-b border-gray-900/10 pb-12">
+  <h2>Coaching Information</h2>
+  <p>Kindly check your email as you have the copy of this coaching log in PDF format.</p>
+  <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+    <div>
+      <label for="first-name">Manager</label>
+      <p> <%= @coaching&.manager %></p>
+    </div>
+    <div>
+      <label for="first-name">Date of Coaching</label>
+      <p><%= @coaching&.date_format %></p>
+    </div>
+    <div>
+      <label for="first-name">Coach</label>
+      <p><%= @coaching&.coach %></p>
+    </div>
+    <div>
+      <label for="first-name">Coachee</label>
+      <p><%= @coaching&.user.employee_id_and_name %></p>
+    </div>
+    <div>
+      <label for="first-name">Account</label>
+      <p><%= @coaching&.account.name %></p>
+    </div>
+    <div>
+      <label for="street-address">Notes</label>
+      <div class="overflow-hidden">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Step</th>
+              <th>Content</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @coaching.custom_note.each do |custom| %> 
+            <tr>
+              <td><%= custom['custom_name']%></td>
+              <td><%= custom['content']%></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <p><%= @coaching.note.content %></p>
+    </div>
+  </div>
+</div>
