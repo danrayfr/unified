@@ -43,42 +43,43 @@
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
         
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Manager</label>
+            <p class="block text-sm font-medium leading-6 text-gray-900">Manager</p>
             <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
               <%= @coaching&.manager %>
             </p>
           </div>
 
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Date of Coaching</label>
+            <p class="block text-sm font-medium leading-6 text-gray-900">Date of Coaching</p>
             <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
               <%= @coaching&.date_format %>
             </p>
           </div>
 
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Coach</label>
+            <p class="block text-sm font-medium leading-6 text-gray-900">Coach</p>
             <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
               <%= @coaching&.coach %>
             </p>
           </div>
 
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Coachee</label>
+            <p class="block text-sm font-medium leading-6 text-gray-900">Coachee</p>
             <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
               <%= @coaching&.user.employee_id_and_name %>
             </p>
           </div>
 
           <div class="sm:col-span-3">
-            <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Account</label>
+            <p class="block text-sm font-medium leading-6 text-gray-900">Account</p>
             <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6 justify-content">
               <%= @coaching&.account.name %>
             </p>
           </div>
 
           <div class="col-span-full">
-            <label for="street-address" class="block text-sm font-bold leading-6 text-gray-900 mb-6">Notes</label>
+            <p class="block text-sm font-bold leading-6 text-gray-900 mb-6">Sessions</p>
+              <% unless @coaching.custom_note.nil? %>
               <div class="overflow-hidden border-dashed border-2 border-gray-600 md:rounded-lg p-6">
                 <table class="min-w-full divide-y divide-gray-200">
                   <thead class="bg-gray-50">
@@ -109,9 +110,11 @@
                     <% end %>
                   </tbody>
                 </table>
-            </div>
+              </div>
+              <% end %>
 
             <div class="mt-6">
+              <p class="block text-sm font-bold leading-6 text-gray-900 mb-6">Notes</p>
               <%= @coaching.note.content %>
             </div>
           </div>

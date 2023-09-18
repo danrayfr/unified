@@ -11,7 +11,7 @@ class CoachingsController < ApplicationController
   before_action :admin?, only: :destroy
 
   def index
-    filtered_coachings = filter_by_agent
+    filtered_coachings = filter
 
     @coachings = if current_user.agent?
                    # @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
@@ -135,15 +135,21 @@ class CoachingsController < ApplicationController
     notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
   end
 
-  def filter_by_agent
-    email = params[:filter_by]
+  def filter
+    agent = params[:filter_by]
 
-    user = User.find_by(email:)
-
-    return Coaching.all if email == 'all' || email.blank?
-
-    Coaching.where(user:)
+    Coaching.filter_by_agent_email(agent)
   end
+
+  # def filter_by_agent
+  #   email = params[:filter_by]
+
+  #  user = User.find_by(email:)
+
+  #  return Coaching.all if email == 'all' || email.blank?
+
+  #  Coaching.where(user:)
+  # end
 
   def populate_customs
     customs = []

@@ -12,12 +12,12 @@ module Sni
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
-    config.hosts << 'app.lvh.me'
-    config.hosts << 'internal.lvh.me'
-    config.hosts << 'lvh.me'
+    # config.hosts << 'app.lvh.me'
+    # config.hosts << 'internal.lvh.me'
+    # config.hosts << 'lvh.me'
 
-    host = 'lvh.me:3000' # Local server
-
+    # host = 'lvh.me:3000' # Local server
+    host = 'localhost:3000'
     config.action_mailer.default_url_options = { host:, protocol: 'http' } # Use https if deploy on cloud
 
     # Configuration for the application, engines, and railties goes here.

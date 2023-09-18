@@ -6,7 +6,7 @@
   <hr class="w-full bg-graphite" />
 </div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
   <div class="mb-6">
     <%= f.label :email, class:"text-sm font-medium leading-none text-gray-800" %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"bg-gray-200 border rounded text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2" %>
