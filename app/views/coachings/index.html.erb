@@ -26,6 +26,35 @@
 <% commitment_labels = { true => 'commitment', false => 'comments' } %>
 <% commitment_per_coachings = @account.coachings.joins(:comments).pluck(:pinned).group_by { |pinned| pinned } %>
 
+<% total_count_per_week = Coaching.joins(:user).pluck(:coaching_start_date).group_by_week { |coaching_start_date| coaching_start_date }.transform_values(&:count) %>
+
+<% total_acknolwedge_per_week = Coaching.joins(:user).where(acknowledgement: true).pluck(:coaching_start_date).group_by_week { |coaching_start_date| coaching_start_date }.transform_values(&:count) %>
+
+<%= column_chart @coaching_compliance.map { |date, data| [date, data[:value]] }, colors: @coaching_compliance.map { |date, data|
+  if data[:value] != data[:agent_count_per_week] 
+    "#ea9e70" # Color when the condition is true
+  elsif data[:total_acknowledge] != data[:agent_count_per_week] # migrate new data and save the current account user of coaching at that time
+    "#ce7d78" # Color when the condition is false and grouped_data.count is less than data[:current_account_users]
+  else
+    "#63b598" # Color for other cases
+  end
+}, loading: 'Fetching Data....'  %>
+
+<%#= column_chart [
+        {
+          name: 'Total Coaching Log per week',
+          data: total_count_per_week,
+          stack: "total per week",
+          color: "#63b598"
+        },
+        {
+          name: 'Total Acknowledged Coaching Log per week',
+          data: total_acknolwedge_per_week,
+          stack: "total acknowledged per week",
+          color: "#ce7d78"
+        }
+        ], stacked: true, loading: 'Fetching Data....'
+%>
 
 <% unless current_user.agent? %>
 

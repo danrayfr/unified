@@ -49,6 +49,10 @@ class Account < ApplicationRecord
     name_changed? || slug.blank?
   end
 
+  def agent_count
+    users.agent.count
+  end
+
   private
 
   # Generate a random number for uuid, since I don't want the field uuid to be empty.

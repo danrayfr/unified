@@ -5,7 +5,10 @@ require 'active_support/core_ext/integer/time'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  host = 'lvh.me:3000' # Local server
+  config.hosts << /[a-z0-9-]+\.ngrok-free\.app/
+
+  host = 'localhost:3000'
+  # host = 'lvh.me:3000' # Local server
 
   config.action_mailer.default_url_options = { host:, protocol: 'http' } # Use https if deploy on cloud
 

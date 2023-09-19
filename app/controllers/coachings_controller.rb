@@ -11,7 +11,9 @@ class CoachingsController < ApplicationController
   before_action :admin?, only: :destroy
 
   def index
-    filtered_coachings = filter_by_agent
+    filtered_coachings = filter
+
+    @coaching_compliance = coaching_compliance
 
     @coachings = if current_user.agent?
                    # @pagy, @coachings = pagy(Coaching.where(user: current_user).order(created_at: :desc))
@@ -104,7 +106,7 @@ class CoachingsController < ApplicationController
     params.require(:coaching).permit(:coaching_start_date, :coaching_end_date, :acknowledgement,
                                      :date_acknowledged, :user_id, :account_id, :coaching_title,
                                      :manager, :coach, :review_frequency, :review_instance,
-                                     custom_note: [], note_attributes: %i[id content])
+                                     :agent_count_per_week, custom_note: [], note_attributes: %i[id content])
   end
 
   def check_role
@@ -135,15 +137,21 @@ class CoachingsController < ApplicationController
     notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
   end
 
-  def filter_by_agent
-    email = params[:filter_by]
+  def filter
+    agent = params[:filter_by]
 
-    user = User.find_by(email:)
-
-    return Coaching.all if email == 'all' || email.blank?
-
-    Coaching.where(user:)
+    Coaching.filter_by_agent_email(agent)
   end
+
+  # def filter_by_agent
+  #   email = params[:filter_by]
+
+  #  user = User.find_by(email:)
+
+  #  return Coaching.all if email == 'all' || email.blank?
+
+  #  Coaching.where(user:)
+  # end
 
   def populate_customs
     customs = []
@@ -154,5 +162,36 @@ class CoachingsController < ApplicationController
     end
 
     customs
+  end
+
+  def coaching_compliance
+    # Fetch the coaching data
+    coaching_data = Coaching.pluck(:coaching_start_date, :acknowledgement, :user_id, :agent_count_per_week)
+
+    # Initialize a hash to group the data by week
+    grouped_data = coaching_data.group_by do |coaching|
+      coaching_start_date = coaching[0]
+      coaching_start_date.beginning_of_week.strftime('%m-%d-%Y - Week %U')
+    end
+
+    # Initialize the result hash
+    result_hash = {}
+
+    # Process grouped data
+    grouped_data.each do |week_start_date, coaching_data|
+      total_acknowledge = coaching_data.count { |data| data[1] == true }
+      total_account_users = coaching_data.map { |data| data[2] }.uniq.count
+      agent_count_per_week = coaching_data.sum { |data| data[3] }
+
+      average_agent_count_per_week = agent_count_per_week / total_account_users
+
+      result_hash[week_start_date] = {
+        value: coaching_data.size,
+        total_acknowledge:,
+        agent_count_per_week: average_agent_count_per_week
+      }
+    end
+
+    result_hash
   end
 end

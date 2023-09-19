@@ -63,7 +63,8 @@ class CoachingTemplatesController < ApplicationController
   end
 
   def template_params
-    params.require(:coaching_template).permit(:name, :published, :account_id, customs: [], note_attributes: %i[id content])
+    params.require(:coaching_template).permit(:name, :published, :account_id, customs: [],
+                                                                              note_attributes: %i[id content])
   end
 
   def populate_customs

@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   # end
 
   # Route for the app subdomain
-  constraints subdomain: 'internal' do
+  # constraints subdomain: 'internal' do
     # Add other app-specific routes here
     root 'accounts#index', as: :account_root
     resources :accounts do
@@ -75,7 +75,7 @@ Rails.application.routes.draw do
       invitations: 'users/invitations',
       omniauth_callbacks: 'users/omniauth_callbacks'
     }
-  end
+  # end
   
   # Route for the app subdomain
   constraints subdomain: 'app' do

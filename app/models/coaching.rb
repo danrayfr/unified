@@ -101,6 +101,13 @@ class Coaching < ApplicationRecord
     where(acknowledgement: false).count
   end
 
+  def self.filter_by_agent_email(agent)
+    return all if agent == 'all' || agent.blank?
+
+    user = User.find_by(email: agent)
+    where(user:)
+  end
+
   private
 
   def notify_recipient
