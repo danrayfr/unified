@@ -5,6 +5,8 @@
   <%= render 'shared/error_messages', object: form.object %>
 
   <%= form.hidden_field :account_id, value: @account.id, data: { coaching_form_target: "currentAccount" } %>
+
+  <%= form.hidden_field :agent_count_per_week, value: @account.users.agent.count %>
   
   <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
     <div>

@@ -30,55 +30,17 @@
 
 <% total_acknolwedge_per_week = Coaching.joins(:user).where(acknowledgement: true).pluck(:coaching_start_date).group_by_week { |coaching_start_date| coaching_start_date }.transform_values(&:count) %>
 
-<% total_acknowledge = {} %>
-
-<% result_hash = {} %>
-<% total_count_per_week.each do |date, value| %>
-  <% total_acknowledge[date] = total_acknolwedge_per_week[date] || 0 %>
-  <% result_hash[date] = { value: value, total_acknowledge: total_acknowledge[date], current_account_users: 2 }  %>
-<% end %>
-
-<%= column_chart result_hash.map { |date, data| [date, data[:value]]}, colors: result_hash.map { |date, data| data[:total_acknowledge] >= data[:current_account_users] ? "#63b598" : "#ce7d78" }, loading: 'Fetching Data....'  %>
-
-
-<%#= column_chart Coaching.pluck(:coaching_start_date, :acknowledgement, :user_id, :account_id).group_by { |coaching_start_date| coaching_start_date }.transform_values(&:count) %>
-
-<% coaching_data = Coaching.pluck(:coaching_start_date, :acknowledgement, :user_id, :account_id) %>
-<% grouped_data = Hash.new { |hash, key| hash[key] = [] } %>
-<% coaching_data.each do |coaching| %>
-  <% coaching_start_date, acknowledgement, user_id, account_id = coaching %>
-  <% week_start_date = coaching_start_date.beginning_of_week.strftime("%m-%d-%Y - Week %U") %>
-  <% grouped_data[week_start_date] << { coaching_start_date: coaching_start_date, acknowledgement: acknowledgement, user_id: user_id, account_id: account_id } %>
-<% end %>
-
-<% result_hash = {} %>
-
-<% grouped_data.each do |week_start_date, coaching_data| %>
-  <% total_acknowledge = coaching_data.count { |data| data[:acknowledgement] == true } %>
-  <% total_account_users = coaching_data.map { |data| data[:user_id] }.uniq.count %>
-  <% result_hash[week_start_date] = { value: coaching_data.size, total_acknowledge: total_acknowledge, current_account_users: total_account_users } %>
-
-  <p>Coaching Data: <%= coaching_data.count %>
-  user: <%= total_account_users %>
-  acknowledged: <%= total_acknowledge %>
-  </p>
-<% end %>
-
-<%#= column_chart result_hash.map { |date, data| [date, data[:value]] }, colors: result_hash.map { |date, data|    data[:value] - data[:total_acknowledge] >= data[:current_account_users] ? "#63b598" : "#ce7d78" }, loading: 'Fetching Data....'  %>
-
-<%= result_hash.map { |date, data| [date, data[:current_account_users] ==  @account.users.agent.count ] }  %>
-
-<%= column_chart result_hash.map { |date, data| [date, data[:value]] }, colors: result_hash.map { |date, data|
-  if  data[:value] == data[:current_account_users] && data[:value] - data[:total_acknowledge] >= data[:current_account_users]
-    "#ce7d78" # Color when the condition is true
-  elsif data[:value] != data[:current_account_users] # migrate new data and save the current account user of coaching at that time
-    "#ea9e70" # Color when the condition is false and grouped_data.count is less than data[:current_account_users]
+<%= column_chart @coaching_compliance.map { |date, data| [date, data[:value]] }, colors: @coaching_compliance.map { |date, data|
+  if data[:value] != data[:agent_count_per_week] 
+    "#ea9e70" # Color when the condition is true
+  elsif data[:total_acknowledge] != data[:agent_count_per_week] # migrate new data and save the current account user of coaching at that time
+    "#ce7d78" # Color when the condition is false and grouped_data.count is less than data[:current_account_users]
   else
     "#63b598" # Color for other cases
   end
 }, loading: 'Fetching Data....'  %>
 
-<%= column_chart [
+<%#= column_chart [
         {
           name: 'Total Coaching Log per week',
           data: total_count_per_week,
@@ -93,18 +55,6 @@
         }
         ], stacked: true, loading: 'Fetching Data....'
 %>
-
-<%#= column_chart result_data.map { |date, data| [date, data[:value]] }, colors: result_data.map { |date, data| data[:color] } %>
-
-<%#= column_chart result_data.map { |date, data| [date, data[:value]] }, colors: result_data.map { |date, data| data[:value] - @total_acknowledge < @account.users.agent.count ? "#ce7d78" : "#63b598"  } %>
-
-
-
-<%# total_count_per_week.each do |date, value | %>
-<%# acknowledged_tickets = value %>
-  <%# colors = (acknowledged_tickets > @account.users.agent.count ? "#b00" : "#666") %>
-<%# end %>
-
 
 <% unless current_user.agent? %>
 
