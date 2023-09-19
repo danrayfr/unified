@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.11.0] : 2023-19-09
+
+### Added
+
+- Added _chartkick_ gem for graph
+- Added **coaching_compliance** private method to fetch needed data for compliance
+- **TODO:** Refactor Coachings MVC. 
+
 ## [0.10.2] : 2023-15-09
 
 ### Updated
@@ -108,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.11.0]: https://github.com/danrayfr/unified/pull/19
 [0.10.2]: https://github.com/danrayfr/unified/pull/18
 [0.10.1]: https://github.com/danrayfr/unified/pull/17
 [0.10.0]: https://github.com/danrayfr/unified/pull/16
