@@ -68,8 +68,8 @@ class QaTemplatesController < ApplicationController
     metrics = []
     params[:metric_name]&.each_with_index do |metric_name, index|
       deduction = params[:deduction][index]
-      description = params[:description][index]
-      metric = { metric_name:, deduction:, description: }
+      content = params[:content][index]
+      metric = { metric_name:, deduction:, content: }
       metrics << metric
     end
 

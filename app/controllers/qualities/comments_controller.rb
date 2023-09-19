@@ -1,11 +1,11 @@
-module Tickets
+module Qualities
   class CommentsController < CommentsController
     before_action :set_commentable
 
     private
 
     def set_commentable
-      @commentable = Ticket.find(params[:id])
+      @commentable = Quality.find(params[:quality_id])
     end
   end
 end

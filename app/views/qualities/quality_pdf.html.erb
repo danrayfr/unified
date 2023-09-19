@@ -1,0 +1,59 @@
+PDF Generation Date: <%= Time.zone.now %>
+<header>
+  <div class="text-center">
+    <dl>
+      <div>
+        <dt>Published on</dt>
+        <dd>
+          <time datetime="2023-08-05T00:00:00.000Z"><%= time_tag @quality.created_at, 'data-local': 'time-ago' %></span></time>
+        </dd>
+      </div>
+    </dl>
+    <h1><%= @quality.id %></h1>
+  </div>
+</header>
+<div class="border-b border-gray-900/10 pb-12">
+  <h2>Coaching Information</h2>
+  <p>Kindly check your email as you have the copy of this coaching log in PDF format.</p>
+  <div class="grid grid-cols-1 gap-x-6 gap-y-8">
+    <div>
+      <p>Coachee</p>
+      <p><%= @quality&.user.employee_id_and_name %></p>
+    </div>
+    <div>
+      <p>Account</p>
+      <p><%= @quality&.account.name %></p>
+    </div>
+
+     <div class="sm:col-span-3">
+      <p class="block text-sm font-medium leading-6 text-gray-900">Rating</p>
+      <p class="py-2 mt-2 text-gray-900 sm:leading-6 font-bold text-5xl">
+        <%= @quality.rating %>
+      </p>
+    </div>
+    <div>
+      <label>Metrics</label>
+      <div class="overflow-hidden">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>Deduction</th>
+              <th>Content</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% @quality.metrics.each do |metric| %> 
+            <tr>
+              <td><%= metric['metric_name']%></td>
+              <td><%= metric['deduction']%></td>
+              <td><%= metric['content']%></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+      <p><%= @quality&.note.content %></p>
+    </div>
+  </div>
+</div>

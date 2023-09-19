@@ -1,24 +1,44 @@
 <div class="flex items-center justify-center p-12">
 <div class="mx-auto w-full max-w-[1000px]">
-<%= form_with(model: [account, ticket, @quality], url: account_ticket_qa_path(account, ticket), data: { controller: "quality-form" }) do |form|  %>
+<%= form_with(model: [account, quality], data: { controller: "quality-form" }) do |form|  %>
   <%= render 'shared/error_messages', object: form.object %>
-
-  <%= form.hidden_field :ticket_id, value: @ticket.id %>
-
-  <%= form.hidden_field :quality_id, value: @quality.id %>
-
   <%= form.hidden_field :account_id, value: account.id, data: { quality_form_target: "currentAccount" } %>
 
-  <!--div id="score-display" data-quality-form-target="scoreDisplay">Score: 100</div-->
+   <div class="mb-6">
+     <label class="text-gray-600">Link</label>
+    <%= form.text_field :link, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+  </div>
 
-  <% unless current_page?(acknowledgement_account_ticket_qa_url) %>
-    <%= form.number_field :rating, value: 100, data: { quality_form_target:"ratingInput" } %>
-
-    <div class="mb-6">
-      <%= form.label :qa_template_id, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-      <%= form.collection_select :qa_template_id, @account.qa_templates, :id, :name, {}, { id: "qa-template-select", data: { quality_form_target:"templateSelect", action: "change->quality-form#updateFormFields" } } %>
+  <div class="mb-6">
+      <label class="text-gray-600">Agent</label>
+      <%= form.collection_select :user_id,
+                           @account.users.where(role: 'agent'),
+                           :id,
+                           :employee_id_and_name,
+                           { prompt: 'Select Agent' },
+                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: @quality.persisted? ? true : false } %>
     </div>
-  <% end %>
+
+  <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+    
+    <div>
+      <label class="text-gray-600">Rating</label>
+      <%= form.number_field :rating, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", data: { quality_form_target:"ratingInput", disabled: @quality.persisted? } %>
+    </div>
+
+    <% if @quality.new_record? %>
+      <div>
+        <label class="text-gray-600">Type of Templates</label>
+        <%= form.collection_select :coaching_template_id,
+                                    @account.qa_templates,
+                                    :id,
+                                    :name,
+                                    { prompt: 'Select Template'},
+                                    { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", id: "quality-template-select", data: { quality_form_target: "templateSelect", action: "change->quality-form#updateFormFields" }} %>
+      </div>
+    <% end %>
+  </div>
+  <%# end %>
 
   <div class="mb-6">
     <%#= form.label :note, class: "mb-3 block text-base font-medium text-[#07074D]" %>
@@ -27,15 +47,12 @@
 
   <div id="metric-checkboxes" data-quality-form-target="metricCheckboxes"></div>
 
-  <div class="mb-6">
-    <%#= form.label :rating, class:"mb-3 block text-base font-medium text-[#07074D]" %>
-    <%#= form.number_field :rating, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
-  </div>
+  <div id="metric-forms" data-quality-form-target="metricForms" data-controller="nested-form" nested-form-wrapper-selector-value=".nested-form-wrapper"></div>
 
   <%= form.fields_for(:note, @note) do |note_form| %>
     <div class="mb-6">
-      <%= note_form.label :note %>
-      <% if current_page?(acknowledgement_account_ticket_qa_url)%>
+      <label class="text-gray-600">Notes</label>
+      <% if quality.persisted? %>
         <% if current_user.agent? %>
           <div class="trix-editor" data-trix-target="content" contenteditable="false">
             <%= @note.content %>
@@ -44,26 +61,28 @@
           <%= note_form.rich_text_area :content, value: @note.content, data: { quality_form_target: "noteField" } %>
         <% end %>
       <% else %>
-       <%= note_form.rich_text_area :content,  data: { quality_form_target: "noteField", editing: @quality.persisted? } %>
+       <%= note_form.rich_text_area :content, data: { quality_form_target: "noteField"} %>
       <% end %>
     </div>
   <% end %>
   
-
-  <div class="mb-6">
-    <% if current_user.agent? %>
-      <%= form.label :acknowledgement, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-      <%= form.check_box :acknowledgement, checked_value: true, unchecked_value: false, disabled: @quality.acknowledgement %>
-    <% end %>
-  </div>
+  <% if quality.persisted? && quality.user == current_user %>
+    <div class="mb-6">
+      <label class="flex items-center">
+        <%= form.check_box :acknowledgement, unchecked_value: false, checked_value: true,class: "w-4 h-4 text-paleFern border-gray-300 rounded focus:ring-paleFern focus:ring-2" %>
+        <span class="ml-2 text-md font-bold text-gray-900">Acknowledgement</span>
+        <p class="ml-2 text-sm font-normal text-gray-500">(By ticking the check box, you're acknowledging this coaching log.)</p>
+      </label>
+    </div>
+  <% end %>
 
   <div>
-    <%= form.submit class:"hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none" %>
+    <%= form.submit class:"hover:shadow-form rounded-md bg-paleFern hover:bg-graphite py-3 px-8 text-base font-semibold text-white outline-none" %>
   </div>
 <% end %>
 </div>
 </div>
 
 <script>
-  var isEditing = <%= @quality.persisted? ? 'true' : 'false' %>;
+  var isEditing = <%= quality.persisted? ? 'true' : 'false' %>;
 </script>

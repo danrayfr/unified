@@ -24,6 +24,6 @@ class QualityNotification < Noticed::Base
 
   def url
     quality = Quality.find(params[:quality][:id])
-    account_ticket_qa_path(quality.ticket.account_id, quality.ticket_id, quality.id, subdomain: 'internal')
+    account_quality_path(quality.account_id, quality.id)
   end
 end

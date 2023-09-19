@@ -41,7 +41,6 @@ export default class extends Controller {
         // Generate checkboxes for each metric in the qa_template
         data.customs.forEach((custom) => {
           const checkBoxHtml = `
-
           <div class="nested-form-wrapper">
             <div>
               

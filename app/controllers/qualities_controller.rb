@@ -1,53 +1,70 @@
-require 'pry'
 class QualitiesController < ApplicationController
   before_action :authenticate_user!
-  # before_action :set_quality, only: %i[show update destroy]
-  before_action :find_account, only: %i[show new create edit update destroy acknowledgement]
-  before_action :find_ticket, only: %i[show new create edit update destroy acknowledgement]
-  # before_action :mark_notifications_as_read, only: :show
-  before_action :qa, only: %i[new edit]
-  before_action :check_if_qa_exist, only: %i[show]
-  before_action :mentee, only: :acknowledgement
+  before_action :set_quality, only: %i[show edit update destroy acknowledgement]
+  before_action :set_account
+  # before_action :find_ticket, only: %i[show new create edit update destroy acknowledgement]
+  before_action :mark_notifications_as_read, only: :show
+  before_action :authenticate_edit_access, only: %i[new edit]
+  before_action :agent, only: :acknowledgement
+
+  def index
+    filtered_qualities = filter
+
+    @qualities = if current_user.agent?
+                   filtered_qualities.where(user: current_user)
+                 else
+                   filtered_qualities
+                 end
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
+  end
 
   def show
-    @quality = @ticket.quality
-    mark_notifications_as_read
+    respond_to do |format|
+      format.html
+      format.json { render json: @quality.to_json(include: { note: { only: %i[id content] } }) }
+      format.pdf do
+        render pdf: 'hello-filename', template: 'qualities/quality_pdf', formats: [:html], layout: 'pdf'
+      end
+    end
   end
 
   def new
     @note = Note.new
-    @quality = @ticket.build_quality
+    @quality = Quality.new
     @quality.build_note
   end
 
   def create
-    @quality = @ticket.build_quality(quality_params)
+    @quality = @account.qualities.build(quality_params)
+
+    @quality.metrics = populate_metrics
 
     if @quality.save
-      redirect_to account_ticket_qa_path(@account, @ticket), notice: 'QA saved'
+      redirect_to account_quality_path(@account, @quality), notice: 'QA saved'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
-    @quality = @ticket.quality
     @note_content = @quality.note.content if @quality.note
     @note = @quality.note
   end
 
   def acknowledgement
-    @quality = @ticket.quality
+    # @quality = @ticket.quality
     @note_content = @quality.note.content if @quality.note
     @note = @quality.note
   end
 
   def update
-    @quality = @ticket.quality
-
     if @quality.update(quality_params)
       @quality.update(date_acknowledged: Time.now) if @quality.acknowledgement && @quality.date_acknowledged.nil?
-      redirect_to account_ticket_qa_path(@account, @ticket), notice: 'QA saved'
+      redirect_to account_quality_path(@account, @quality), notice: 'QA saved'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -57,7 +74,7 @@ class QualitiesController < ApplicationController
     return flash[:alert] = "You're not authorized to destroy record." unless current_user.admin?
 
     @quality.destroy
-    redirect_to account_ticket_path(@account, @ticket),
+    redirect_to account_ticket_path(@account, @quality),
                 alert: "You're not allowed to edit this QA record."
   end
 
@@ -67,17 +84,14 @@ class QualitiesController < ApplicationController
     @quality = Quality.find(params[:id])
   end
 
-  def find_ticket
-    @ticket = Ticket.find(params[:ticket_id])
-  end
-
-  def find_account
-    @account = Account.find(params[:account_id])
-  end
+  # def find_account
+  #   @account = Account.find(params[:account_id])
+  # end
 
   def quality_params
-    params.require(:quality).permit(:rating, :acknowledgement, :date_acknowledged, :ticket_id,
-                                    note_attributes: %i[id content])
+    params.require(:quality).permit(:rating, :acknowledgement, :date_acknowledged,
+                                    :ticket_id, :account_id, :user_id, :link,
+                                    metrics: [], note_attributes: %i[id content])
   end
 
   def check_if_qa_exist
@@ -87,22 +101,40 @@ class QualitiesController < ApplicationController
                   alert: 'No QA Check yet.')
   end
 
-  def qa
+  def authenticate_edit_access
     @account = Account.find(params[:account_id])
 
-    return if current_user.qa? || current_user.admin?
+    return if current_user.qa? || current_user.manager?
 
-    redirect_to account_ticket_qa_path(@account, @ticket),
+    redirect_to account_qualities_path(@account),
                 alert: "You're not allowed to create or update a QA record."
   end
 
-  def mentee
+  def agent
     @account = Account.find(params[:account_id])
 
-    return if current_user.agent? && @ticket.user == current_user
+    return if current_user.agent? && @quality.user == current_user
 
-    redirect_to account_ticket_qa_path(@account, @ticket),
+    redirect_to account_quality_path(@account, @quality),
                 alert: "You're not suppose to acknowledge this QA record."
+  end
+
+  def populate_metrics
+    metrics = []
+    params[:metric_name]&.each_with_index do |metric_name, index|
+      deduction = params[:deduction][index]
+      content = params[:content][index]
+      metric = { metric_name:, deduction:, content: }
+      metrics << metric
+    end
+
+    metrics
+  end
+
+  def filter
+    agent = params[:filter_by]
+
+    Quality.filter_by_agent_email(agent)
   end
 
   def mark_notifications_as_read
