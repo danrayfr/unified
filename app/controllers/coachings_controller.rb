@@ -128,7 +128,7 @@ class CoachingsController < ApplicationController
 
     return if current_user.agent? && @coaching.user == current_user
 
-    redirect_url = @ticket ? account_coaching_url(@account, @coaching) : account_coachings_url(@account)
+    redirect_url = @coaching ? account_coaching_url(@account, @coaching) : account_coachings_url(@account)
     redirect_to redirect_url, alert: "You're not allowed to acknowledge this coaching record."
   end
 

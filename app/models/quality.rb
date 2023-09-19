@@ -19,11 +19,16 @@
 #
 
 class Quality < ApplicationRecord
-  belongs_to :ticket
-  has_one :note, as: :notable
+  default_scope -> { order(acknowledgement: :asc, created_at: :desc) }
+  belongs_to :user
+  belongs_to :account
 
+  has_one :note, as: :notable
   accepts_nested_attributes_for :note
 
+  has_many :comments, as: :commentable, dependent: :destroy
+
+  validates :link, presence: true
   validates :rating, presence: true,
                      numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
@@ -34,11 +39,17 @@ class Quality < ApplicationRecord
   before_destroy :clean_notifications
 
   def notify_recipient
-    ticket = self.ticket
-    QualityNotification.with(quality: self).deliver_later(ticket.user)
+    QualityNotification.with(quality: self).deliver_later(user)
   end
 
   def clean_notifications
     notifications_as_quality.destroy_all
+  end
+
+  def self.filter_by_agent_email(agent)
+    return all if agent == 'all' || agent.blank?
+
+    user = User.find_by(email: agent)
+    where(user:)
   end
 end

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 
+## [0.12.0] : 2023-19-09
+
+### Added
+
+- Updated the quality flow based on the given user story
+- Remove ticket references on Quality
+- Add user and account references on Quality
+- Added PDF attachment on quality mailer
+- Added comment on quality for dispute purposes.
+
 ## [0.11.0] : 2023-19-09
 
 ### Added
@@ -116,6 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
 [unreleased]: https://github.com/danrayfr/unified/branch/development#diff
+[0.12.0]: https://github.com/danrayfr/unified/pull/20
 [0.11.0]: https://github.com/danrayfr/unified/pull/19
 [0.10.2]: https://github.com/danrayfr/unified/pull/18
 [0.10.1]: https://github.com/danrayfr/unified/pull/17

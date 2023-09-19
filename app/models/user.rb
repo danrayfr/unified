@@ -55,6 +55,7 @@ class User < ApplicationRecord
 
   has_many :tickets, dependent: :destroy
   has_many :coachings, dependent: :destroy
+  has_many :qualities, dependent: :destroy
   has_and_belongs_to_many :accounts
   has_many :comments, dependent: :destroy
   has_many :invitees, class_name: 'User', foreign_key: :invited_by_id

@@ -42,6 +42,7 @@ class Account < ApplicationRecord
   has_and_belongs_to_many :users
   has_many :tickets, dependent: :destroy
   has_many :coachings, dependent: :destroy
+  has_many :qualities, dependent: :destroy
   has_many :qa_templates, dependent: :destroy
   has_many :coaching_templates, dependent: :destroy
 

@@ -31,12 +31,12 @@
 <% total_acknolwedge_per_week = Coaching.joins(:user).where(acknowledgement: true).pluck(:coaching_start_date).group_by_week { |coaching_start_date| coaching_start_date }.transform_values(&:count) %>
 
 <%= column_chart @coaching_compliance.map { |date, data| [date, data[:value]] }, colors: @coaching_compliance.map { |date, data|
-  if data[:value] != data[:agent_count_per_week] 
-    "#ea9e70" # Color when the condition is true
-  elsif data[:total_acknowledge] != data[:agent_count_per_week] # migrate new data and save the current account user of coaching at that time
-    "#ce7d78" # Color when the condition is false and grouped_data.count is less than data[:current_account_users]
+  if data[:value] != data[:agent_count_per_week]
+    "#ea9e70" # yellow
+  elsif data[:total_acknowledge] < data[:agent_count_per_week]
+    "#ce7d78" # red
   else
-    "#63b598" # Color for other cases
+    "#63b598" # green
   end
 }, loading: 'Fetching Data....'  %>
 

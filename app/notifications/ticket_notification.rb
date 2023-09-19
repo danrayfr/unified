@@ -17,13 +17,13 @@ class TicketNotification < Noticed::Base
 
   # Define helper methods to make rendering easier.
   #
-  def message
-    @ticket = Ticket.find(params[:ticket][:id])
-    "New ticket review has been assign to you: #{@ticket.link}"
-  end
+  # def message
+  #   @ticket = Ticket.find(params[:ticket][:id])
+  #   "New ticket review has been assign to you: #{@ticket.link}"
+  # end
 
-  def url
-    ticket = Ticket.find(params[:ticket][:id])
-    account_ticket_path(ticket.account_id, ticket.id, subdomain: 'internal')
-  end
+  # def url
+  #   ticket = Ticket.find(params[:ticket][:id])
+  #   account_ticket_path(ticket.account_id, ticket.id, subdomain: 'internal')
+  # end
 end

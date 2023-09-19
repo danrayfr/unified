@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_18_232558) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_19_013932) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -171,13 +171,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_232558) do
   end
 
   create_table "qualities", force: :cascade do |t|
-    t.bigint "ticket_id", null: false
     t.integer "rating"
     t.boolean "acknowledgement", default: false
     t.datetime "date_acknowledged"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ticket_id"], name: "index_qualities_on_ticket_id"
+    t.bigint "account_id"
+    t.bigint "user_id"
+    t.string "link"
+    t.jsonb "metrics"
+    t.index ["account_id"], name: "index_qualities_on_account_id"
+    t.index ["user_id"], name: "index_qualities_on_user_id"
   end
 
   create_table "ticket_details", force: :cascade do |t|
@@ -244,7 +248,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_232558) do
   add_foreign_key "coachings", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "qa_templates", "accounts"
-  add_foreign_key "qualities", "tickets"
+  add_foreign_key "qualities", "accounts"
+  add_foreign_key "qualities", "users"
   add_foreign_key "ticket_details", "tickets"
   add_foreign_key "tickets", "accounts"
   add_foreign_key "tickets", "users"
