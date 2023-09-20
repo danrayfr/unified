@@ -4,11 +4,11 @@ module SchedulesHelper
     when 'coaching'
       'bg-paleFern'
     when 'qa'
-      'bg-coral'
+      'bg-paleCoral'
     when 'meeting'
       'bg-gold'
     else
-      'bg-paleFern'
+      'bg-coral'
     end
   end
 end

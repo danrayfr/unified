@@ -35,7 +35,6 @@ Rails.application.routes.draw do
     # root 'accounts#index', as: :account_root
     root 'schedules#index'
 
-    # get :card, to: 'schedules#card'
     resources :schedules
     resources :accounts do
 
