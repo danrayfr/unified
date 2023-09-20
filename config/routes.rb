@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   # constraints subdomain: 'internal' do
     # Add other app-specific routes here
     # root 'accounts#index', as: :account_root
+    root 'schedules#index'
+    resources :schedules
     resources :accounts do
 
       get 'settings', to: 'settings#index'
@@ -48,14 +50,14 @@ Rails.application.routes.draw do
       #     resources :notes, module: :accounts, only: :create
       #   end
       # end
-
-    resources :qualities, path: 'qa' do
-      member do
-        get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
+      
+      resources :qualities, path: 'qa' do
+        member do
+          get 'acknowledgement', to: 'qualities#acknowledgement', as: 'acknowledgement'
+        end
+        resources :comments, module: :qualities, only: %i[create destroy]
+        resources :notes, module: :accounts, only: :create
       end
-      resources :comments, module: :qualities, only: %i[create destroy]
-      resources :notes, module: :accounts, only: :create
-    end
   
       # QA is block in this resources.
       authenticated :user, ->(user) { user.validate_coaching_access } do
@@ -87,7 +89,7 @@ Rails.application.routes.draw do
   
   # Route for the app subdomain
   constraints subdomain: 'app' do
-    root 'pages#home'
+    # root 'pages#home'
     # Add other app-specific routes here
   end
 end

@@ -15,7 +15,7 @@
   <!-- sidebar header -->
   <div class="flex items-center justify-between flex-shrink-0 p-2" :class="{'lg:justify-center': !isSidebarOpen}">
     <span class="p-2 text-xl font-semibold leading-8 tracking-wider uppercase whitespace-nowrap"> 
-      <%= link_to accounts_url do %>
+      <%= link_to root_path do %>
         <%= image_tag "ninja/supportninja.svg", class:"h-8 h-8" %>
       </span>
       <% end %>
@@ -29,13 +29,22 @@
   <nav class="flex-1 overflow-hidden hover:overflow-y-auto">
     <ul class="p-2 overflow-hidden">
       <li>
+        <%= link_to root_path, class: "flex items-center p-2 space-x-2 rounded-md hover:bg-gray-100" do %>
+          <span>
+            <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+            </svg>
+          </span>
+          <span :class="{ 'lg:hidden': !isSidebarOpen }">Calendar</span>
+        <% end if user_signed_in? %>
+
         <%= link_to (current_page?(accounts_path) ? accounts_url : "#"), class: "flex items-center p-2 space-x-2 rounded-md hover:bg-gray-100" do %>
           <span>
             <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
             </svg>
           </span>
-          <span :class="{ 'lg:hidden': !isSidebarOpen }">Dashboard</span>
+          <span :class="{ 'lg:hidden': !isSidebarOpen }">Leaderboard</span>
         <% end if user_signed_in? %>
 
         <% if user_signed_in? && current_page?(accounts_path) || current_page?(root_path) %>

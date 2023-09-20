@@ -1,0 +1,20 @@
+<%= provide(:title, "Edit Coaching#{@schedule.id}") %>
+
+<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+    <li class="leading-normal text-sm">
+      <a class="opacity-50 text-slate-700">Pages</a>
+    </li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= link_to "Calendar", root_path %></li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= link_to @schedule.id, :back%></li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">Edit</li>
+  </ol>
+
+  <div class="space-y-6 md:space-x-2 md:space-y-0">
+    <%= link_to @schedule, data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, method: :delete, class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-coral text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
+      <span>Delete coaching</span>
+    <% end if current_user.manager? %>
+  </div>
+</div>
+
+<%= render "form", account: @account, coaching: @coaching %>

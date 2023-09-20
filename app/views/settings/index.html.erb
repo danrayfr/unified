@@ -19,7 +19,7 @@
 </div>
 
 <!-- component -->
-  <% if ( current_user.manager? && @account.users.include?(current_user) ) || current_user.admin? %>
+<% if ( current_user.manager? && @account.users.include?(current_user) ) || current_user.admin? %>
   <div class="container mx-auto bg-white py-24 px-12 rounded-xl shadow-md">
   <%= form_with(model: @user, url: invite_account_path(@account), method: :post) do |form| %>
     <div class="flex flex-col items-center w-full">
@@ -59,4 +59,4 @@
       </div>
     </div>
   </div>
-  <% end %>
+<% end %>

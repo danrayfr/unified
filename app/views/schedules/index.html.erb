@@ -1,0 +1,36 @@
+<%= provide(:title, "Schedules") %>
+
+<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+    <li class="leading-normal text-sm">
+      <a class="opacity-50 text-slate-700">Pages</a>
+    </li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">Calendar</li>
+  </ol>
+
+  <div class="space-y-6 md:space-x-2 md:space-y-0">
+    <%= link_to new_schedule_url, class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-paleFern text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
+      <span>Set new schedule</span>
+    <% end unless current_user.agent? || current_user.qa? %>
+  </div>
+</div>
+
+<div class="container mx-auto">
+  <%= month_calendar(events: @schedules) do |date, schedules| %>
+    <div>
+      <%= date.day %>
+    </div>
+    <div class="bottom h-30 py-1 w-full cursor-pointer overflow-auto">
+      <% schedules.each do |schedule| %>
+        <div class="event-wrapper flex items-center justify-between <%= schedule_category_color(schedule) %> text-white rounded p-1 text-sm mb-1">
+          <div class="event-name font-medium">
+            <%= schedule.category.capitalize %>
+          </div>
+          <div class="text-xs">
+            <%= schedule.start_time.strftime('%H:%M') %> - <%= schedule.end_time.strftime('%H:%M') %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
