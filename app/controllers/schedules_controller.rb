@@ -36,6 +36,10 @@ class SchedulesController < ApplicationController
     redirect_to root_path, notice: 'New schedule successfully edited on calendar.' if @schedule.destroy
   end
 
+  def card
+    render partial: 'schedules/card', locals: { schedule: @schedule }
+  end
+
   private
 
   def set_schedule

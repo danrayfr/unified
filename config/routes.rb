@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     # Add other app-specific routes here
     # root 'accounts#index', as: :account_root
     root 'schedules#index'
+
+    # get :card, to: 'schedules#card'
     resources :schedules
     resources :accounts do
 
