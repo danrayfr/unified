@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'omniauth'
-
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
@@ -114,5 +112,9 @@ Rails.application.configure do
   google_oauth_client_id = Rails.application.credentials.google_oauth_client_id
   google_oauth_client_secret = Rails.application.credentials.google_oauth_client_secret
 
-  config.omniauth :google_oauth2, google_oauth_client_id, google_oauth_client_secret
+  # config.omniauth :google_oauth2, google_oauth_client_id, google_oauth_client_secret
+
+  config.middleware.use OmniAuth::Builder do
+    provider :google_oauth2, google_oauth_client_id, google_oauth_client_secret
+  end
 end
