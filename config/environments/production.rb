@@ -59,6 +59,8 @@ Rails.application.configure do
 
   config.action_controller.default_protect_from_forgery = true
 
+  config.session_store :cookie_store, key: '_app_session', domain: 'ninjafied.onrender.com'
+
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
