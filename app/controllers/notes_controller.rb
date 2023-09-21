@@ -1,4 +1,4 @@
-class NotesController < NotesController
+class NotesController < ApplicationController
   before_action :set_notable
 
   def new
