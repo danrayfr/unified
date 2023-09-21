@@ -9,9 +9,7 @@ Account.destroy_all
 admin = User.create!(name: "Admin User", email: 'ninjafied@supportninja.com', password: 'password', password_confirmation: 'password',
                      role: 'admin', confirmed_at: Time.now)
 qa = User.create!(name: "QA User", email: 'qa@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa', confirmed_at: Time.now)
-manager = User.create!(name: 'Manager User', email: 'manager@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa', confirmed_at: Time.now)
-
-danray = User.create!(employee_id: "2100949", name: 'Dan Ray Falcis Rollan', email: 'danrayrollan98@gmail.com', password: 'password', password_confirmation: 'password', role: 'agent', confirmed_at: Time.now)
+manager = User.create!(name: 'Manager User', email: 'manager@supportninja.com', password: 'password', password_confirmation: 'password', role: 'manager', confirmed_at: Time.now)
 
 # Create accounts
 projectq = Account.create!(name: 'Project Q', description: 'Technical Account')
@@ -21,9 +19,8 @@ everpresent = Account.create!(name: 'Everpresent', description: 'Support Account
 projectq.users << admin
 projectq.users << qa
 projectq.users << manager
-projectq.users << danray
 everpresent.users << admin
-
+everpresent.users << manager
 # # Set the desired number of Faker accounts to generate
 # num_accounts_to_generate = 50
 # 
