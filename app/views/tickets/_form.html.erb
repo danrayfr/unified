@@ -4,7 +4,7 @@
   controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form|  %>
   <%= render 'shared/error_messages', object: form.object %>
 
-  <%= form.hidden_field :account_id, value: @account.id %>
+  <%#= form.hidden_field :account_id, value: @account.id %>
       
   <div class="mb-5">
     <%= form.label :link, class:"mb-3 block text-base font-medium text-[#07074D]" %>
