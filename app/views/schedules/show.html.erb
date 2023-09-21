@@ -1,0 +1,54 @@
+<%= provide(:title, "Schedule") %>
+
+<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+    <li class="leading-normal text-sm">
+      <a class="opacity-50 text-slate-700">Pages</a>
+    </li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= link_to "Calendar", schedules_url %></li>
+    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page"><%= @schedule.title %></li>
+  </ol>
+
+  <div class="space-y-6 md:space-x-2 md:space-y-0">
+    <%= link_to edit_schedule_url(@schedule), class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-gold text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
+        <span>Edit coaching</span>
+    <% end if current_user.manager? %>
+  </div>
+</div>
+
+<article>
+  <div class="xl:divide-y xl:divide-gray-200">
+    <header class="pt-6 xl:pb-6 border-b border-gray-300">
+      <div class="space-y-1 text-center">
+        <dl class="space-y-10">
+          <div>
+            <dt class="sr-only">Published on</dt>
+            <dd class="text-base font-medium leading-6 text-gray-500"><time datetime="2023-08-05T00:00:00.000Z">Created at  <%= time_tag @schedule.created_at, 'data-local': 'time-ago' %></time></dd>
+          </div>
+        </dl>
+        <div><h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14"><%= @schedule.title %></h1></div>
+      </div>
+    </header>
+    
+    <div class="max-w-screen-lg p-6 mx-auto mt-20">
+      
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Coaching Information</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">Kindly check your email as you have the copy of this coaching log in PDF format.</p>
+
+        <% unless @schedule.link.nil? %>
+          Kindly join to this meeting link: <%= @schedule.link %>
+        <% end %>
+
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        
+          <div class="sm:col-span-3">
+            <p class="block text-sm font-medium leading-6 text-gray-900">Inviter</p>
+            <p class="border-b py-2 mt-2 text-gray-900 sm:leading-6">
+              <%= @schedule.user.employee_id_and_name %>
+            </p>
+          </div>
+      </div>
+
+  </div>
+</article>

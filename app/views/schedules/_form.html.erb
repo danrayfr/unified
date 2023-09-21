@@ -1,0 +1,46 @@
+<section class="max-w-screen-lg p-6 mx-auto mt-20">
+  <%= form_with(model: @schedule) do |form| %>
+    <%= render 'shared/error_messages', object: form.object %>
+
+    <%= form.hidden_field :user_id, value: current_user.id %>
+
+    <div class="mb-6">
+      <label class="text-gray-600 mb-3">Title</label>
+      <%= form.text_field :title, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+    </div>
+
+    <div class="mb-6">
+      <label class="text-gray-600 mb-3">Category</label>
+      <%= form.select :category, Schedule.categories.keys.map { |category| [category.humanize, category]}, {prompt: 'Select a category'}, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 mb-6">
+      <div>
+        <label class="text-gray-600 mb-3">Start</label>
+        <%= form.datetime_field(:start_time, min: DateTime.now.strftime('%Y-%m-%d 00:00:00'), class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
+      </div>
+
+      <div>
+        <label class="text-gray-600 mb-3">End</label>
+        <%= form.datetime_field(:end_time, min: DateTime.now.strftime('%Y-%m-%d 00:00:00'), class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <label class="text-gray-600 mb-3">Meeting Link</label>
+      <%= form.text_field :link, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
+    </div>
+
+    <div class="mb-6">
+      <label class="text-gray-600 mb-3">Users</label>
+      <%#= form.select(:user_ids, User.all.map { |user| [user.employee_id_and_name, user.id] }, { prompt: 'Select a user', data: { controller: 'slim' } }, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
+
+      <%= form.select :participant_ids, User.where.not(id: current_user.id).all.map { |user| [user.employee_id_and_name, user.id] }, {include_blank: false}, {multiple: true, data: {controller: 'slim'} } %>
+
+    </div>
+
+    <div class="mt-6">
+      <%= form.submit class:"hover:shadow-form cursor-pointer rounded-md bg-paleFern hover:bg-graphite py-3 px-8 text-base font-semibold text-white outline-none" %>
+    </div>
+  <% end %>
+</section>

@@ -16,3 +16,5 @@ pin 'hotkeys-js', to: 'https://ga.jspm.io/npm:hotkeys-js@3.12.0/dist/hotkeys.esm
 pin 'stimulus-use', to: 'https://ga.jspm.io/npm:stimulus-use@0.51.3/dist/index.js'
 pin 'chartkick', to: 'chartkick.js'
 pin 'Chart.bundle', to: 'Chart.bundle.js'
+pin 'stimulus-popover', to: 'https://ga.jspm.io/npm:stimulus-popover@6.2.0/dist/stimulus-popover.mjs'
+pin 'slim-select', to: 'https://ga.jspm.io/npm:slim-select@1.27.1/dist/slimselect.min.mjs'
