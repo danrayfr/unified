@@ -81,6 +81,6 @@ test:
 #
 production:
   <<: *default
-  database: sni_production
-  username: sni
-  password: <%= ENV["SNI_DATABASE_PASSWORD"] %>
+  database: ninjafied_production
+  username: ninjafied
+  password: <%= ENV['MYSITE_DATABASE_PASSWORD'] %>
