@@ -9,7 +9,7 @@ class ScheduleMailer < ApplicationMailer
     mail(
       to: participant_emails,
       cc: @schedule.user.email,
-      subject: "You have been invited to a #{@schedule.category} schedule."
+      subject: "You have been invited to a #{@schedule.category} schedule with a title of #{@schedule.title}."
     )
   end
 end

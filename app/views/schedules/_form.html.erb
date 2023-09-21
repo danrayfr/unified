@@ -14,16 +14,21 @@
       <%= form.select :category, Schedule.categories.keys.map { |category| [category.humanize, category]}, {prompt: 'Select a category'}, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 mb-6">
       <div>
         <label class="text-gray-600 mb-3">Start</label>
-        <%= form.datetime_field(:start_time, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
+        <%= form.datetime_field(:start_time, min: DateTime.now.strftime('%Y-%m-%d 00:00:00'), class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
       </div>
 
       <div>
         <label class="text-gray-600 mb-3">End</label>
-        <%= form.datetime_field(:end_time, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
+        <%= form.datetime_field(:end_time, min: DateTime.now.strftime('%Y-%m-%d 00:00:00'), class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md") %>
       </div>
+    </div>
+
+    <div class="mb-6">
+      <label class="text-gray-600 mb-3">Meeting Link</label>
+      <%= form.text_field :link, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
     </div>
 
     <div class="mb-6">

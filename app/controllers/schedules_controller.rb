@@ -50,7 +50,7 @@ class SchedulesController < ApplicationController
   end
 
   def schedule_params
-    params.require(:schedule).permit(:title, :category, :start_time, :end_time, :user_id, participant_ids: [])
+    params.require(:schedule).permit(:title, :category, :start_time, :end_time, :link, :user_id, participant_ids: [])
   end
 
   def restricted
