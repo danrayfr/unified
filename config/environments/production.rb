@@ -26,6 +26,21 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present? || ENV['RENDER'].present?
 
+  host = 'https://ninjafied.onrender.com'
+
+  config.action_mailer.default_url_options = { host:, protocol: 'http' } # Use https if deploy on cloud
+
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    user_name: 'danrayrollan98@gmail.com',
+    password: Rails.application.credentials.GMAIL_AUTH_KEY,
+    authentication: 'plain',
+    enable_starttls_auto: true
+  }
+
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
@@ -92,4 +107,10 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # For Google authentication
+  google_oauth_client_id = Rails.application.credentials.google_oauth_client_id
+  google_oauth_client_secret = Rails.application.credentials.google_oauth_client_secret
+
+  config.omniauth :google_oauth2, google_oauth_client_id, google_oauth_client_secret
 end
