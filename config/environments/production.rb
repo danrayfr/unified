@@ -111,8 +111,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   # For Google authentication
-  google_oauth_client_id = Rails.application.credentials.google_oauth_client_id
-  google_oauth_client_secret = Rails.application.credentials.google_oauth_client_secret
+  google_oauth_client_id = Rails.application.credentials.dig(:google_oauth_client_id)
+  google_oauth_client_secret = Rails.application.credentials.dig(:google_oauth_client_secret)
 
   # config.omniauth :google_oauth2, google_oauth_client_id, google_oauth_client_secret
 

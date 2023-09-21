@@ -4,8 +4,6 @@ require_relative 'boot'
 
 require 'rails/all'
 
-require 'omniauth'
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -19,8 +17,8 @@ module Sni
     # config.hosts << 'lvh.me'
 
     # host = 'lvh.me:3000' # Local server
-    host = 'localhost:3000'
-    config.action_mailer.default_url_options = { host:, protocol: 'http' } # Use https if deploy on cloud
+    # host = 'localhost:3000'
+    # config.action_mailer.default_url_options = { host:, protocol: 'http' } # Use https if deploy on cloud
 
     # Configuration for the application, engines, and railties goes here.
     #
