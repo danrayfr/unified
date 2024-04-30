@@ -86,6 +86,9 @@ Rails.application.routes.draw do
       invitations: 'users/invitations',
       omniauth_callbacks: 'users/omniauth_callbacks'
     }
+
+    # get "/service-worker.js" => "service_worker#service_worker"
+    # get "/manifest.json" => "service_worker#manifest"
   # end
   
   # Route for the app subdomain

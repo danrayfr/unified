@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html class="font-work">
   <head>
     <title>Sni</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <link rel="manifest" crossorigin="use-credentials" href="/manifest.json" />
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
   </head>
 
-  <body class="font-raleway">
+  <body>
     <div class="flex h-screen overflow-y-hidden bg-white" x-data="setup()" 
     x-init="$refs.loading.classList.add('hidden')">
 
@@ -32,7 +34,7 @@
     </div>
 
       <header>
-        <%#if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
+        <%# if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
           <%# = render 'layouts/sidebar' %>
         <% #else %>
           <%#= render 'layouts/navbar' unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>

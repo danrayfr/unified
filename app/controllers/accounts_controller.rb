@@ -8,7 +8,7 @@ class AccountsController < ApplicationController
   before_action :authenticate_remove_access, only: :remove
   # TODO: Implement helper, only admin or role that are similar to admin can create new account.
   before_action :set_account, except: %i[index new create accept_invitation]
-
+  
   def index
     filtered_accounts = filter_by_site
 
@@ -101,7 +101,7 @@ class AccountsController < ApplicationController
       redirect_to account_path(@account), alert: 'User with the provided email not found.'
     end
   end
-
+  
   def accept_invitation # rubocop:disable Metrics/AbcSize
     invitation = AccountInvitation.find_by(token: params[:token])
 

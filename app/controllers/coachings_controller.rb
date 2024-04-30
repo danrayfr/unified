@@ -6,9 +6,9 @@ class CoachingsController < ApplicationController
   before_action :set_coaching, only: %i[show edit update destroy acknowledgement]
   before_action :set_account, only: %i[show new create edit update destroy acknowledgement]
   before_action :mark_notifications_as_read, only: :show
-  before_action :coachee, only: %i[acknowledgement]
-  before_action :coach, only: %i[new create edit]
-  before_action :admin?, only: :destroy
+  # before_action :coachee, only: %i[acknowledgement]
+  # before_action :coach, only: %i[new create edit]
+  # before_action :admin?, only: :destroy
 
   def index
     filtered_coachings = filter
@@ -145,11 +145,8 @@ class CoachingsController < ApplicationController
 
   # def filter_by_agent
   #   email = params[:filter_by]
-
   #  user = User.find_by(email:)
-
   #  return Coaching.all if email == 'all' || email.blank?
-
   #  Coaching.where(user:)
   # end
 

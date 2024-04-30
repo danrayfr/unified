@@ -4,8 +4,8 @@ class QualitiesController < ApplicationController
   before_action :set_account
   # before_action :find_ticket, only: %i[show new create edit update destroy acknowledgement]
   before_action :mark_notifications_as_read, only: :show
-  before_action :authenticate_edit_access, only: %i[new edit]
-  before_action :agent, only: :acknowledgement
+  # before_action :authenticate_edit_access, only: %i[new edit]
+  # before_action :agent, only: :acknowledgement
 
   def index
     filtered_qualities = filter

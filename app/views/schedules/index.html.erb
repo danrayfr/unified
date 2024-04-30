@@ -20,7 +20,7 @@
     <div>
       <%= date.day %>
     </div>
-    
+
     <div class="bottom h-30 py-1 w-full cursor-pointer overflow-auto" data-controller="popover">
       <% schedules.each do |schedule| %>
 
@@ -60,8 +60,8 @@
           </div>
         </template>
 
-        
-        <%= link_to schedule, data: { action: "mouseenter->popover#show mouseleave->popover#hide"} do %>
+
+        <%= link_to schedule,data: { action: "mouseenter->popover#show mouseleave->popover#hide"} do %>
           <div class="event-wrapper flex items-center justify-between <%= schedule_category_color(schedule) %> text-white rounded p-1 text-sm mb-1">
             <div class="event-name font-medium">
               <%= schedule.category.capitalize %>
@@ -73,9 +73,5 @@
         <% end %>
       <% end %>
     </div>
-
   <% end %>
-
 </div>
-
-

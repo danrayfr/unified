@@ -6,7 +6,7 @@ User.destroy_all
 Account.destroy_all
 
 # Create admin and qa users
-admin = User.create!(email: 'ninjafied@supportninja.com', password: 'password', password_confirmation: 'password',
+admin = User.create!(email: 'dan.rollan@supportninja.com', password: 'password', password_confirmation: 'password',
                      role: 'admin', confirmed_at: Time.now)
 qa = User.create!(email: 'qa@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa',
                   confirmed_at: Time.now)

@@ -20,7 +20,9 @@ class TicketsController < ApplicationController
   end
 
   def create
-    @ticket = @account.tickets.build(ticket_params.merge(modified_by: current_user.email))
+    @ticket = @account.tickets
+                      .build(ticket_params
+                      .merge(modified_by: current_user.email))
 
     if @ticket.save
       # create_ticket_details
@@ -66,7 +68,9 @@ class TicketsController < ApplicationController
 
     return if current_user.validate_ticket_access
 
-    redirect_url = @ticket ? account_ticket_url(@account, @ticket) : account_tickets_url(@account)
+    redirect_url = @ticket ?
+                    account_ticket_url(@account, @ticket) :
+                    account_tickets_url(@account)
     redirect_to redirect_url, alert: "You're not allowed to do that!"
   end
 

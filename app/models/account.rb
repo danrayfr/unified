@@ -32,7 +32,7 @@ class Account < ApplicationRecord
 
   default_scope -> { order(created_at: :asc) }
 
-  before_validation :generate_uuid, on: :create
+  after_validation :generate_uuid, on: :create
   validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
   validates :description, presence: true, length: { maximum: 255 }
 

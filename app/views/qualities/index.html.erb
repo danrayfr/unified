@@ -11,7 +11,7 @@
   <div class="space-y-6 md:space-x-2 md:space-y-0">
     <%= link_to new_account_quality_path, class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-paleFern text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
       <span>Add new QA audit</span>
-    <% end if current_user.manager? || current_user.qa? %>
+    <% end # if current_user.manager? || current_user.qa? %>
   </div>
 </div>
 

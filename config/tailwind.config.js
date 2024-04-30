@@ -10,9 +10,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Roboto Slab', 'sans-serif'],
-        serif: ['Lato', 'sans-serif'],
-        raleway: ["Raleway",  "serif"],
+        work: ['Work Sans'],
       },
       colors: {
         graphite: '#23282E',
