@@ -71,7 +71,7 @@ module ApplicationHelper
   end
 
   def full_title(page_title = '')
-    page_title.empty? ? BASE_TITLE : page_title.to_s
+    page_title.empty? ? BASE_TITLE : "#{page_title} | #{BASE_TITLE}"
   end
 
   def base_url

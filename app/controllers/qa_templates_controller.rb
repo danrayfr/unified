@@ -27,7 +27,7 @@ class QaTemplatesController < ApplicationController
     @template.metrics = populate_metrics
 
     if @template.save
-      redirect_to account_qa_template_path(@account, @template), notice: 'Template saved'
+      redirect_to account_qa_templates_path(@account), notice: 'Template succssfully saved.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -38,13 +38,10 @@ class QaTemplatesController < ApplicationController
   def update
     @template.metrics = populate_metrics
 
-    respond_to do |format|
-      if @template.update(template_params)
-        @template.save
-        format.html { redirect_to account_qa_template_path(@account, @template), notice: 'Template updated.' }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if @template.update(template_params)
+      redirect_to account_qa_templates_path(@account), notice: 'Template succssfully updated.'
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
