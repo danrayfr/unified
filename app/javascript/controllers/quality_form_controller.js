@@ -43,7 +43,7 @@ export default class extends Controller {
             const checkBoxHtml = `
               <div class="mb-6 inline-flex">
                 <label class="block">
-                  <input type="checkbox" name="quality[metric_ids][]" value="${metric.deduction}" data-action="change->quality-form#updateScore" quality-form-target="checkboxes" data-description="${metric.description}" data-name="${metric.metric_name}">
+                  <input type="checkbox" name="quality[metric_ids][]" value="${metric.deduction}" data-action="change->quality-form#updateScore" quality-form-target="checkboxes" data-description="${metric.content}" data-name="${metric.metric_name}">
                   ${metric.metric_name}
                 </label>
               </div>
@@ -141,17 +141,6 @@ export default class extends Controller {
               <div class="col-span-full">
                 <label class="text-gray-600 mb-3">Content</label>
                 <textarea class="w-full rounded-lg border-gray-200 p-3 text-sm" placeholder="Enter custom content here..." rows="8" id="message" name="content[]">${metricContent}</textarea>
-              </div>
-
-              <div class="">
-                <button type="button" class="bg-coral rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white hover:bg-graphite focus:outline-none focus:ring-2 focus:ring-inset focus:ring-stone" data-action="nested-form#remove">
-                  <span class="sr-only">Close menu</span>
-                  <!-- Heroicon name: outline/x -->
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  <span class="ml-4">Remove</span>
-                </button>
               </div>
             </div>
           </div>

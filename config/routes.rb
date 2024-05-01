@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     resources :accounts do
 
       get 'settings', to: 'settings#index'
-      resources :qa_templates, path: 'settings/qa_templates', except: :show
+      resources :qa_templates, path: 'settings/qa_templates'
       # resources :coaching_templates, path: 'settings/coaching_templates'
 
       # resources :tickets do

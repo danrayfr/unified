@@ -12,7 +12,7 @@
   <div class="mb-6">
       <label class="text-gray-600">Agent</label>
       <%= form.collection_select :user_id,
-                           @account.users,
+                           @account.users.where.not(id: current_user.id),
                            :id,
                            :email,
                            { prompt: 'Select Agent' },
@@ -30,7 +30,7 @@
       <div>
         <label class="text-gray-600">Type of Templates</label>
         <%= form.collection_select :coaching_template_id,
-                                    @account.qa_templates,
+                                    @account.qa_templates.where(published: true),
                                     :id,
                                     :name,
                                     { prompt: 'Select Template'},
@@ -53,7 +53,7 @@
     <div class="mb-6">
       <label class="text-gray-600">Notes</label>
       <% if quality.persisted? %>
-        <% if current_user.agent? %>
+        <% if current_user %>
           <div class="trix-editor" data-trix-target="content" contenteditable="false">
             <%= @note.content %>
           </div>
