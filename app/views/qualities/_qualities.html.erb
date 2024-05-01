@@ -32,8 +32,16 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <% @qualities.each do |quality| %>
-                  <%= render 'quality', quality: quality, account: @account %>
+              <% if user_signed_in? %>
+                <% if current_user.admin? %>
+                  <% @qualities.each do |quality| %>
+                    <%= render 'quality', quality: quality, account: @account %>
+                  <% end %>
+                <% else %>
+                  <% current_user.qualities.each do |quality| %>
+                    <%= render 'quality', quality: quality, account: @account %>
+                  <% end %>
+                <% end %>
               <% end %>
             </tbody>
           </table>

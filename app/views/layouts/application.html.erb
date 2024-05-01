@@ -20,7 +20,7 @@
 
   <body class="border-x-2 border-black bg-gray-50 flex flex-col min-h-screen">
 
-    <%= render "layouts/navbar" %>
+    <%= render "layouts/navbar" if user_signed_in? %>
 
     <main class="flex-grow">
       <%= render 'shared/notifications' %>

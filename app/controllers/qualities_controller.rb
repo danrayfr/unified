@@ -73,7 +73,7 @@ class QualitiesController < ApplicationController
   def destroy
     return flash[:alert] = "You're not authorized to destroy record." unless current_user.admin?
 
-    @quality.destroy
+    @quality.destroy!
     redirect_to account_ticket_path(@account, @quality),
                 alert: "You're not allowed to edit this QA record."
   end
