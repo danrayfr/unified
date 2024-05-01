@@ -60,3 +60,51 @@
     </div>
   </div>
 <% end %>
+
+<!-- component -->
+<%# if ( current_user.manager? && @account.users.include?(current_user) ) || current_user.admin? %>
+<div class="container mx-auto bg-white py-24 px-12 rounded-xl shadow-md">
+<%= form_with(model: @user, url: invite_account_path(@account), method: :post) do |form| %>
+  <div class="flex flex-col items-center w-full">
+    <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-400 h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <span class="text-xl text-gray-800">Assemble Teams</span>
+    <span class="text-gray-600">You haven't added any team members to your squad yet.</span>
+    <div class="flex flex-row w-full mt-4">
+      <%= form.text_field :email, name: 'user[email]', placeholder: 'Enter user email', class: 'rounded-md flex-grow border border-gray-400 focus:border-red-400' %>
+      <%= form.submit 'Send Invitation', class: 'ml-4 px-4 rounded-black border-black border rounded-md bg-red-400 text-white border-0 hover:bg-red-600 transition-all ease-in-out' %>
+    </div>
+    <span class="text-sm text-gray-600 mt-4 w-full align-left tracking-wider">TEAM MEMBERS (<%= @account.users.count %>)</span>
+    <div class="grid grid-cols-2 mt-4 w-full gap-4">
+    <% end %>
+    <% @account.users.each do |user| %>
+      <div class="flex flex-row rounded-full w-full border border-black p-2 gap-4 items-center">
+        <div class="flex-shrink w-12 h-12 bg-black rounded-full">
+          <%#= image_renderer(user.avatar_url) %>
+        </div>
+        <div class="flex-grow flex flex-col">
+          <span class="text-lg text-gray-800"><%= user.name %></span>
+          <span class="text-base text-gray-600"><%#= user.title %> </span>
+          <span class="text-base text-gray-400"><%= user.email %> </span>
+          <% if user.uid == @account.user_uid %>
+            <span>Account owner</span>
+            <% end %>
+        </div>
+        <div class="flex-shrink w-12 h-12 flex justify-center items-center">
+          <% if current_user != user %>
+            <%#= button_to remove_account_path(@account, email: user.email), data: { method: :delete }, class: "flex items-center space-x-2" do %>
+
+            <%= link_to remove_account_path(@account, email: user.email), data: {turbo_method: :delete, turbo_confirm: "Are you sure you want to remove #{user.name || user.email}?"}, class: "flex items-center space-x-2" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" class="flex-shrink h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</div>
+<%# end %>

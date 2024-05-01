@@ -8,7 +8,6 @@
 # email                       :string
 # title                       :string
 # role                        :integer                default(0)
-# account_limit               :integer                default(1)
 # encrypted_password          :string                 not null, default('')
 # reset_password_token        :string
 # reset_password_sent_at      :datetime
@@ -49,9 +48,8 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   # validate :allowed_email_domain, on: :create
-  validate :validate_account_limit, on: :update
 
-  enum role: %i[agent qa manager operations admin client]
+  enum role: %i[user admin client]
 
   has_many :tickets, dependent: :destroy
   has_many :coachings, dependent: :destroy
@@ -76,13 +74,6 @@ class User < ApplicationRecord
     end
   end
 
-  # Responsible for validating user account limit per role.
-  def validate_account_limit
-    return if operations? || admin?
-
-    account_limit == accounts.size
-  end
-
   def validate_coaching_access
     manager? || agent? || admin? ? true : false
   end
@@ -93,18 +84,6 @@ class User < ApplicationRecord
 
   def manager?
     role == 'manager'
-  end
-
-  def qa?
-    role == 'qa'
-  end
-
-  def agent?
-    role == 'agent'
-  end
-
-  def operations?
-    role == 'operations'
   end
 
   def admin?

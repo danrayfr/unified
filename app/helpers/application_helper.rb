@@ -3,7 +3,7 @@
 module ApplicationHelper
   include Pagy::Frontend
 
-  BASE_TITLE = 'Unified'
+  BASE_TITLE = 'Ninjafied'
 
   def image_renderer(image_url, options = {})
     default_image_url = 'https://static.thenounproject.com/png/5034901-200.png'
@@ -71,6 +71,10 @@ module ApplicationHelper
   end
 
   def full_title(page_title = '')
-    page_title.empty? ? BASE_TITLE : "#{page_title} | #{BASE_TITLE}"
+    page_title.empty? ? BASE_TITLE : page_title.to_s
+  end
+
+  def base_url
+    root_url
   end
 end

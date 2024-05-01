@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @commentable.comments.new(comment_params.merge(user: current_user))
     @comment.save
-    redirect_to account_coaching_url(@account, @commentable), notice: 'successfully posted!'
+    redirect_to account_quality_path(@account, @commentable), notice: 'successfully posted!'
   end
 
   def destroy

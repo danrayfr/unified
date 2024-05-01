@@ -163,6 +163,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    local_time (3.0.2)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -363,6 +364,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  local_time
   minitest (~> 5.17)
   minitest-reporters (~> 1.5)
   noticed (~> 1.6)

@@ -10,7 +10,7 @@ class QualitiesController < ApplicationController
   def index
     filtered_qualities = filter
 
-    @qualities = if current_user.agent?
+    @qualities = if current_user.user?
                    filtered_qualities.where(user: current_user)
                  else
                    filtered_qualities

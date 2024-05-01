@@ -12,9 +12,9 @@
   <div class="mb-6">
       <label class="text-gray-600">Agent</label>
       <%= form.collection_select :user_id,
-                           @account.users.where(role: 'agent'),
+                           @account.users,
                            :id,
-                           :employee_id_and_name,
+                           :email,
                            { prompt: 'Select Agent' },
                            { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: @quality.persisted? ? true : false } %>
     </div>

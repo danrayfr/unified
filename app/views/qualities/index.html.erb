@@ -19,7 +19,7 @@
 <!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
 <h3 class="mt-6 text-lg uppercase">QA Audits</h3>
 
-<% unless current_user.agent? %>
+<%# unless current_user.agent? %>
 <div class="mt-6 md:flex md:items-center md:justify-between">
   <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
     <div class="relative inline-flex" data-controller="filter">
@@ -35,7 +35,7 @@
     </div>
   </div>
 </div>
-<% end %>
+<%# end %>
 
 <%= render "qualities" %>
 

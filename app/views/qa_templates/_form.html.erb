@@ -6,19 +6,20 @@
     focus:border-[#6A64F1] focus:shadow-md" %>
   </div>
 
-  <%= form.fields_for(:note, @note) do |note_form| %> <% if current_user.agent? %>
+  <%= form.fields_for(:note, @note) do |note_form| %> 
+  <%# if current_user.user? %>
   <div class="mb-6">
     <%= note_form.label :note, class:"mb-3 block text-base font-medium text-[#07074D]" %>
     <div class="trix-editor" data-trix-target="content" contenteditable="false">
-      <%= @note.content %>
+      <%#= @note.content %>
     </div>
-    <%= note_form.hidden_field :content, value: @note.content %>
+    <%#= note_form.hidden_field :content, value: @note.content %>
   </div>
-  <% else %>
+  <%# else %>
   <div class="mb-6">
     <%= note_form.label :note %> <%= note_form.rich_text_area :content %>
   </div>
-  <% end %> <% end %>
+  <% end %> <%# end %>
 
   <div class="mb-6">
     <label class="mb-3 block text-base font-medium text-[#07074D]" for="service_available_time">Metrics</label>

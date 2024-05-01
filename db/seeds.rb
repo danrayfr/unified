@@ -6,19 +6,17 @@ User.destroy_all
 Account.destroy_all
 
 # Create admin and qa users
-admin = User.create!(email: 'dan.rollan@supportninja.com', password: 'password', password_confirmation: 'password',
+admin = User.create!(email: 'ninjafied@supportninja.com', password: 'password', password_confirmation: 'password',
                      role: 'admin', confirmed_at: Time.now)
-qa = User.create!(email: 'qa@supportninja.com', password: 'password', password_confirmation: 'password', role: 'qa',
-                  confirmed_at: Time.now)
+user = User.create!(email: 'user@supportninja.com', password: 'password', password_confirmation: 'password', role: 'user', confirmed_at: Time.now)
 
 # Create accounts
-projectq = Account.create!(name: 'Project Q', description: 'Technical Account')
-everpresent = Account.create!(name: 'Everpresent', description: 'Support Account')
+projectq = Account.create!(name: 'Project Q')
+everpresent = Account.create!(name: 'Everpresent')
 
 # Assign users to accounts
 projectq.users << admin
-projectq.users << qa
-everpresent.users << admin
+everpresent.users << user
 
 # Set the desired number of Faker accounts to generate
 num_accounts_to_generate = 50
@@ -53,9 +51,7 @@ num_accounts_to_generate.times do
   # Create a new account with random data
   faker_account = Account.create!(
     name: account_name,
-    description: Faker::Lorem.sentence,
-    site: Account.sites.keys.sample,
-    enable_kpi: Faker::Boolean.boolean
+    site: Account.sites.keys.sample
   )
 
   # Assign the user to the account
