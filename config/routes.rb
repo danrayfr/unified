@@ -3,6 +3,8 @@
 Rails.application.routes.draw do
   match '/404', to: 'errors#not_found', via: :all
   match '/405', to: 'errors#internal_server_error', via: :all
+
+  resource :search, only: :show
   # get 'coaching/index'
   # resources :accounts do
   #   resources :tickets do
