@@ -20,7 +20,7 @@
 
 class Quality < ApplicationRecord
   extend FriendlyId
-  # Pagy::DEFAULT[:items] = 6
+  Pagy::DEFAULT[:items] = 6
   friendly_id :uid, use: %i[slugged history finders]
 
   default_scope -> { order(acknowledgement: :asc, created_at: :desc) }

@@ -10,11 +10,11 @@ class QualitiesController < ApplicationController
   def index
     filtered_qualities = filter
 
-    @qualities = if @account.owner?(current_user)
-                   filtered_qualities
-                 else
-                   filtered_qualities.where(user: current_user)
-                 end
+    @pagy, @qualities = if @account.owner?(current_user)
+                          pagy(filtered_qualities)
+                        else
+                          pagy(filtered_qualities.where(user: current_user))
+                        end
 
     respond_to do |format|
       format.html
