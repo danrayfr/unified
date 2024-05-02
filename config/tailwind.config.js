@@ -11,7 +11,8 @@ module.exports = {
     extend: {
       fontFamily: {
         work: ['Work Sans'],
-        serif: ["Roboto Serif", 'serif']
+        serif: ["Playfair Display"],
+        poppins: ['Poppins']
       },
       colors: {
         graphite: '#23282E',

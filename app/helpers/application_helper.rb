@@ -70,6 +70,10 @@ module ApplicationHelper
     content_tag(:div, published_status, class: "inline px-3 py-1 text-sm font-normal rounded-full #{published} gap-x-2")
   end
 
+  def legend(object)
+    object ? 'text-white border border-green-700 bg-green-600' : 'text-orange-700 hover:text-white border border-orange-700 hover:bg-orange-600'
+  end
+
   def full_title(page_title = '')
     page_title.empty? ? BASE_TITLE : "#{page_title} | #{BASE_TITLE}"
   end

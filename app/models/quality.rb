@@ -19,6 +19,10 @@
 #
 
 class Quality < ApplicationRecord
+  extend FriendlyId
+  # Pagy::DEFAULT[:items] = 6
+  friendly_id :uid, use: %i[slugged history finders]
+
   default_scope -> { order(acknowledgement: :asc, created_at: :desc) }
   belongs_to :user
   belongs_to :account
@@ -28,15 +32,20 @@ class Quality < ApplicationRecord
 
   has_many :comments, as: :commentable, dependent: :destroy
 
-  validates :link, presence: true
+validates :link, presence: true
   validates :rating, presence: true,
                      numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+  after_validation :generated_uid, on: :create
 
   has_noticed_notifications model_name: 'Notification'
-  has_many :notifications, through: :user, dependent: :destroy
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   after_create_commit :notify_recipient
   before_destroy :clean_notifications
+
+  def should_generate_new_friendly_id?
+     slug.blank? || uid_changed?
+  end
 
   def notify_recipient
     QualityNotification.with(quality: self).deliver_later(user)
@@ -51,5 +60,16 @@ class Quality < ApplicationRecord
 
     user = User.find_by(email: agent)
     where(user:)
+  end
+
+  def generated_uid
+    self.uid ||= loop do
+      hex = generate_hex
+      break hex unless Quality.exists?(uid: hex)
+    end
+  end
+
+  def generate_hex
+    SecureRandom.hex(4).to_i(16) % 10_000_000
   end
 end

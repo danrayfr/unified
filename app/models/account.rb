@@ -46,7 +46,7 @@ class Account < ApplicationRecord
   has_many :coaching_templates, dependent: :destroy
 
   def should_generate_new_friendly_id?
-    name_changed? || slug.blank?
+    slug.blank? || uid_changed?
   end
 
   def agent_count
@@ -57,8 +57,8 @@ class Account < ApplicationRecord
     users.include?(user)
   end
 
-  def owner
-    user_uid
+  def owner?(current_user)
+    user_uid == current_user.uid
   end
 
   def invite_user(email)

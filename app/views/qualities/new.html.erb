@@ -1,20 +1,35 @@
-<%= provide(:title, "New QA#{@quality.id}") %>
+<%= provide(:title, "Quality assessment") %>
 
-<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
-  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-    <li class="leading-normal text-sm">
-      <a class="opacity-50 text-slate-700">Pages</a>
-    </li>
-    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">
-      <%= link_to "Quality", :back %>
-    </li>
-    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">New</li>
-  </ol>
+<div class="container my-12 mx-auto px-4 md:px-12">
+  <div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
+    <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
+      <li class="leading-normal text-sm">
+        <a class="opacity-50 text-slate-700"><%= @account.name %></a>
+      </li>
+      <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">
+        <%= link_to 'Quality Assurance', :back %>
+      </li>
+      <li class="text-sm pl-2 capitalize font-medium leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">New</li>
+    </ol>
 
-  <%= link_to :back, class:"hover:shadow-form cursor-pointer rounded-md border-2 border-gray-300 text-graphite hover:bg-graphite py-1 px-4 text-base font-semibold hover:text-white outline-none" do %>
-      <span>Cancel</span>
-    <% end if current_user.manager? %>
+    <%= link_to :back, class:"hover:shadow-form cursor-pointer rounded-md border-2 border-gray-300 text-graphite hover:bg-graphite py-1 px-4 text-base font-semibold hover:text-white outline-none" do %>
+        <span>Cancel</span>
+      <% end if current_user.manager? %>
+  </div>
+
+  <div class="space-y-10 divide-y divide-gray-900/10">
+    <div class="grid grid-cols-1 gap-x-8 pt-10 md:grid-cols-3">
+      <div class="px-4 sm:px-0">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Add new record</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Make some selections, fill in some boxes, assess your team service delivery quality, and share it to them.
+        </p>
+         <p class="mt-4">
+            <%= render 'shared/error_messages', object: @quality %>
+         </p>
+      </div>  
+      <%= render "form", account: @account, quality: @quality %>
+    </div>
+    </div>
+  </div>
 </div>
-
-<%= render "form", account: @account, quality: @quality %>
-

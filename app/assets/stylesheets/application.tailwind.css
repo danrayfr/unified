@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,6 +25,17 @@
   font-size: 1.25rem !important;
   line-height: 1.25rem !important;
   @apply leading-5 font-semibold mb-4;
+}
+
+.trix-content > div {
+  /* Your CSS styles here */
+  font-size: 1.2rem; /* Adjust the font size */
+  line-height: 2; /* Adjust the line height */
+  font-weight: normal; /* Adjust the font weight */
+  margin-bottom: 1rem; /* Adjust the bottom margin */
+  letter-spacing: 0.03em; /* Adjust the letter spacing */
+  padding: 1rem; /* Adjust the padding */
+  word-wrap: break-word; /* Enable word wrapping */
 }
 
 .trix-content a:not(.no-underline) {

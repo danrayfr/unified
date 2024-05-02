@@ -1,59 +1,56 @@
-<div class="flex items-center justify-center p-12">
-<div class="mx-auto w-full max-w-[1000px]">
-<%= form_with(model: [account, quality], data: { controller: "quality-form" }) do |form|  %>
-  <%= render 'shared/error_messages', object: form.object %>
-  <%= form.hidden_field :account_id, value: account.id, data: { quality_form_target: "currentAccount" } %>
+<%= form_with(model: [account, quality], class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2", data: { controller: "quality-form" }) do |form|  %>
+  <%#= render 'shared/error_messages', object: form.object %>
+  
+  <div class="px-4 py-6 sm:p-8">
+    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+  
+    <%= form.hidden_field :account_id, value: account.id, data: { quality_form_target: "currentAccount" } %>
 
-   <div class="mb-6">
-     <label class="text-gray-600">Link</label>
-    <%= form.text_field :link, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" %>
-  </div>
-
-  <div class="mb-6">
-      <label class="text-gray-600">Agent</label>
-      <%= form.collection_select :user_id,
-                           @account.users.where.not(id: current_user.id),
-                           :id,
-                           :email,
-                           { prompt: 'Select Agent' },
-                           { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", disabled: @quality.persisted? ? true : false } %>
+    <div class="col-span-full">
+      <label class="block text-sm font-medium leading-6 text-gray-700">Link</label>
+      <%= form.text_field :link, class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
     </div>
 
-  <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+    <div class="col-span-full">
+      <label class="block text-sm font-medium leading-6 text-gray-700">Agent</label>
+      <%= form.collection_select :user_id,
+                          @account.users.where.not(id: current_user.id),
+                          :id,
+                          :email,
+                          { prompt: 'Select Agent' },
+                          { class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", disabled: @quality.persisted? ? true : false } %>
+    </div>
+
     
-    <div>
-      <label class="text-gray-600">Rating</label>
-      <%= form.number_field :rating, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", data: { quality_form_target:"ratingInput", disabled: @quality.persisted? } %>
+    <div class="sm:col-span-3">
+      <label class="block text-sm font-medium leading-6 text-gray-700">Rating</label>
+      <%= form.number_field :rating, class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", data: { quality_form_target:"ratingInput", disabled: @quality.persisted? } %>
     </div>
 
     <% if @quality.new_record? %>
-      <div>
-        <label class="text-gray-600">Type of Templates</label>
+      <div class="sm:col-span-3">
+        <label class="block text-sm font-medium leading-6 text-gray-700">Type of Templates</label>
         <%= form.collection_select :coaching_template_id,
                                     @account.qa_templates.where(published: true),
                                     :id,
                                     :name,
                                     { prompt: 'Select Template'},
-                                    { class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", id: "quality-template-select", data: { quality_form_target: "templateSelect", action: "change->quality-form#updateFormFields" }} %>
+                                    { class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6", id: "quality-template-select", data: { quality_form_target: "templateSelect", action: "change->quality-form#updateFormFields" }} %>
       </div>
     <% end %>
-  </div>
   <%# end %>
 
-  <div class="mb-6">
-    <%#= form.label :note, class: "mb-3 block text-base font-medium text-[#07074D]" %>
-    <%#= form.text_area :note, class: "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md", data: { quality_form_target: "noteField" } %>
-  </div>
-
-  <div id="metric-checkboxes" data-quality-form-target="metricCheckboxes"></div>
-
+  <div class="col-span-full">
+    <div id="metric-checkboxes" data-quality-form-target="metricCheckboxes"></div>
+  </di>
+  
   <div id="metric-forms" data-quality-form-target="metricForms" data-controller="nested-form" nested-form-wrapper-selector-value=".nested-form-wrapper"></div>
 
   <%= form.fields_for(:note, @note) do |note_form| %>
-    <div class="mb-6">
-      <label class="text-gray-600">Notes</label>
+    <div class="col-span-full mb-12">
+      <label class="block text-sm font-medium leading-6 text-gray-700">Notes</label>
       <% if quality.persisted? %>
-        <% if current_user %>
+        <% unless @account.owner?(current_user) && !quality.acknowledgement %>
           <div class="trix-editor" data-trix-target="content" contenteditable="false">
             <%= @note.content %>
           </div>
@@ -61,13 +58,13 @@
           <%= note_form.rich_text_area :content, value: @note.content, data: { quality_form_target: "noteField" } %>
         <% end %>
       <% else %>
-       <%= note_form.rich_text_area :content, data: { quality_form_target: "noteField"} %>
+      <%= note_form.rich_text_area :content, data: { quality_form_target: "noteField"} %>
       <% end %>
     </div>
   <% end %>
   
-  <% if quality.persisted? && quality.user == current_user %>
-    <div class="mb-6">
+  <% if quality.persisted? && quality.user == current_user && current_page?(controller: 'qualities', action: 'acknowledgement') %>
+    <div class="col-span-full">
       <label class="flex items-center">
         <%= form.check_box :acknowledgement, unchecked_value: false, checked_value: true,class: "w-4 h-4 text-paleFern border-gray-300 rounded focus:ring-paleFern focus:ring-2" %>
         <span class="ml-2 text-md font-bold text-gray-900">Acknowledgement</span>
@@ -76,13 +73,25 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.submit class:"hover:shadow-form rounded-md bg-paleFern hover:bg-graphite py-3 px-8 text-base font-semibold text-white outline-none" %>
   </div>
+</div>
+
+<div class="flex items-center justify-end gap-x-4 border-t border-gray-900/10 px-4 py-4 sm:px-8 mt-4">
+    <% if action_name == 'edit' %>
+      <%= link_to "Back", :back, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500" %>
+      <!-- Check turbo_stream destroy later -->
+      <%#= link_to account_quality_url(@account), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, method: :delete, class:"flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-red-700 hover:text-white border border-red-700 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg shrink-0 sm:w-auto gap-x-2" do %>
+        <!--span>Delete</span-->
+      <%# end if current_user.manager? %>
+    <% else %>
+      <%= link_to "Cancel", account_qualities_path(@account), class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500" %>
+    <% end %>
+    
+    <%= form.submit "Save", class: "flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600 cursor-pointer", onclick: "return confirm('Are you sure you want to save?');" %> 
+</div>
 <% end %>
-</div>
-</div>
 
 <script>
   var isEditing = <%= quality.persisted? ? 'true' : 'false' %>;
 </script>
+

@@ -10,7 +10,7 @@ class QaTemplatesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
+      # format.html
       format.json { render json: @template.to_json(include: { note: { only: %i[id content] } }) }
     end
   end

@@ -41,7 +41,7 @@ class AccountsController < ApplicationController
 
   def update
     if @account.update(account_params)
-      redirect_to account_url(@account), notice: 'Account successfully updated.'
+      redirect_to account_settings_url(@account), notice: 'Account successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end

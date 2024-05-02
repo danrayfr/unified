@@ -1,31 +1,40 @@
-<%= provide(:title, "Quality Assurance") %>
+<%= provide(:title, "#{@account.name}") %>
 
-<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
-  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-    <li class="leading-normal text-sm">
-      <a class="opacity-50 text-slate-700">Pages</a>
-    </li>
-    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">QA</li>
-  </ol>
-
-  <div class="space-y-6 md:space-x-2 md:space-y-0">
-    <%= link_to new_account_quality_path, class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-paleFern text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
-      <span>Add new QA audit</span>
-    <% end # if current_user.manager? || current_user.qa? %>
+<section class="container px-36 mx-auto my-12">
+<div class="sm:flex sm:items-center sm:justify-between">
+  <div>
+    <div class="flex items-center gap-x-3">
+      <h2 class="text-lg font-medium text-gray-800">Quality Assurance Audit</h2>
+      <span class="px-3 py-1 text-xs text-orange-700 hover:text-white border border-orange-700 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-full">
+        <% if @account.user_uid == current_user.uid %>
+          <%= pluralize(@account.qualities.count, 'record') %>
+        <% else %>
+          <%= pluralize(@account.qualities.where(user: current_user).count, 'record') %>
+        <% end %>
+      </span>
+    </div>
+    <p class="mt-1 text-sm text-gray-500">These are the record of user Quality assurance assessment.</p>
+  </div>
+  <div class="flex items-center mt-4 gap-x-3">
+    <%= link_to new_account_quality_path(@account), class:"flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Add</span>
+    <% end %>
   </div>
 </div>
 
-<% if @qualities.any? %>
+<%# if @qualities.any? %>
 <!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
-<h3 class="mt-6 text-lg uppercase">QA Audits</h3>
 
-<%# unless current_user.agent? %>
+<% if @account.owner?(current_user) %>
 <div class="mt-6 md:flex md:items-center md:justify-between">
   <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
     <div class="relative inline-flex" data-controller="filter">
       <select class="text-gray-500 bg-white border border-gray-300 pl-8 text-sm px-9 py-1.5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md" name="filter_by" id="filter_by" data-action="filter#update" data-filter-target="select">
         <option value="all" <%= 'selected' if params[:filter] == 'all' %>>All</option>
-        <% @account.users.where(role: 'agent').each do |user| %>
+        <% @account.users.each do |user| %>
           <option value="<%= user.email %>" <%= 'selected' if params[:filter] == user.email%>><%= user.email %></option>
         <% end %>
       </select>
@@ -35,8 +44,11 @@
     </div>
   </div>
 </div>
-<%# end %>
+<% end %>
 
 <%= render "qualities" %>
 
-<% end %>
+<%#= render "shared/pagy" %>
+
+<%# end %>
+</section>

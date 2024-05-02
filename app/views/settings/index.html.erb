@@ -19,7 +19,7 @@
     <div class="space-y-12">
       <div class="sticky top-0 py-12 bg-gray-50 border-b border-gray-300  <%#= horizontal_padding %> z-20">
         <div class="flex justify-between">
-        <div class="text-5xl tracking-wide font-serif">Settings</div>
+        <div class="text-5xl tracking-wide font-serif"><%= @account.name%>'s Settings</div>
       </div>
     </div>
 
@@ -113,7 +113,7 @@
                   </div>
               </div>
               <div class="w-full sm:w-1/2">
-                  <div class="relative h-full ml-0 md:mr-10">
+                  <div class="relative h-full ml-0 md:mr-10 cursor-not-allowed">
                       <span class="absolute top-0 left-0 w-full h-full mt-1 ml-1 bg-gray-500 rounded-lg"></span>
                       <div class="relative h-full p-5 bg-white border-2 border-gray-500 rounded-lg">
                           <div class="flex items-center -mt-1">
