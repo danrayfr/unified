@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  match '/404', to: 'errors#not_found', via: :all
+  match '/405', to: 'errors#internal_server_error', via: :all
   # get 'coaching/index'
   # resources :accounts do
   #   resources :tickets do
@@ -33,14 +35,14 @@ Rails.application.routes.draw do
   # constraints subdomain: 'internal' do
     # Add other app-specific routes here
     # root 'accounts#index', as: :account_root
-    root 'schedules#index'
+    root 'accounts#index'
 
     resources :schedules
     resources :accounts do
 
       get 'settings', to: 'settings#index'
       resources :qa_templates, path: 'settings/qa_templates'
-      resources :coaching_templates, path: 'settings/coaching_templates'
+      # resources :coaching_templates, path: 'settings/coaching_templates'
 
       # resources :tickets do
       #   resources :comments, module: :tickets, only: %i[create destroy]
@@ -61,15 +63,15 @@ Rails.application.routes.draw do
       end
   
       # QA is block in this resources.
-      authenticated :user, ->(user) { user.validate_coaching_access } do
-        resources :coachings do
-          resources :comments, module: :coachings, only: %i[create destroy]
-          resources :notes, module: :accounts, only: :create
-          member do
-            get 'acknowledgement', to: 'coachings#acknowledgement', as: 'acknowledgement'
-          end
-        end
-      end
+      # authenticated :user, ->(user) { user.validate_coaching_access } do
+      #   resources :coachings do
+      #     resources :comments, module: :coachings, only: %i[create destroy]
+      #     resources :notes, module: :accounts, only: :create
+      #     member do
+      #       get 'acknowledgement', to: 'coachings#acknowledgement', as: 'acknowledgement'
+      #     end
+      #   end
+      # end
   
       post 'join', on: :member
       post 'invite', on: :member
@@ -86,6 +88,9 @@ Rails.application.routes.draw do
       invitations: 'users/invitations',
       omniauth_callbacks: 'users/omniauth_callbacks'
     }
+
+    # get "/service-worker.js" => "service_worker#service_worker"
+    # get "/manifest.json" => "service_worker#manifest"
   # end
   
   # Route for the app subdomain

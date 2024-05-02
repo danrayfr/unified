@@ -1,29 +1,28 @@
-<div id="<%= dom_id(account) %> ">
-  <tr>
-    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
-      <div>
-        <h2 class="font-medium text-gray-800 capitalize">
+<div id="<%= dom_id(account) %>">
+  <div class="flex flex-col flex-[1_0_0%] bg-white border rounded-lg">
+    <%= image_tag "https://assets-global.website-files.com/64149f79022d0c3ed8ce46e9/64340a48e4ece4230ad42755_SupportNinjas-Brand-Refresh.jpg", class: "w-full h-auto sm:rounded-se-none", alt: "Image" %>
+    <div class="p-4 flex-2 md:p-5">
+      <div class="flex items-center space-x-1 rtl:space-x-reverse mb-2">
+        <h3 class="text-lg font-semibold text-gray-800 hover:text-green-700">
           <%= link_to account.name, account_path(account) %>
-        </h2>
+        </h3>
+        <p class="text-sm text-medium tracking-wide">(#<%= account.uid %>)</p>
       </div>
-    </td>
-    <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-      <%= site_with_color(account) %>
-    </td>
-    <td class="px-4 py-4 text-sm whitespace-nowrap">
-      <div class="flex items-center">
-        <% account.users.limit(5).each do |user| %> 
-          <%= image_renderer(user.avatar_url, class: 'object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full shrink-0') %> 
+      <div class="flex -space-x-2">
+        <% account.users.limit(8).each do |user| %> 
+          <%= image_renderer(user.avatar_url, class: 'w-10 h-10 border-2 border-white rounded-full border-gray-800') %> 
         <% end %> 
-        <% if account.users.count > 5 %>
-          <p class="flex items-center justify-center w-6 h-6 -mx-1 text-xs text-blue-600 bg-blue-100 border-2 border-white rounded-full"><%= account.users.count - 3%></p>
+        <% if account.users.count > 8 %>
+          <p class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800"><%= account.users.count - 8%></p>
         <% end %>
-      </div>
-    </td>
-    <td class="px-4 py-4 text-sm whitespace-nowrap">
-      <div class="w-48 h-1.5 bg-blue-200 overflow-hidden rounded-full">
-        <div class="bg-blue-500 w-2/3 h-1.5"></div>
-      </div>
-    </td>
-  </tr>
+    </div>
+    </div>
+    <div class="p-4 border-t sm:px-5">
+      <p class="text-xs text-gray-500">
+        Created
+
+        <%= time_tag account.created_at, "data-local": "time-ago" %>
+      </p>
+    </div>
+  </div>
 </div>

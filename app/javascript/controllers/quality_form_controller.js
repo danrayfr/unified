@@ -41,11 +41,9 @@ export default class extends Controller {
           // Generate checkboxes for each metric in the qa_template
           data.metrics.forEach((metric) => {
             const checkBoxHtml = `
-              <div class="mb-6 inline-flex">
-                <label class="block">
-                  <input type="checkbox" name="quality[metric_ids][]" value="${metric.deduction}" data-action="change->quality-form#updateScore" quality-form-target="checkboxes" data-description="${metric.description}" data-name="${metric.metric_name}">
-                  ${metric.metric_name}
-                </label>
+              <div class="inline-flex me-4">
+                <input class="w-4 h-4 text-orange-400 bg-gray-100 border-gray-300 rounded focus:ring-orange-500" type="checkbox" name="quality[metric_ids][]" value="${metric.deduction}" data-action="change->quality-form#updateScore" quality-form-target="checkboxes" data-description="${metric.content}" data-name="${metric.metric_name}">
+                <label class="ms-2 text-sm font-medium text-gray-900">${metric.metric_name}</label>
               </div>
             `;
             this.metricCheckboxesTarget.insertAdjacentHTML("beforeend", checkBoxHtml);
@@ -124,34 +122,23 @@ export default class extends Controller {
               Metrics
             </label>
             <!-- Add your nested form HTML here -->
-            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 px-6 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6 px-6 pb-6 border-2 border-gray-300 border-dashed rounded-md mt-2 mb-6">
               <!-- Populate the form fields with data specific to the checkbox -->
               <div class="sm:col-span-3 mt-3">
-                <label class="text-gray-600 mb-3">Name</label>
+                <label class="block text-sm font-medium leading-6 text-gray-700">Name</label>
                 <input type="text" name="metric_name[]" value="${metricName}" class="js-start-time w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" readonly="true" />
               </div>
 
               <div class="sm:col-span-3 mt-3">
-                <label class="text-gray-600 mb-3">Deduction</label>
+                <label class="block text-sm font-medium leading-6 text-gray-700">Deduction</label>
                 <input type="number" name="deduction[]" value="${metricDeduction}" class="js-start-time w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" readonly="true" />
               </div>
 
               <!-- Add other form fields as needed -->
 
               <div class="col-span-full">
-                <label class="text-gray-600 mb-3">Content</label>
+                <label class="block text-sm font-medium leading-6 text-gray-700">Content</label>
                 <textarea class="w-full rounded-lg border-gray-200 p-3 text-sm" placeholder="Enter custom content here..." rows="8" id="message" name="content[]">${metricContent}</textarea>
-              </div>
-
-              <div class="">
-                <button type="button" class="bg-coral rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white hover:bg-graphite focus:outline-none focus:ring-2 focus:ring-inset focus:ring-stone" data-action="nested-form#remove">
-                  <span class="sr-only">Close menu</span>
-                  <!-- Heroicon name: outline/x -->
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  <span class="ml-4">Remove</span>
-                </button>
               </div>
             </div>
           </div>

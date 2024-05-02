@@ -1,51 +1,75 @@
-<%= form_with(model: [account, template], local: true, id: "#{dom_id(template)}_form", data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %> 
-  <%= render 'shared/error_messages', object: form.object %>
+<%= form_with(model: [account, template], class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2", local: true, id: "#{dom_id(template)}_form", data: { controller: 'nested-form', nested_form_wrapper_selector_value: '.nested-form-wrapper' }) do |form| %> 
+  <%#= render 'shared/error_messages', object: form.object %>
 
-  <div class="mb-6">
-    <%= form.label :name, class:"mb-3 block text-base font-medium text-[#07074D]" %> <%= form.text_field :name, class:"w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none
-    focus:border-[#6A64F1] focus:shadow-md" %>
-  </div>
+  <div class="px-4 py-6 sm:p-8">
+    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
 
-  <%= form.fields_for(:note, @note) do |note_form| %> <% if current_user.agent? %>
-  <div class="mb-6">
-    <%= note_form.label :note, class:"mb-3 block text-base font-medium text-[#07074D]" %>
-    <div class="trix-editor" data-trix-target="content" contenteditable="false">
-      <%= @note.content %>
+      <div class="col-span-full">
+        <%= form.label :name, class:"block text-sm font-medium leading-6 text-gray-700" %>
+        <%= form.text_field :name, class:"block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+      </div>
+
+      <%= form.fields_for(:note, @note) do |note_form| %> 
+      <%# if current_user.user? %>
+      <div class="col-span-full">
+        <%#= note_form.label :note, class:"block text-sm font-medium leading-6 text-gray-700" %>
+        <!--div class="trix-editor" data-trix-target="content" contenteditable="false">
+          <%#= @note.content %>
+        </div-->
+        <%#= note_form.hidden_field :content, value: @note.content %>
+      </div>
+      <%# else %>
+      <div class="col-span-full">
+        <%= note_form.label :note, class:"block text-sm font-medium leading-6 text-gray-700" %>
+        <%= note_form.rich_text_area :content %>
+      </div>
+      <% end %> <%# end %>
+
+      <% if action_name == 'edit' %>
+        <div class="col-span-full">
+          <label class="block text-sm font-medium leading-6 text-gray-700 -mb-6">Metrics</label>
+          <% @template.metrics.each_with_index do |metric, index| %>
+            <%= form.fields_for :metrics, metric, child_index: index do |metric_form| %>
+              <%= render "metric_form", f: metric_form, metric: metric %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="col-span-full">
+          <label class="block text-sm font-medium leading-6 text-gray-700 -mb-6" >Metrics</label>
+          <template data-nested-form-target="template">
+            <%= form.fields_for :metrics, child_index: 'NEW_RECORD' do |metric| %> 
+              <%= render "metric_form" %> 
+            <% end %>
+          </template>
+        </div>
+      <% end %>
+
+
+      <%#= form.fields_for :metrics do |metric| %> 
+        <%#= render "metric_form", f: metric, metric_data: @template.metrics.shift %>   
+      <%# end %>
+
+      <!-- Inserted elements will be injected before that target. -->
+      <div class="col-span-full">
+        <div data-nested-form-target="target"></div>
+      </div>
+
+      <% unless action_name == 'edit' %>
+        <div class="col-span-full">
+          <button type="button" data-action="nested-form#add" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-gray-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-gray-600">Add metrics</button>
+        </div>
+      <% end %>
+
+      <div class="mb-6">
+        <%= form.check_box :published, class: 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500' %>
+        <label for="checkbox" class="ml-2 text-sm font-medium text-gray-800">Publised</label>
+      </div>
     </div>
-    <%= note_form.hidden_field :content, value: @note.content %>
-  </div>
-  <% else %>
-  <div class="mb-6">
-    <%= note_form.label :note %> <%= note_form.rich_text_area :content %>
-  </div>
-  <% end %> <% end %>
-
-  <div class="mb-6">
-    <label class="mb-3 block text-base font-medium text-[#07074D]" for="service_available_time">Metrics</label>
-    <template data-nested-form-target="template">
-      <%= form.fields_for :metrics, child_index: 'NEW_RECORD' do |metric| %> <%= render "metric_form" %> <% end %>
-    </template>
   </div>
 
-  <%#= form.fields_for :metrics do |metric| %> 
-    <%#= render "metric_form", f: metric, metric_data: @template.metrics.shift %>   
-  <%# end %>
-
-  <!-- Inserted elements will be injected before that target. -->
-  <div class="mb-6">
-    <div data-nested-form-target="target"></div>
-  </div>
-
-  <div class="mb-6">
-    <button type="button" data-action="nested-form#add">Add New Metrics</button>
-  </div>
-
-  <div class="mb-6">
-    <%= form.check_box :published, class: 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500' %>
-    <label for="checkbox" class="ml-2 text-sm font-medium text-gray-800">Publised</label>
-  </div>
-
-  <div class="mb-6">
-    <%= form.submit %> 
+  <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8 mt-4">
+    <%= link_to "Back", :back, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500" %>
+    <%= form.submit "Save", class: "flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600", onclick: "return confirm('Are you sure you want to save?');" %> 
   </div>
 <% end %>

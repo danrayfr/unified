@@ -1,5 +1,21 @@
-<div class="container mx-auto">
- <h1>Edit <%= @template.name %> Template</h1>
+<%= content_for(:title, "Edit QA template") %>
 
- <%= render 'form', account: @account, template: @template %>
+<div class="container my-12 mx-auto px-4 md:px-12">
+  <div class="space-y-10 divide-y divide-gray-900/10">
+    <div class="grid grid-cols-1 gap-x-8 pt-10 md:grid-cols-3">
+      <div class="px-4 sm:px-0">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Create a new template for QA</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Make some selections, fill in some boxes, and publish new template.
+        </p>
+         <p class="mt-4">
+            <%= render 'shared/error_messages', object: @template %>
+         </p>
+      </div>  
+
+      <%= render 'form', account: @account, template: @template %>
+    
+    </div>
+    </div>
+  </div>
 </div>

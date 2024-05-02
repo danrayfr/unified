@@ -1,13 +1,13 @@
 <% commentable.comments.each do |comment| %>
-<article class="p-6 text-base rounded-lg <%= comment.pinned? ? "bg-ivory" : "bg-gold" %>" id="comment- <%= comment.id %>">
-  <footer class="flex justify-between items-center mb-2">
+<article class="w-full rounded-lg border-2 p-4 bg-white <%= comment.pinned? ? "border-green-700" : "border-orange-700" %>" id="comment- <%= comment.id %>">
+  <footer class="flex justify-between items-center">
     <div class="flex items-center">
       <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
         <%= image_renderer(comment.user.avatar_url, class: "mr-2 w-6 h-6 rounded-full") %>
         <span class="text-graphite"><%= comment.user.name || comment.user.email %></span>
       </p>
-      <p class="text-sm text-graphite">
-        <%= time_ago_in_words(comment.created_at) %> ago (<%= comment.pinned? ? "commitment" : "comment"%>)
+      <p class="px-3 py-1 text-xs font-medium rounded-full <%= legend(comment.pinned?) %>">
+        <%= time_ago_in_words(comment.created_at) %> ago (<%= comment.pinned? ? "commitment" : "comment" %>)
       </p>
     </div>
 

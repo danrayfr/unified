@@ -4,17 +4,17 @@ class QualitiesController < ApplicationController
   before_action :set_account
   # before_action :find_ticket, only: %i[show new create edit update destroy acknowledgement]
   before_action :mark_notifications_as_read, only: :show
-  before_action :authenticate_edit_access, only: %i[new edit]
-  before_action :agent, only: :acknowledgement
+  # before_action :authenticate_edit_access, only: %i[new edit]
+  before_action :acknowledged?, only: :acknowledgement
 
   def index
     filtered_qualities = filter
 
-    @qualities = if current_user.agent?
-                   filtered_qualities.where(user: current_user)
-                 else
-                   filtered_qualities
-                 end
+    @pagy, @qualities = if @account.owner?(current_user)
+                          pagy(filtered_qualities)
+                        else
+                          pagy(filtered_qualities.where(user: current_user))
+                        end
 
     respond_to do |format|
       format.html
@@ -56,7 +56,6 @@ class QualitiesController < ApplicationController
   end
 
   def acknowledgement
-    # @quality = @ticket.quality
     @note_content = @quality.note.content if @quality.note
     @note = @quality.note
   end
@@ -71,17 +70,18 @@ class QualitiesController < ApplicationController
   end
 
   def destroy
-    return flash[:alert] = "You're not authorized to destroy record." unless current_user.admin?
+    return flash[:alert] = "You're not authorized to destroy record." unless @account.owner?(current_user)
 
     @quality.destroy
-    redirect_to account_ticket_path(@account, @quality),
-                alert: "You're not allowed to edit this QA record."
+    redirect_to account_qualities_path(@account),
+                notice: 'Record is successfully deleted!'
   end
 
   private
 
   def set_quality
     @quality = Quality.find(params[:id])
+    redirect_to account_qualities_path, status: :moved_permanently if params[:id] != @quality.slug
   end
 
   # def find_account
@@ -89,7 +89,7 @@ class QualitiesController < ApplicationController
   # end
 
   def quality_params
-    params.require(:quality).permit(:rating, :acknowledgement, :date_acknowledged,
+    params.require(:quality).permit(:uid, :slug, :rating, :acknowledgement, :date_acknowledged,
                                     :ticket_id, :account_id, :user_id, :link,
                                     metrics: [], note_attributes: %i[id content])
   end
@@ -133,12 +133,19 @@ class QualitiesController < ApplicationController
 
   def filter
     agent = params[:filter_by]
+    @account = Account.find(params[:account_id])
 
-    Quality.filter_by_agent_email(agent)
+    @account.qualities.filter_by_agent_email(agent)
   end
 
   def mark_notifications_as_read
     notification_to_mark_as_read = @quality.notifications_as_quality.where(recipient: current_user)
     notification_to_mark_as_read.update_all(read_at: Time.zone.now) if current_user
+  end
+
+  def acknowledged?
+    if @quality.acknowledgement
+      redirect_to account_quality_path(@account, @quality), notice: 'Record already acknowledged.'
+    end
   end
 end

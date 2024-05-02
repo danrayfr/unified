@@ -3,7 +3,8 @@ class CreateAccounts < ActiveRecord::Migration[7.0]
     create_table :accounts do |t|
       t.string :name
       t.text :description
-      t.string :uid, default: -> { 'gen_random_uuid()' }, null: false
+      t.string :uid
+      t.string :user_uid
 
       t.timestamps
     end

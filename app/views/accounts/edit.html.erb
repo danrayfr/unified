@@ -1,6 +1,20 @@
+<%= content_for(:title, "Edit account") %>
 <div class="container my-12 mx-auto px-4 md:px-12">
-  <h1 class="font-bold text-5xl text-gray-700">Editing <%= @account.name %></h1>
-  <br />
+  <div class="space-y-10 divide-y divide-gray-900/10">
+    <div class="grid grid-cols-1 gap-x-8 pt-10 md:grid-cols-3">
+      <div class="px-4 sm:px-0">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Editing <%= @account.name %></h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Make some selections, fill in some boxes, and go live in minutes.
+        </p>
+         <p class="mt-4">
+            <%= render 'shared/error_messages', object: @account %>
+         </p>
+      </div>  
 
-  <%= render 'form', account: @account %>
+      <%= render "form", account: @account %>
+    
+    </div>
+  </div>
+  </div>
 </div>

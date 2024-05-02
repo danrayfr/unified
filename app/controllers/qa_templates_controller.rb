@@ -10,7 +10,7 @@ class QaTemplatesController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html
+      # format.html
       format.json { render json: @template.to_json(include: { note: { only: %i[id content] } }) }
     end
   end
@@ -27,7 +27,7 @@ class QaTemplatesController < ApplicationController
     @template.metrics = populate_metrics
 
     if @template.save
-      redirect_to account_qa_template_path(@account, @template), notice: 'Template saved'
+      redirect_to account_qa_template_path(@account, @template), notice: 'Template successfully saved!'
     else
       render :new, status: :unprocessable_entity
     end
@@ -40,10 +40,10 @@ class QaTemplatesController < ApplicationController
 
     respond_to do |format|
       if @template.update(template_params)
-        @template.save
-        format.html { redirect_to account_qa_template_path(@account, @template), notice: 'Template updated.' }
+        # @template.save
+        format.html { redirect_to account_qa_templates_path(@account), notice: 'Template successfully updated!' }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end

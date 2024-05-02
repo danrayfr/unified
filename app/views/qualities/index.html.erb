@@ -1,42 +1,79 @@
-<%= provide(:title, "Coachings") %>
+<%= provide(:title, "#{@account.name}") %>
 
-<div class="flex flex-col items-start justify-between pb-6 space-y-4 lg:items-center lg:space-y-0 lg:flex-row">
-  <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-    <li class="leading-normal text-sm">
-      <a class="opacity-50 text-slate-700">Pages</a>
-    </li>
-    <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">QA</li>
-  </ol>
-
-  <div class="space-y-6 md:space-x-2 md:space-y-0">
-    <%= link_to new_account_quality_path, class:"inline-flex items-center justify-center px-4 py-1 space-x-1 bg-paleFern text-white rounded-md shadow animate-bounce hover:bg-graphite" do %>
-      <span>Add new QA audit</span>
-    <% end if current_user.manager? || current_user.qa? %>
+<section class="container px-36 mx-auto my-12">
+<div class="sm:flex sm:items-center sm:justify-between">
+  <div>
+    <div class="flex items-center gap-x-3">
+      <h2 class="text-lg font-medium text-gray-800">Quality Assurance Audit</h2>
+      <span class="px-3 py-1 text-xs text-orange-700 hover:text-white border border-orange-700 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-full">
+        <% if @account.user_uid == current_user.uid %>
+          <%= pluralize(@account.qualities.count, 'record') %>
+        <% else %>
+          <%= pluralize(@account.qualities.where(user: current_user).count, 'record') %>
+        <% end %>
+      </span>
+    </div>
+    <p class="mt-1 text-sm text-gray-500">These are the record of user Quality assurance assessment.</p>
+  </div>
+  <div class="flex items-center mt-4 gap-x-3">
+    <%= link_to new_account_quality_path(@account), class:"flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>Add</span>
+    <% end %>
   </div>
 </div>
 
-<% if @qualities.any? %>
+<%# if @qualities.any? %>
 <!-- Table see (https://tailwindui.com/components/application-ui/lists/tables) -->
-<h3 class="mt-6 text-lg uppercase">QA Audits</h3>
+<% if @account.qualities.empty? %>
+  <div class="max-w-4xl mx-auto px-10 py-4 bg-white rounded-lg shadow-lg mt-12">
+    <div class="flex flex-col justify-center py-12 items-center">
 
-<% unless current_user.agent? %>
-<div class="mt-6 md:flex md:items-center md:justify-between">
-  <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
-    <div class="relative inline-flex" data-controller="filter">
-      <select class="text-gray-500 bg-white border border-gray-300 pl-8 text-sm px-9 py-1.5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md" name="filter_by" id="filter_by" data-action="filter#update" data-filter-target="select">
-        <option value="all" <%= 'selected' if params[:filter] == 'all' %>>All</option>
-        <% @account.users.where(role: 'agent').each do |user| %>
-          <option value="<%= user.email %>" <%= 'selected' if params[:filter] == user.email%>><%= user.email %></option>
+      <div class="flex justify-center items-center">
+        <img class="w-64 h-64"
+          src="https://res.cloudinary.com/daqsjyrgg/image/upload/v1690257804/jjqw2hfv0t6karxdeq1s.svg"
+          alt="image empty states">
+      </div>
+      <h1 class="text-gray-700 font-medium text-2xl text-center mb-3">Create a QA log and get organized!</h1>
+      <p class="text-gray-500 text-center mb-6">
+        Your team's qa score is a proof of their improvements.
+      </p>
+      <div class="flex flex-col justify-center">
+        <%= link_to new_account_quality_path(@account), class:"flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="w-6 h-6  mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Create New Project
         <% end %>
-      </select>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="filters" class="w-4 h-4 absolute pointer-events-none left-2 top-1/2 transform -translate-y-1/2 z-10">
-        <path d="M19,2H5A3,3,0,0,0,2,5V6.17a3,3,0,0,0,.25,1.2l0,.06a2.81,2.81,0,0,0,.59.86L9,14.41V21a1,1,0,0,0,.47.85A1,1,0,0,0,10,22a1,1,0,0,0,.45-.11l4-2A1,1,0,0,0,15,19V14.41l6.12-6.12a2.81,2.81,0,0,0,.59-.86l0-.06A3,3,0,0,0,22,6.17V5A3,3,0,0,0,19,2ZM13.29,13.29A1,1,0,0,0,13,14v4.38l-2,1V14a1,1,0,0,0-.29-.71L5.41,8H18.59ZM20,6H4V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z"></path>
-      </svg>
+        <a href="#" class="underline mt-4 text-sm font-light mx-auto">Learn more</a>
+      </div>
     </div>
   </div>
-</div>
+<% else %>
+  <% if @account.owner?(current_user) %>
+  <div class="mt-6 md:flex md:items-center md:justify-between">
+    <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg rtl:flex-row-reverse">
+      <div class="relative inline-flex" data-controller="filter">
+        <select class="text-gray-500 bg-white border border-gray-300 pl-8 text-sm px-9 py-1.5 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-md" name="filter_by" id="filter_by" data-action="filter#update" data-filter-target="select">
+          <option value="all" <%= 'selected' if params[:filter] == 'all' %>>All</option>
+          <% @account.users.each do |user| %>
+            <option value="<%= user.email %>" <%= 'selected' if params[:filter] == user.email%>><%= user.email %></option>
+          <% end %>
+        </select>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="filters" class="w-4 h-4 absolute pointer-events-none left-2 top-1/2 transform -translate-y-1/2 z-10">
+          <path d="M19,2H5A3,3,0,0,0,2,5V6.17a3,3,0,0,0,.25,1.2l0,.06a2.81,2.81,0,0,0,.59.86L9,14.41V21a1,1,0,0,0,.47.85A1,1,0,0,0,10,22a1,1,0,0,0,.45-.11l4-2A1,1,0,0,0,15,19V14.41l6.12-6.12a2.81,2.81,0,0,0,.59-.86l0-.06A3,3,0,0,0,22,6.17V5A3,3,0,0,0,19,2ZM13.29,13.29A1,1,0,0,0,13,14v4.38l-2,1V14a1,1,0,0,0-.29-.71L5.41,8H18.59ZM20,6H4V5A1,1,0,0,1,5,4H19a1,1,0,0,1,1,1Z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+  <%= render "qualities" %>
+  <%= render "shared/pagy" %>
 <% end %>
 
-<%= render "qualities" %>
-
-<% end %>
+<%# end %>
+</section>

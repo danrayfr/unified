@@ -3,6 +3,8 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  BASE_TITLE = 'Ninjafied'
+
   def image_renderer(image_url, options = {})
     default_image_url = 'https://static.thenounproject.com/png/5034901-200.png'
     image_tag(image_url.presence || default_image_url, options)
@@ -66,5 +68,17 @@ module ApplicationHelper
     published_status = template.published ? 'Publish' : 'Not publish'
 
     content_tag(:div, published_status, class: "inline px-3 py-1 text-sm font-normal rounded-full #{published} gap-x-2")
+  end
+
+  def legend(object)
+    object ? 'text-white border border-green-700 bg-green-600' : 'text-orange-700 hover:text-white border border-orange-700 hover:bg-orange-600'
+  end
+
+  def full_title(page_title = '')
+    page_title.empty? ? BASE_TITLE : "#{page_title} | #{BASE_TITLE}"
+  end
+
+  def base_url
+    root_url
   end
 end

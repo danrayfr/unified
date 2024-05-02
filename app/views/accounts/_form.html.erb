@@ -1,25 +1,41 @@
-<%= form_with(model: account) do |form| %>
-  <%= render 'shared/error_messages', object: form.object %>
+<%= form_with(model: account, class: "bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2") do |form| %>
+  <div class="px-4 py-6 sm:p-8">
+    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+      
+      <div class="col-span-full">
+        <%= form.label :name, class: "block text-sm font-medium leading-6 text-gray-700" %>
+        <div class="mt-2">
+          <%= form.text_field :name, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+        </div>
+      </div>
 
-  <div class='mb-6'>
-    <%= form.label :name, class: 'block mb-2 text-sm font-medium text-gray-900' %>
-    <%= form.text_field :name, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' %>
+      <div class='col-span-full'>
+        <%= form.label :site, class: 'block mb-2 text-sm font-medium text-gray-900' %>
+        <%= form.select :site, Account.sites.keys.map { |site| [site.humanize, site]}, { prompt: "Select a site" }, class: 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+      </div>
+
+      <% if action_name == 'edit' %>
+        <div class="col-span-full">
+          <%= form.label :slug, "URL", class: "block mb-2 text-sm font-medium text-gray-900" %>
+          <div class="mt-2">
+            <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+              <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm"><%= base_url %></span>
+              <%= form.text_field :slug, class: "block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+
+    <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8 mt-4">
+    <% if action_name == 'edit' %>
+      <%= link_to "Back", :back, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500" %>
+    <% else %>
+      <%= link_to "Cancel", accounts_path, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500" %>
+    <% end %>
+    
+
+    <%= form.submit "Create account", class: "flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-green-700 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-green-600", onclick: "return confirm('Are you sure you want to save?');" %> 
   </div>
-
-  <div class='mb-6'>
-    <%= form.label :description, class: 'block mb-2 text-sm font-medium text-gray-900' %>
-    <%= form.text_field :description, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5' %>
-  </div>
-
-  <div class='mb-6'>
-    <%= form.label :site, class: 'block mb-2 text-sm font-medium text-gray-900' %>
-    <%= form.select :site, Account.sites.keys.map { |site| [site.humanize, site]}, {}, class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5' %>
-  </div>
-
-  <div class='flex items-center mb-6 space-x-2'>
-    <%= form.check_box :enable_kpi, class: 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600' %>
-    <label for="checkbox" class="ml-2 text-sm font-medium text-gray-800">Does this account require KPI?</label>
-  </div>
-
-  <%= form.submit class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center' %>
 <% end %>

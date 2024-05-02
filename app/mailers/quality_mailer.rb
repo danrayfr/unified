@@ -12,7 +12,7 @@ class QualityMailer < ApplicationMailer
 
     mail(
       to: @user.email,
-      subject: "[Ninjafied] You have been assigned to a QA Audit Log# #{@quality.id}."
+      subject: "Ninjafied: Check your latest qa log# #{@quality.uid}."
     )
   end
 end

@@ -1,4 +1,5 @@
-<%- if controller_name != 'sessions' %>
+<div class="space-y-2">
+  <%- if controller_name != 'sessions' %>
   <p tabindex="0" class="focus:outline-none text-sm mt-4 font-medium leading-none text-stone">
     Already have an account?
     <%= link_to "Sign in here", new_session_path(resource_name), class: "hover:text-gray-500 focus:text-gray-500 focus:outline-none focus:underline hover:underline text-sm font-medium leading-none text-gray-800 cursor-pointer" %>
@@ -23,12 +24,13 @@
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
   <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
 <% end %>
+</div>
 
-<%- if devise_mapping.omniauthable? %>
-  <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= form_for 'Login', url: omniauth_authorize_path(resource_name, provider), method: :post,
+<%#- if devise_mapping.omniauthable? %>
+  <%#- resource_class.omniauth_providers.each do |provider| %>
+    <%#= form_for 'Login', url: omniauth_authorize_path(resource_name, provider), method: :post,
     data: { turbo: 'false' } do |form|%>
-      <button aria-label="Continue with google" role="button" class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-graphite py-3.5 px-4 border rounded-lg border-lighGraphite flex items-center w-full mt-10">
+      <!--button aria-label="Continue with google" role="button" class="focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-graphite py-3.5 px-4 border rounded-lg border-lighGraphite flex items-center w-full mt-10">
         <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M18.9892 10.1871C18.9892 9.36767 18.9246 8.76973 18.7847 8.14966H9.68848V11.848H15.0277C14.9201 12.767 14.3388 14.1512 13.047 15.0812L13.0289 15.205L15.905 17.4969L16.1042 17.5173C17.9342 15.7789 18.9892 13.221 18.9892 10.1871Z"
@@ -48,7 +50,7 @@
           />
         </svg>
         <p class="text-base font-medium ml-4 text-graphite">Continue with Google</p>
-      </button>
-    <% end %>
-  <% end %>
-<% end %>
+      </button-->
+    <%# end %>
+  <%# end %>
+<%# end %>

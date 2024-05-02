@@ -5,6 +5,7 @@ import "trix"
 import "@rails/actiontext"
 import "chartkick"
 import "Chart.bundle"
+import "custom/companion"
 
 import LocalTime from "local-time"
 LocalTime.start()

@@ -1,47 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html class="scroll-smooth selection:bg-indigo-200 selection:text-indigo-500 no-touchevents hydrated">
   <head>
-    <title>Sni</title>
+    <title><%= full_title(yield(:title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%=
+      favicon_link_tag asset_path('https://assets-global.website-files.com/64149f79022d0c5fc8ce46e8/642445ba8d2a51cbca21ff5d_SupportNinja%20Logo%20Ivory%20Icon%20256.png')
+    %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <link rel="manifest" crossorigin="use-credentials" href="/manifest.json" />
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.27.1/slimselect.min.css", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    
   </head>
 
-  <body class="font-raleway">
-    <div class="flex h-screen overflow-y-hidden bg-white" x-data="setup()" 
-    x-init="$refs.loading.classList.add('hidden')">
+  <body class="border-x-2 border-black bg-gray-50 flex flex-col min-h-screen font-poppins">
 
-    <!-- Loading screen -->
-    <!--div x-ref="loading" class="fixed inset-0 z-50 flex items-center justify-center text-white bg-black bg-opacity-50" style="backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
-      Loading.....
-    </div-->
+    <%= render "layouts/navbar" if user_signed_in? %>
 
-    <%= render 'layouts/sidebar' %>
-
-    <div class="flex flex-col flex-1 h-full overflow-hidden">
-      <%= render 'layouts/navbar' %>
-
-      <main class="flex-1 max-h-full p-5 overflow-hidden overflow-y-scroll">
-        <%= yield %>
-      </main>
-    </div>
-
-      <header>
-        <%#if request.path =~ %r{\A/accounts/.+/tickets} || request.path =~ %r{\A/accounts/.+/coachings} %>
-          <%# = render 'layouts/sidebar' %>
-        <% #else %>
-          <%#= render 'layouts/navbar' unless current_page?(new_user_session_path) || current_page?(new_user_registration_path) %>
-        <%# end %>
-        <%#= render 'shared/notifications' %>
-      </header>
-      <main>
-        <%#= yield %>
-      </main>
-    </div>
+    <main class="flex-grow">
+      <%= render 'shared/notifications' %>
+  
+      <%= yield %>
+    </main>
   </body>
 </html>

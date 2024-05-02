@@ -17,7 +17,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'smtp.gmail.com',
     port: 587,
-    user_name: 'danrayrollan98@gmail.com',
+    user_name: 'dan.rollan@supportninja.com',
     password: ENV['GMAIL_AUTH_KEY'],
     authentication: 'plain',
     enable_starttls_auto: true
@@ -87,4 +87,6 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  config.consider_all_requests_local = false
 end
