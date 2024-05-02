@@ -17,9 +17,7 @@ class AccountsController < ApplicationController
     end
   end
 
-  def show
-    @user = User.new
-  end
+  def show; end
 
   def new
     @account = Account.new

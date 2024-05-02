@@ -5,12 +5,13 @@
   <% end %>
   <% if user_signed_in? %>
   <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse z-50">
+    <%= render "layouts/notifications" %>
     <div @click.away="open = false" class="relative" x-data="{ open: false }">
-      <button @click="open = !open" class="duration-300 ease-in-out focus:outline-none focus:shadow-none focus:text-orange/90 hover:text-lila-900 md:my-0 px-4 py-2 transform transition inline-flex items-center gap-3" data-action="click->dropdown#toggleAvatarDropdown">
+      <button @click="open = !open" class="duration-300 ease-in-out focus:outline-none focus:shadow-none focus:text-orange-700 hover:text-orange-900 md:my-0 px-4 py-2 transform transition inline-flex items-center gap-3" data-action="click->dropdown#toggleAvatarDropdown">
           <span class="sr-only">Open user menu</span>
           <span class="sm:block hidden font-medium">ME</span>
           <% if current_user.avatar_url.nil? %>
-            <%= image_tag "", class: "w-8 h-8 rounded-full", alt: "user photo" %>
+            <%= image_tag "ninja/ninja.jpeg", class: "w-8 h-8 rounded-full", alt: "user photo" %>
           <% else %>
             <%= image_tag current_user.avatar_url, class: "w-8 h-8 rounded-full", alt: "user photo" %>
           <% end %>
@@ -53,7 +54,6 @@
           </div>
       </div>
   </div>
-      
     <button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-user" aria-expanded="false" data-action="dropdown#toggle click@window->dropdown#hide">
       <span class="sr-only">Open main menu</span>
       <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
@@ -67,9 +67,9 @@
         <%= link_to "Home", root_path, class: "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-950 md:p-0" %>
       </li>
 
-      <% unless current_page?(controller: 'accounts', action: 'index') %>
+      <% unless params[:controller] == 'accounts' && params[:action] == 'index' %>
         <li>
-          <%= link_to "Accounts", accounts_path, class: "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-950 md:p-0" %>
+          <%= link_to "Account", account_path(@account), class: "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-950 md:p-0" %>
         </li>
       <% end %>
     </ul>

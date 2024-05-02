@@ -22,9 +22,9 @@
           <li>
             <%= link_to notification.to_notification.url, class: "flex items-center px-4 py-3 -mx-2 text-gray-600 hover:text-white hover:bg-paleFern" do %>
                 <p class="mx-2 text-sm">
-                    <span class="font-bold" href="#"><%= notification.to_notification.message %>
+                    <span class="font-normal" href="#"><%= notification.to_notification.message %>
                     <br/>
-                    <span class="text-xs text-graphite"><%= time_ago_in_words notification.created_at %> ago</span>
+                    <span class="text-xs text-graphite font-medium"><%= time_ago_in_words notification.created_at %> ago</span>
                 </p>
             <% end %>
           </li>
@@ -40,9 +40,9 @@
           <li>
             <%= link_to notification.to_notification.url, class: "flex items-center px-4 py-3 -mx-2 text-gray-600 hover:text-white hover:bg-paleFern" do %>
                 <p class="mx-2 text-sm">
-                    <span class="font-bold" href="#"><%= notification.to_notification.message %>
+                    <span class="font-normal" href="#"><%= notification.to_notification.message %>
                     <br/>
-                    <span class="text-xs text-graphite"><%= time_ago_in_words notification.created_at %> ago</span>
+                    <span class="text-xs text-graphite font-medium"><%= time_ago_in_words notification.created_at %> ago</span>
                 </p>
             <% end %>
           </li>
@@ -51,5 +51,5 @@
         </div>
     </div>
 </div>
-
+</div>
 <% end %>
