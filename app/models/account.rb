@@ -140,6 +140,12 @@ class Account < ApplicationRecord
         { 'content' => '', 'deduction' => '8', 'metric_name' => 'Accuracy' }
       ]
     }
-    qa_templates.create(default_qa_template_data)
+    default_qa_template = qa_templates.build(default_qa_template_data)
+
+    if default_qa_template.save
+      default_qa_template.create_note(content: 'Default template note content')
+    else
+      Rails.logger.error("Error creating default QA template: #{default_qa_template.errors.full_messages.join(', ')}")
+    end
   end
 end
