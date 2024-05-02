@@ -33,6 +33,7 @@ class Account < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
   validates :site, presence: true
   after_validation :generated_uid, on: :create
+  after_create :create_default_qa_template
 
   enum :site, %i[sanctum hideout foundry remote]
   enum :status, %i[active inactive pending]
@@ -126,5 +127,19 @@ class Account < ApplicationRecord
     invitation.update(accepted: true, accepted_at: Time.now)
     invitation.account.users << invitation.user
     { success: true, message: 'Invitation accepted, user added to the account.', account: invitation.account }
+  end
+
+  def create_default_qa_template
+    return unless qa_templates.empty?
+    default_qa_template_data = {
+      name: 'Default template',
+      published: true,
+      metrics: [
+        { 'content' => '', 'deduction' => '10', 'metric_name' => 'Grammar' },
+        { 'content' => '', 'deduction' => '3', 'metric_name' => 'Punctuation' },
+        { 'content' => '', 'deduction' => '8', 'metric_name' => 'Accuracy' }
+      ]
+    }
+    qa_templates.create(default_qa_template_data)
   end
 end
