@@ -27,7 +27,7 @@ class QaTemplatesController < ApplicationController
     @template.metrics = populate_metrics
 
     if @template.save
-      redirect_to account_qa_template_path(@account, @template), notice: 'Template successfully saved!'
+      redirect_to account_qa_templates_path(@account), notice: 'Template successfully saved!'
     else
       render :new, status: :unprocessable_entity
     end
