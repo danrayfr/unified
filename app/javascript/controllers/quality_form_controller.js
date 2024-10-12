@@ -8,29 +8,29 @@ export default class extends Controller {
     "checkboxes", "ratingInput",
     "metricForms"
   ];
-  
+
   connect() {
     this.updateFormFields();
     this.calculateScore();
   }
-  
-  updateFormFields() {
+
+updateFormFields() {
     const selectedTemplateId = this.templateSelectTarget.value;
     const currentAccount = this.currentAccountTarget.value;
     const ratingInput = this.ratingInputTarget;
-    const baseUrl = window.location.origin;
+    ·const baseUrl = window.location.origin;
 
     // Populate the form with qa_template note only if edit mode is false.
     const editing = window.isEditing;
-    
+
     if (selectedTemplateId) {
        // Make an AJAX request to fetch the selected qa template data.
        fetch(`${baseUrl}/accounts/${currentAccount}/settings/qa_templates/${selectedTemplateId}.json`)
         .then((response) => response.json())
         .then((data) => {
-        
+
           // Clear the existing checkboxes
-          this.metricCheckboxesTarget.innerHTML = "";
+        this.metricCheckboxesTarget.innerHTML = "";
           ratingInput.value = 100;
 
           // Populate the form with qa_template note only if not in edit mode
@@ -63,7 +63,7 @@ export default class extends Controller {
     const selectedDescriptions = []; // Initialize an array to store selected descriptions
 
     // let selectedDescriptions = []; // Create an array to store selected descriptions
-    
+
     if (checkboxes) {
       let rating = 100; // Initialize with the base score
 
@@ -90,10 +90,10 @@ export default class extends Controller {
 
       // Concatenate the selected descriptions with the existing value of noteFieldTarget
       const existingNoteValue = this.noteFieldTarget.value;
-  
+
       // this.noteFieldTarget.value = existingNoteValue + (existingNoteValue ? '\n\n' : '') + `<div class="mb-6"><p>${newNoteValue}</p></div`;
 
-      // this.noteFieldTarget.value =  
+      // this.noteFieldTarget.value =
       // `<div class="mb-6"><p>${newNoteValue}</p></div><br/>` + (newNoteValue ? '\n\n' : '') + existingNoteValue;
     }
   }
