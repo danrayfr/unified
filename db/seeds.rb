@@ -11,8 +11,8 @@ admin = User.create!(email: 'ninjafied@supportninja.com', password: 'password', 
 user = User.create!(email: 'user@supportninja.com', password: 'password', password_confirmation: 'password', role: 'user', confirmed_at: Time.now)
 
 # Create accounts
-projectq = Account.create!(name: 'Project Q')
-everpresent = Account.create!(name: 'Everpresent')
+projectq = Account.create!(name: 'Project Q', site: Account.sites.keys.sample)
+everpresent = Account.create!(name: 'Everpresent', site: Account.sites.keys.sample)
 
 # Assign users to accounts
 projectq.users << admin
